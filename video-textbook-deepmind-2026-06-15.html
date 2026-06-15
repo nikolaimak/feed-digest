@@ -180,13 +180,19 @@ header .controls .reading-pct {
 .video-aspect iframe {
   position: absolute; top: 0; left: 0;
   width: 100%; height: 100%; border: 0;
-  pointer-events: none;
 }
 .video-aspect {
   cursor: pointer;
 }
-.video-aspect.playing iframe {
+/* Transparent overlay blocks YouTube's native controls but shows the video frame */
+.video-aspect::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  background: transparent;
   pointer-events: auto;
+  cursor: pointer;
 }
 .video-info {
   padding: 0.5rem 1rem;
@@ -612,21 +618,6 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 }
 
 
-/* Hide YouTube poster play button */
-.video-aspect::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: transparent;
-}
-/* Before first play, cover the entire iframe to hide YouTube's big play button */
-.video-aspect:not(.unlocked)::after {
-  background: #000;
-  pointer-events: auto;
-  cursor: pointer;
-}
 
 </style>
 </head>
@@ -1211,13 +1202,12 @@ function onPlayerStateChange(e) {
       player.seekTo(0, true);
     }
   }
-  // Toggle pointer-events so controls overlay is hidden when paused
-  const wrap = document.querySelector('.video-aspect');
-  if (wrap) {
-    if (e.data === YT.PlayerState.PLAYING && hasUnlockedSeek) {
-      wrap.classList.add('playing');
+  // Toggle play button icon
+  if (playBtn && hasUnlockedSeek) {
+    if (e.data === YT.PlayerState.PLAYING) {
+      playBtn.textContent = '⏸';
     } else {
-      wrap.classList.remove('playing');
+      playBtn.textContent = '▶';
     }
   }
 }
