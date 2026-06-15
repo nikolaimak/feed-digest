@@ -1099,11 +1099,23 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 <script>
 // ══════════════════════════════════════════════
-// Configuration
+// Clean State Machine for Video-Text Sync
 // ══════════════════════════════════════════════
-const VIDEO_ID = '8oyZB24-vAM';
-const TOTAL_DURATION = 1868; // 31:08
+//
+// STATES:
+//   init     → player loading, no interaction yet
+//   locked   → player ready but seekTo blocked (needs user gesture)
+//   paused   → video paused, scroll drives video
+//   playing  → video playing, video drives text
+//
+// RULES:
+//   playing: video drives text scroll. User scroll is ignored for sync.
+//   paused:  scroll drives video seek. Click on text seeks video.
+//   Both:    click preserves play/pause state.
+//            active block highlighted. Chapter nav synced.
 
+const VIDEO_ID = '8oyZB24-vAM';
+const TOTAL_DURATION = 1868;
 const CHAPTERS = [
   { num: 1, start: 0, end: 60, id: 'chapter-1' },
   { num: 2, start: 60, end: 452, id: 'chapter-2' },
@@ -1112,336 +1124,254 @@ const CHAPTERS = [
   { num: 5, start: 1613, end: 1868, id: 'chapter-5' },
 ];
 
-// ══════════════════════════════════════════════
-// State
-// ══════════════════════════════════════════════
+// ── State ──
 let player = null;
-let playerReady = false;
-let isUserScrolling = false;
-let userScrollTimeout = null;
-let lastSeekFromScroll = 0;
+let state = 'init'; // init | locked | paused | playing
 let activeBlockEl = null;
-let isMobile = window.innerWidth <= 1100;
-let wasPlayingBeforeClick = false;
+let scrollDriven = false;    // true = we caused the scroll, ignore handler
+let scrollDrivenTimer = null;
+let pendingSeek = null;      // queued seek time for after unlock
+const isMobile = window.innerWidth <= 1100;
 
-// ══════════════════════════════════════════════
-// YouTube IFrame API
-// ══════════════════════════════════════════════
+function fmt(s) {
+  s = Math.floor(s);
+  return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
+}
+
+function isPlaying() {
+  return player && player.getPlayerState() === YT.PlayerState.PLAYING;
+}
+
+function seekVideo(t) {
+  if (state === 'locked') { pendingSeek = t; return; }
+  if (state === 'init') return;
+  player.seekTo(t, true);
+}
+
+// ── YouTube IFrame API ──
 const tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/iframe_api';
 document.head.appendChild(tag);
 
 window.onYouTubeIframeAPIReady = function () {
-  const containerId = isMobile ? 'mobile-player-slot' : 'player';
-  player = new YT.Player(containerId, {
+  player = new YT.Player(isMobile ? 'mobile-player-slot' : 'player', {
     host: 'https://www.youtube-nocookie.com',
     videoId: VIDEO_ID,
     playerVars: {
-      modestbranding: 1,
-      rel: 0,
-      enablejsapi: 1,
-      controls: 0,
-      showinfo: 0,
-      iv_load_policy: 3,
-      disablekb: 1,
-      fs: 0,
-      playsinline: 1,
+      modestbranding: 1, rel: 0, enablejsapi: 1,
+      controls: 0, showinfo: 0, iv_load_policy: 3,
+      disablekb: 1, fs: 0, playsinline: 1,
     },
     events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange,
+      onReady() {
+        state = 'locked';
+        // Unlock on first user gesture
+        const events = ['scroll', 'click', 'keydown', 'touchstart'];
+        function unlock() {
+          if (state !== 'locked') return;
+          events.forEach(e => window.removeEventListener(e, unlock, true));
+          player.mute();
+          player.playVideo();
+          // Fallback if browser fully blocks autoplay
+          setTimeout(() => {
+            if (state === 'locked') {
+              state = 'paused';
+              player.pauseVideo();
+              player.unMute();
+              if (pendingSeek !== null) { player.seekTo(pendingSeek, true); pendingSeek = null; }
+            }
+          }, 1000);
+        }
+        events.forEach(e => window.addEventListener(e, unlock, { capture: true }));
+        tick();
+      },
+      onStateChange(e) {
+        // Complete unlock on first real play
+        if (state === 'locked' && e.data === YT.PlayerState.PLAYING) {
+          player.pauseVideo();
+          player.unMute();
+          state = 'paused';
+          if (pendingSeek !== null) { player.seekTo(pendingSeek, true); pendingSeek = null; }
+          else { player.seekTo(0, true); }
+          return;
+        }
+        // Track state transitions
+        if (state !== 'init' && state !== 'locked') {
+          state = (e.data === YT.PlayerState.PLAYING) ? 'playing' : 'paused';
+        }
+      },
     },
   });
 };
 
-function onPlayerReady() {
-  playerReady = true;
-  // YouTube API requires at least one play before seekTo works.
-  // Browser autoplay policy blocks play without user gesture,
-  // so we unlock on first user interaction.
-  function unlockSeek() {
-    if (hasUnlockedSeek) return;
-    player.mute();
-    player.playVideo();
-    // Fallback: if browser blocks play, force unlock after 1s
-    setTimeout(() => {
-      if (!hasUnlockedSeek) {
-        hasUnlockedSeek = true;
-        player.pauseVideo();
-        player.unMute();
-        document.querySelectorAll('.video-aspect').forEach(el => el.classList.add('unlocked'));
-        if (pendingSeekTime !== null) {
-          player.seekTo(pendingSeekTime, true);
-          pendingSeekTime = null;
-        }
-      }
-    }, 1000);
-  }
-  // Listen for first user interaction to unlock
-  const unlockEvents = ['scroll', 'click', 'keydown', 'touchstart'];
-  function onFirstInteraction() {
-    unlockSeek();
-    unlockEvents.forEach(e => window.removeEventListener(e, onFirstInteraction, true));
-  }
-  unlockEvents.forEach(e => window.addEventListener(e, onFirstInteraction, { capture: true, once: false }));
-
-  // Click on video wrapper to toggle play/pause
-  document.querySelectorAll('.video-aspect').forEach(wrap => {
-    wrap.addEventListener('click', () => {
-      if (!playerReady) return;
-      if (!hasUnlockedSeek) { unlockSeek(); return; }
-      const state = player.getPlayerState();
-      if (state === YT.PlayerState.PLAYING) {
-        player.pauseVideo();
-      } else {
-        player.playVideo();
-      }
-    });
-  });
-  requestAnimationFrame(syncLoop);
-}
-
-let hasUnlockedSeek = false;
-let pendingSeekTime = null; // queued seek for after unlock
-function onPlayerStateChange(e) {
-  // After the initial play to unlock seeking, immediately pause and unmute
-  if (!hasUnlockedSeek && e.data === YT.PlayerState.PLAYING) {
-    hasUnlockedSeek = true;
-    player.pauseVideo();
-    player.unMute();
-    // Show video frame now that YouTube's play button is gone
-    document.querySelectorAll('.video-aspect').forEach(el => el.classList.add('unlocked'));
-    if (pendingSeekTime !== null) {
-      player.seekTo(pendingSeekTime, true);
-      pendingSeekTime = null;
-    } else {
-      player.seekTo(0, true);
-    }
-  }
-  // Toggle play button icon
-  if (playBtn && hasUnlockedSeek) {
-    if (e.data === YT.PlayerState.PLAYING) {
-      playBtn.textContent = '⏸';
-    } else {
-      playBtn.textContent = '▶';
-    }
-  }
-}
-
-// ══════════════════════════════════════════════
-// Format time helper
-// ══════════════════════════════════════════════
-function fmt(s) {
-  s = Math.floor(s);
-  const m = Math.floor(s / 60);
-  const ss = s % 60;
-  return m + ':' + (ss < 10 ? '0' : '') + ss;
-}
-
-// ══════════════════════════════════════════════
-// Sync Loop — polls video time and updates UI
-// ══════════════════════════════════════════════
-function syncLoop() {
-  if (!playerReady || !player.getCurrentTime) {
-    requestAnimationFrame(syncLoop);
-    return;
-  }
+// ── Tick: runs every frame, updates UI ──
+function tick() {
+  if (!player || !player.getCurrentTime) { requestAnimationFrame(tick); return; }
 
   const t = player.getCurrentTime();
   const dur = player.getDuration() || TOTAL_DURATION;
 
-  // Update time display
+  // Timeline
   const timeEl = document.getElementById('timeline-time');
   if (timeEl) timeEl.textContent = fmt(t) + ' / ' + fmt(dur);
+  const prog = document.getElementById('timeline-progress');
+  if (prog) prog.style.width = ((t / dur) * 100) + '%';
+  document.getElementById('progress-bar').style.width = ((t / dur) * 100) + '%';
 
-  // Update progress bar
-  const pct = Math.min((t / dur) * 100, 100);
-  document.getElementById('progress-bar').style.width = pct + '%';
+  // Play button
+  const pb = document.getElementById('play-btn');
+  if (pb) pb.textContent = state === 'playing' ? '⏸' : '▶';
 
-  // Highlight active text block
-  const blocks = document.querySelectorAll('.text-block[data-start]');
+  // Find active block
   let found = null;
-  for (const b of blocks) {
-    const s = parseFloat(b.dataset.start);
-    const e = parseFloat(b.dataset.end);
-    if (t >= s && t < e) { found = b; break; }
+  for (const b of document.querySelectorAll('.text-block[data-start]')) {
+    if (t >= +b.dataset.start && t < +b.dataset.end) { found = b; break; }
   }
 
   if (found && found !== activeBlockEl) {
-    if (activeBlockEl) activeBlockEl.classList.remove('active');
+    if (activeBlockEl) { activeBlockEl.classList.remove('active'); activeBlockEl.style.removeProperty('--block-progress'); }
     found.classList.add('active');
     activeBlockEl = found;
 
-    // Auto-scroll if user isn't manually scrolling
-    if (!isUserScrolling) {
-      isAutoScrolling = true;
-      clearTimeout(autoScrollTimeout);
+    // Auto-scroll text when VIDEO drives (playing state only)
+    if (state === 'playing') {
+      scrollDriven = true;
+      clearTimeout(scrollDrivenTimer);
       found.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      autoScrollTimeout = setTimeout(() => { isAutoScrolling = false; }, 500);
+      scrollDrivenTimer = setTimeout(() => { scrollDriven = false; }, 600);
     }
   }
 
-  // Highlight active chapter
-  updateActiveChapter(t);
-
-  requestAnimationFrame(syncLoop);
-}
-
-// ══════════════════════════════════════════════
-// Active chapter highlight
-// ══════════════════════════════════════════════
-function updateActiveChapter(t) {
-  let activeChapter = CHAPTERS[0];
-  for (const ch of CHAPTERS) {
-    if (t >= ch.start) activeChapter = ch;
+  // Granular progress within active block
+  if (activeBlockEl) {
+    const bs = +activeBlockEl.dataset.start, be = +activeBlockEl.dataset.end;
+    const p = Math.max(0, Math.min(100, ((t - bs) / (be - bs)) * 100));
+    activeBlockEl.style.setProperty('--block-progress', p + '%');
   }
 
-  // Desktop sidebar
+  // Chapter highlight
+  let activeCh = CHAPTERS[0];
+  for (const ch of CHAPTERS) { if (t >= ch.start) activeCh = ch; }
   document.querySelectorAll('.chapter-link').forEach(el => {
-    el.classList.toggle('active', parseInt(el.dataset.chapter) === activeChapter.num);
+    el.classList.toggle('active', +el.dataset.chapter === activeCh.num);
   });
-
-  // Mobile bar
   document.querySelectorAll('.mobile-ch-link').forEach(el => {
-    const isActive = parseInt(el.dataset.chapter) === activeChapter.num;
-    el.classList.toggle('active', isActive);
-    if (isActive) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
+    const a = +el.dataset.chapter === activeCh.num;
+    el.classList.toggle('active', a);
+    if (a) el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   });
+  document.getElementById('reading-pct').textContent = Math.round((t / TOTAL_DURATION) * 100) + '%';
 
-  // Reading percentage
-  const readPct = Math.min(Math.round((t / TOTAL_DURATION) * 100), 100);
-  document.getElementById('reading-pct').textContent = readPct + '%';
+  requestAnimationFrame(tick);
 }
 
-// ══════════════════════════════════════════════
-// Click-to-seek on text blocks
-// ══════════════════════════════════════════════
-document.addEventListener('click', (e) => {
-  // Text block click — preserve play/pause state
-  const block = e.target.closest('.text-block[data-start]');
-  if (block && playerReady) {
-    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-    const t = parseFloat(block.dataset.start);
-    player.seekTo(t, true);
-    if (wasPlaying) player.playVideo();
-    // Suppress auto-scroll fighting with manual navigation
-    isUserScrolling = true;
-    clearTimeout(userScrollTimeout);
-    userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 2000);
-    return;
-  }
+// ── Scroll handler: only seeks when paused ──
+let scrollDebounce = null;
+window.addEventListener('scroll', () => {
+  if (scrollDriven) return;           // we caused this scroll
+  if (state !== 'paused') return;     // only scroll→seek when paused
 
-  // Chapter link click — preserve play/pause state
-  const chLink = e.target.closest('.chapter-link, .mobile-ch-link');
-  if (chLink && playerReady) {
-    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-    const t = parseFloat(chLink.dataset.time);
-    player.seekTo(t, true);
-    if (wasPlaying) player.playVideo();
-    const chId = 'chapter-' + chLink.dataset.chapter;
-    const section = document.getElementById(chId);
-    if (section) {
-      setTimeout(() => {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+  clearTimeout(scrollDebounce);
+  scrollDebounce = setTimeout(() => {
+    if (state !== 'paused') return;
+
+    // Find block at top of viewport (20% from top)
+    const viewY = window.innerHeight * 0.2;
+    let closest = null, closestDist = Infinity;
+    for (const b of document.querySelectorAll('.text-block[data-start]')) {
+      const r = b.getBoundingClientRect();
+      const d = Math.abs(r.top + r.height / 2 - viewY);
+      if (d < closestDist) { closestDist = d; closest = b; }
     }
+    if (!closest) return;
+
+    const bs = +closest.dataset.start, be = +closest.dataset.end;
+    const r = closest.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (viewY - r.top) / r.height));
+    const t = bs + (be - bs) * progress;
+
+    const cur = player.getCurrentTime();
+    if (Math.abs(cur - t) > 2) seekVideo(t);
+  }, 150);
+}, { passive: true });
+
+// ── Click handlers ──
+document.addEventListener('click', (e) => {
+  // Text block: interpolate by click Y position within block
+  const block = e.target.closest('.text-block[data-start]');
+  if (block && state !== 'init' && state !== 'locked') {
+    const bs = +block.dataset.start, be = +block.dataset.end;
+    const r = block.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
+    const t = bs + (be - bs) * progress;
+    const wasPlaying = state === 'playing';
+    seekVideo(t);
+    if (wasPlaying) player.playVideo();
+    // DON'T scroll — user clicked where they're looking
+    e.stopPropagation();
     return;
   }
 
-  // Time badge click — preserve play/pause state
+  // Chapter link
+  const chLink = e.target.closest('.chapter-link, .mobile-ch-link');
+  if (chLink && state !== 'init' && state !== 'locked') {
+    const wasPlaying = state === 'playing';
+    seekVideo(+chLink.dataset.time);
+    if (wasPlaying) player.playVideo();
+    const sec = document.getElementById('chapter-' + chLink.dataset.chapter);
+    if (sec) setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    return;
+  }
+
+  // Time badge
   const badge = e.target.closest('.time-badge[data-time]');
-  if (badge && playerReady) {
-    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-    const t = parseFloat(badge.dataset.time);
-    player.seekTo(t, true);
+  if (badge && state !== 'init' && state !== 'locked') {
+    const wasPlaying = state === 'playing';
+    seekVideo(+badge.dataset.time);
     if (wasPlaying) player.playVideo();
     return;
   }
+}, true);
+
+// ── Video overlay click → play/pause ──
+document.querySelectorAll('.video-aspect, .mobile-video-aspect').forEach(wrap => {
+  wrap.addEventListener('click', () => {
+    if (state === 'locked') { player.mute(); player.playVideo(); return; }
+    if (state === 'init') return;
+    if (state === 'playing') player.pauseVideo();
+    else player.playVideo();
+  });
 });
 
-// ══════════════════════════════════════════════
-// Scroll-to-seek (bidirectional sync)
-// ══════════════════════════════════════════════
-let scrollSeekDebounce = null;
-let isAutoScrolling = false; // true when syncLoop is auto-scrolling text
-let autoScrollTimeout = null;
-
-function handleScroll() {
-  // If this scroll was triggered by auto-scroll (video driving text), ignore it
-  if (isAutoScrolling) return;
-
-  isUserScrolling = true;
-  clearTimeout(userScrollTimeout);
-  userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 3000);
-
-  // Don't seek video when it's playing — video drives text, not vice versa
-  if (playerReady && hasUnlockedSeek && player.getPlayerState() === YT.PlayerState.PLAYING) return;
-
-  // Smooth interpolated seek — compute exact time from scroll position within block
-  clearTimeout(scrollSeekDebounce);
-  scrollSeekDebounce = setTimeout(() => {
-    if (!playerReady) return;
-    // Double-check: don't seek if video started playing while we waited
-    if (player.getPlayerState() === YT.PlayerState.PLAYING) return;
-    // Find the text block most in viewport center and interpolate time
-    const blocks = document.querySelectorAll('.text-block[data-start]');
-    const viewCenter = window.innerHeight * 0.2; // top-biased: 20% from top
-    let closest = null;
-    let closestDist = Infinity;
-    let interpolatedTime = 0;
-
-    for (const b of blocks) {
-      const rect = b.getBoundingClientRect();
-      const blockCenter = rect.top + rect.height / 2;
-      const dist = Math.abs(blockCenter - viewCenter);
-      if (dist < closestDist) {
-        closestDist = dist;
-        closest = b;
-      }
-    }
-
-    if (closest) {
-      const blockStart = parseFloat(closest.dataset.start);
-      const blockEnd = parseFloat(closest.dataset.end);
-      const rect = closest.getBoundingClientRect();
-      // How far through this block is the viewport center? (0..1)
-      const progress = Math.max(0, Math.min(1, (viewCenter - rect.top) / rect.height));
-      interpolatedTime = blockStart + (blockEnd - blockStart) * progress;
-
-      const now = Date.now();
-      if (now - lastSeekFromScroll > 300) {
-        const currentTime = player.getCurrentTime();
-        if (Math.abs(currentTime - interpolatedTime) > 2) {
-          if (hasUnlockedSeek) {
-            player.seekTo(interpolatedTime, true);
-          } else {
-            pendingSeekTime = interpolatedTime;
-          }
-          lastSeekFromScroll = now;
-        }
-      }
-    }
-  }, 150);
+// ── Timeline bar click ──
+const timelineBar = document.getElementById('timeline-bar');
+if (timelineBar) {
+  timelineBar.addEventListener('click', (e) => {
+    if (state === 'init' || state === 'locked') return;
+    const rect = timelineBar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    const wasPlaying = state === 'playing';
+    seekVideo(pct * (player.getDuration() || TOTAL_DURATION));
+    if (wasPlaying) player.playVideo();
+  });
 }
 
-window.addEventListener('scroll', handleScroll, { passive: true });
+// ── Play button ──
+const playBtn = document.getElementById('play-btn');
+if (playBtn) {
+  playBtn.addEventListener('click', () => {
+    if (state === 'locked') { player.mute(); player.playVideo(); return; }
+    if (state === 'init') return;
+    if (state === 'playing') player.pauseVideo();
+    else player.playVideo();
+  });
+}
 
-// ══════════════════════════════════════════════
-// Theme toggle
-// ══════════════════════════════════════════════
+// ── Theme toggle ──
 const themeToggle = document.getElementById('theme-toggle');
 const html = document.documentElement;
-
-// Load saved theme, default to system preference
 const savedTheme = localStorage.getItem('vt-theme');
-if (savedTheme) {
-  html.dataset.theme = savedTheme;
-} else {
-  // Default to dark if system prefers dark, otherwise dark anyway per user preference
-  html.dataset.theme = 'dark';
-}
+html.dataset.theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'dark');
 themeToggle.textContent = html.dataset.theme === 'dark' ? '☀️' : '🌙';
 
 function toggleTheme() {
@@ -1450,59 +1380,35 @@ function toggleTheme() {
   themeToggle.textContent = isDark ? '🌙' : '☀️';
   localStorage.setItem('vt-theme', html.dataset.theme);
 }
-
 themeToggle.addEventListener('click', toggleTheme);
 
-// ══════════════════════════════════════════════
-// Keyboard shortcuts
-// ══════════════════════════════════════════════
+// ── Keyboard ──
 document.addEventListener('keydown', (e) => {
-  // Don't intercept when typing in an input
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
   switch (e.key) {
     case ' ':
       e.preventDefault();
-      if (!playerReady) return;
-      const state = player.getPlayerState();
-      if (state === YT.PlayerState.PLAYING) {
-        player.pauseVideo();
-        showToast('⏸ Paused');
-      } else {
-        player.playVideo();
-        showToast('▶ Playing');
-      }
+      if (state === 'playing') { player.pauseVideo(); showToast('⏸ Paused'); }
+      else if (state === 'paused') { player.playVideo(); showToast('▶ Playing'); }
       break;
-
     case 'ArrowLeft':
       e.preventDefault();
-      if (playerReady) {
-        const t = Math.max(0, player.getCurrentTime() - 10);
-        player.seekTo(t, true);
-        showToast('⏪ -10s');
-      }
+      if (state !== 'init' && state !== 'locked') seekVideo(Math.max(0, player.getCurrentTime() - 10));
+      showToast('⏪ -10s');
       break;
-
     case 'ArrowRight':
       e.preventDefault();
-      if (playerReady) {
-        const t = player.getCurrentTime() + 10;
-        player.seekTo(t, true);
-        showToast('⏩ +10s');
-      }
+      if (state !== 'init' && state !== 'locked') seekVideo(player.getCurrentTime() + 10);
+      showToast('⏩ +10s');
       break;
-
-    case 'd':
-    case 'D':
+    case 'd': case 'D':
       toggleTheme();
       showToast(html.dataset.theme === 'dark' ? '🌙 Dark mode' : '☀️ Light mode');
       break;
   }
 });
 
-// ══════════════════════════════════════════════
-// Toast notification
-// ══════════════════════════════════════════════
+// ── Toast ──
 let toastTimeout = null;
 function showToast(msg) {
   const el = document.getElementById('toast');
@@ -1512,25 +1418,10 @@ function showToast(msg) {
   toastTimeout = setTimeout(() => el.classList.remove('show'), 1500);
 }
 
-// ══════════════════════════════════════════════
-// Responsive: move player on resize
-// ══════════════════════════════════════════════
-window.addEventListener('resize', () => {
-  const wasMobile = isMobile;
-  isMobile = window.innerWidth <= 1100;
-  if (wasMobile !== isMobile && playerReady) {
-    // For simplicity, reload on layout change
-    // The YouTube player handles this gracefully
-  }
-});
-
-// ══════════════════════════════════════════════
-// Resize Handle — drag to resize sidebar/content split
-// ══════════════════════════════════════════════
+// ── Resize Handle ──
 const resizeHandle = document.getElementById('resize-handle');
 const sidebarEl = document.getElementById('sidebar');
 let isResizing = false;
-
 if (resizeHandle && sidebarEl) {
   resizeHandle.addEventListener('mousedown', (e) => {
     isResizing = true;
@@ -1539,14 +1430,11 @@ if (resizeHandle && sidebarEl) {
     document.body.style.userSelect = 'none';
     e.preventDefault();
   });
-
   document.addEventListener('mousemove', (e) => {
     if (!isResizing) return;
-    const newWidth = Math.max(280, Math.min(e.clientX, window.innerWidth - 300));
-    sidebarEl.style.width = newWidth + 'px';
+    sidebarEl.style.width = Math.max(280, Math.min(e.clientX, window.innerWidth - 300)) + 'px';
     sidebarEl.style.flexShrink = '0';
   });
-
   document.addEventListener('mouseup', () => {
     if (isResizing) {
       isResizing = false;
@@ -1556,109 +1444,6 @@ if (resizeHandle && sidebarEl) {
     }
   });
 }
-
-
-// ══════════════════════════════════════════════
-// Custom Timeline Bar
-// ══════════════════════════════════════════════
-const playBtn = document.getElementById('play-btn');
-const timelineBar = document.getElementById('timeline-bar');
-const timelineProgress = document.getElementById('timeline-progress');
-const timelineTime = document.getElementById('timeline-time');
-
-if (playBtn) {
-  playBtn.addEventListener('click', () => {
-    if (!playerReady) return;
-    if (!hasUnlockedSeek) { /* trigger unlock */ player.mute(); player.playVideo(); return; }
-    const state = player.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      player.pauseVideo();
-      playBtn.textContent = '▶';
-    } else {
-      player.playVideo();
-      playBtn.textContent = '⏸';
-    }
-  });
-}
-
-if (timelineBar) {
-  timelineBar.addEventListener('click', (e) => {
-    if (!playerReady || !hasUnlockedSeek) return;
-    const rect = timelineBar.getBoundingClientRect();
-    const pct = (e.clientX - rect.left) / rect.width;
-    const dur = player.getDuration() || TOTAL_DURATION;
-    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-    player.seekTo(pct * dur, true);
-    if (wasPlaying) player.playVideo();
-  });
-}
-
-// ══════════════════════════════════════════════
-// Word-level click → seek to interpolated time
-// ══════════════════════════════════════════════
-document.addEventListener('click', function wordClick(e) {
-  if (!playerReady || !hasUnlockedSeek) return;
-  // Only handle clicks inside .text-block p elements
-  const p = e.target.closest('.text-block p, .text-block li');
-  if (!p) return;
-  const block = p.closest('.text-block[data-start]');
-  if (!block) return;
-  
-  const blockStart = parseFloat(block.dataset.start);
-  const blockEnd = parseFloat(block.dataset.end);
-  const blockDuration = blockEnd - blockStart;
-  
-  // Get all text nodes in the block
-  const blockRect = block.getBoundingClientRect();
-  const clickY = e.clientY;
-  
-  // Interpolate: where in the block did we click (vertically)?
-  const progress = Math.max(0, Math.min(1, (clickY - blockRect.top) / blockRect.height));
-  const seekTime = blockStart + progress * blockDuration;
-  
-  const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
-  player.seekTo(seekTime, true);
-  if (wasPlaying) player.playVideo();
-  // Don't propagate to the block-level click handler
-  e.stopPropagation();
-}, true); // capture phase
-
-// ══════════════════════════════════════════════
-// Update timeline + play button in sync loop
-// ══════════════════════════════════════════════
-const origSyncLoop = syncLoop;
-// Patch into existing syncLoop — add timeline update
-const _origRAF = requestAnimationFrame;
-
-// We'll update timeline in the existing syncLoop by monkey-patching
-// Actually, let's just add a parallel update
-setInterval(() => {
-  if (!playerReady || !player.getCurrentTime) return;
-  const t = player.getCurrentTime();
-  const dur = player.getDuration() || TOTAL_DURATION;
-  
-  // Timeline progress
-  if (timelineProgress) {
-    timelineProgress.style.width = ((t / dur) * 100) + '%';
-  }
-  if (timelineTime) {
-    timelineTime.textContent = fmt(t) + ' / ' + fmt(dur);
-  }
-  
-  // Play button state
-  if (playBtn && hasUnlockedSeek) {
-    const state = player.getPlayerState();
-    playBtn.textContent = state === YT.PlayerState.PLAYING ? '⏸' : '▶';
-  }
-  
-  // Granular block progress indicator
-  if (activeBlockEl) {
-    const bs = parseFloat(activeBlockEl.dataset.start);
-    const be = parseFloat(activeBlockEl.dataset.end);
-    const blockProgress = Math.max(0, Math.min(100, ((t - bs) / (be - bs)) * 100));
-    activeBlockEl.style.setProperty('--block-progress', blockProgress + '%');
-  }
-}, 100);
 
 </script>
 
