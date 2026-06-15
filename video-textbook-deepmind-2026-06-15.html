@@ -555,6 +555,71 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   z-index: 200;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── Custom Timeline ── */
+.custom-timeline {
+  padding: 0.4rem 1rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+.timeline-bar {
+  flex: 1; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+.timeline-progress {
+  height: 100%; background: var(--accent);
+  border-radius: 2px; width: 0%;
+  transition: width 0.15s linear;
+}
+.timeline-thumb {
+  position: absolute; top: 50%; right: 0;
+  width: 12px; height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+.timeline-time {
+  font-family: var(--font-mono);
+  font-size: 0.75rem; color: var(--text-muted);
+  white-space: nowrap;
+  min-width: 5rem; text-align: center;
+}
+.play-btn {
+  background: none; border: none;
+  font-size: 1.1rem; cursor: pointer;
+  color: var(--text); padding: 0;
+  width: 1.5rem; text-align: center;
+}
+
+/* ── Word-level click cursor ── */
+.text-block p { cursor: pointer; }
+
+/* ── Granular progress: left-border gradient ── */
+.text-block {
+  position: relative;
+}
+.text-block.active {
+  border-image: linear-gradient(
+    to bottom,
+    var(--active-border) var(--block-progress, 0%),
+    var(--border-light) var(--block-progress, 0%)
+  ) 1;
+}
+
+
+/* Hide YouTube poster play button */
+.video-aspect::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+
 </style>
 </head>
 <body>
@@ -596,8 +661,14 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         <div id="player"></div>
       </div>
     </div>
-    <div class="video-info">
-      <span class="video-time" id="video-time">0:00 / 31:08</span>
+    <div class="custom-timeline">
+      <button class="play-btn" id="play-btn">▶</button>
+      <div class="timeline-bar" id="timeline-bar">
+        <div class="timeline-progress" id="timeline-progress">
+          <div class="timeline-thumb"></div>
+        </div>
+      </div>
+      <span class="timeline-time" id="timeline-time">0:00 / 31:08</span>
     </div>
     <nav class="chapter-nav">
       <h3>Chapters</h3>
@@ -1162,7 +1233,7 @@ function syncLoop() {
   const dur = player.getDuration() || TOTAL_DURATION;
 
   // Update time display
-  const timeEl = document.getElementById('video-time');
+  const timeEl = document.getElementById('timeline-time');
   if (timeEl) timeEl.textContent = fmt(t) + ' / ' + fmt(dur);
 
   // Update progress bar
@@ -1281,7 +1352,7 @@ function handleScroll() {
     if (!playerReady) return;
     // Find the text block most in viewport center and interpolate time
     const blocks = document.querySelectorAll('.text-block[data-start]');
-    const viewCenter = window.innerHeight / 2;
+    const viewCenter = window.innerHeight * 0.2; // top-biased: 20% from top
     let closest = null;
     let closestDist = Infinity;
     let interpolatedTime = 0;
@@ -1450,6 +1521,109 @@ if (resizeHandle && sidebarEl) {
     }
   });
 }
+
+
+// ══════════════════════════════════════════════
+// Custom Timeline Bar
+// ══════════════════════════════════════════════
+const playBtn = document.getElementById('play-btn');
+const timelineBar = document.getElementById('timeline-bar');
+const timelineProgress = document.getElementById('timeline-progress');
+const timelineTime = document.getElementById('timeline-time');
+
+if (playBtn) {
+  playBtn.addEventListener('click', () => {
+    if (!playerReady) return;
+    if (!hasUnlockedSeek) { /* trigger unlock */ player.mute(); player.playVideo(); return; }
+    const state = player.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+      player.pauseVideo();
+      playBtn.textContent = '▶';
+    } else {
+      player.playVideo();
+      playBtn.textContent = '⏸';
+    }
+  });
+}
+
+if (timelineBar) {
+  timelineBar.addEventListener('click', (e) => {
+    if (!playerReady || !hasUnlockedSeek) return;
+    const rect = timelineBar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    const dur = player.getDuration() || TOTAL_DURATION;
+    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
+    player.seekTo(pct * dur, true);
+    if (wasPlaying) player.playVideo();
+  });
+}
+
+// ══════════════════════════════════════════════
+// Word-level click → seek to interpolated time
+// ══════════════════════════════════════════════
+document.addEventListener('click', function wordClick(e) {
+  if (!playerReady || !hasUnlockedSeek) return;
+  // Only handle clicks inside .text-block p elements
+  const p = e.target.closest('.text-block p, .text-block li');
+  if (!p) return;
+  const block = p.closest('.text-block[data-start]');
+  if (!block) return;
+  
+  const blockStart = parseFloat(block.dataset.start);
+  const blockEnd = parseFloat(block.dataset.end);
+  const blockDuration = blockEnd - blockStart;
+  
+  // Get all text nodes in the block
+  const blockRect = block.getBoundingClientRect();
+  const clickY = e.clientY;
+  
+  // Interpolate: where in the block did we click (vertically)?
+  const progress = Math.max(0, Math.min(1, (clickY - blockRect.top) / blockRect.height));
+  const seekTime = blockStart + progress * blockDuration;
+  
+  const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
+  player.seekTo(seekTime, true);
+  if (wasPlaying) player.playVideo();
+  // Don't propagate to the block-level click handler
+  e.stopPropagation();
+}, true); // capture phase
+
+// ══════════════════════════════════════════════
+// Update timeline + play button in sync loop
+// ══════════════════════════════════════════════
+const origSyncLoop = syncLoop;
+// Patch into existing syncLoop — add timeline update
+const _origRAF = requestAnimationFrame;
+
+// We'll update timeline in the existing syncLoop by monkey-patching
+// Actually, let's just add a parallel update
+setInterval(() => {
+  if (!playerReady || !player.getCurrentTime) return;
+  const t = player.getCurrentTime();
+  const dur = player.getDuration() || TOTAL_DURATION;
+  
+  // Timeline progress
+  if (timelineProgress) {
+    timelineProgress.style.width = ((t / dur) * 100) + '%';
+  }
+  if (timelineTime) {
+    timelineTime.textContent = fmt(t) + ' / ' + fmt(dur);
+  }
+  
+  // Play button state
+  if (playBtn && hasUnlockedSeek) {
+    const state = player.getPlayerState();
+    playBtn.textContent = state === YT.PlayerState.PLAYING ? '⏸' : '▶';
+  }
+  
+  // Granular block progress indicator
+  if (activeBlockEl) {
+    const bs = parseFloat(activeBlockEl.dataset.start);
+    const be = parseFloat(activeBlockEl.dataset.end);
+    const blockProgress = Math.max(0, Math.min(100, ((t - bs) / (be - bs)) * 100));
+    activeBlockEl.style.setProperty('--block-progress', blockProgress + '%');
+  }
+}, 100);
 
 </script>
 
