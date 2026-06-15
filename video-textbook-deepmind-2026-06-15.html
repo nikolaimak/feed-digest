@@ -1274,7 +1274,10 @@ function syncLoop() {
 
     // Auto-scroll if user isn't manually scrolling
     if (!isUserScrolling) {
+      isAutoScrolling = true;
+      clearTimeout(autoScrollTimeout);
       found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      autoScrollTimeout = setTimeout(() => { isAutoScrolling = false; }, 500);
     }
   }
 
@@ -1358,16 +1361,26 @@ document.addEventListener('click', (e) => {
 // Scroll-to-seek (bidirectional sync)
 // ══════════════════════════════════════════════
 let scrollSeekDebounce = null;
+let isAutoScrolling = false; // true when syncLoop is auto-scrolling text
+let autoScrollTimeout = null;
 
 function handleScroll() {
+  // If this scroll was triggered by auto-scroll (video driving text), ignore it
+  if (isAutoScrolling) return;
+
   isUserScrolling = true;
   clearTimeout(userScrollTimeout);
   userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 3000);
+
+  // Don't seek video when it's playing — video drives text, not vice versa
+  if (playerReady && hasUnlockedSeek && player.getPlayerState() === YT.PlayerState.PLAYING) return;
 
   // Smooth interpolated seek — compute exact time from scroll position within block
   clearTimeout(scrollSeekDebounce);
   scrollSeekDebounce = setTimeout(() => {
     if (!playerReady) return;
+    // Double-check: don't seek if video started playing while we waited
+    if (player.getPlayerState() === YT.PlayerState.PLAYING) return;
     // Find the text block most in viewport center and interpolate time
     const blocks = document.querySelectorAll('.text-block[data-start]');
     const viewCenter = window.innerHeight * 0.2; // top-biased: 20% from top
