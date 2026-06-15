@@ -1276,7 +1276,7 @@ function syncLoop() {
     if (!isUserScrolling) {
       isAutoScrolling = true;
       clearTimeout(autoScrollTimeout);
-      found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      found.scrollIntoView({ behavior: 'smooth', block: 'start' });
       autoScrollTimeout = setTimeout(() => { isAutoScrolling = false; }, 500);
     }
   }
@@ -1326,6 +1326,10 @@ document.addEventListener('click', (e) => {
     const t = parseFloat(block.dataset.start);
     player.seekTo(t, true);
     if (wasPlaying) player.playVideo();
+    // Suppress auto-scroll fighting with manual navigation
+    isUserScrolling = true;
+    clearTimeout(userScrollTimeout);
+    userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 2000);
     return;
   }
 
