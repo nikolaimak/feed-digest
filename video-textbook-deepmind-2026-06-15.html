@@ -180,6 +180,13 @@ header .controls .reading-pct {
 .video-aspect iframe {
   position: absolute; top: 0; left: 0;
   width: 100%; height: 100%; border: 0;
+  pointer-events: none;
+}
+.video-aspect {
+  cursor: pointer;
+}
+.video-aspect.playing iframe {
+  pointer-events: auto;
 }
 .video-info {
   padding: 0.5rem 1rem;
@@ -1032,6 +1039,7 @@ let userScrollTimeout = null;
 let lastSeekFromScroll = 0;
 let activeBlockEl = null;
 let isMobile = window.innerWidth <= 1100;
+let wasPlayingBeforeClick = false;
 
 // ══════════════════════════════════════════════
 // YouTube IFrame API
@@ -1048,7 +1056,10 @@ window.onYouTubeIframeAPIReady = function () {
       modestbranding: 1,
       rel: 0,
       enablejsapi: 1,
-
+      controls: 0,
+      showinfo: 0,
+      iv_load_policy: 3,
+      disablekb: 1,
     },
     events: {
       onReady: onPlayerReady,
@@ -1059,11 +1070,29 @@ window.onYouTubeIframeAPIReady = function () {
 
 function onPlayerReady() {
   playerReady = true;
+  // Click on video wrapper to toggle play/pause
+  document.querySelector('.video-aspect').addEventListener('click', () => {
+    if (!playerReady) return;
+    const state = player.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  });
   requestAnimationFrame(syncLoop);
 }
 
 function onPlayerStateChange(e) {
-  // nothing special needed
+  // Toggle pointer-events so controls overlay is hidden when paused
+  const wrap = document.querySelector('.video-aspect');
+  if (wrap) {
+    if (e.data === YT.PlayerState.PLAYING) {
+      wrap.classList.add('playing');
+    } else {
+      wrap.classList.remove('playing');
+    }
+  }
 }
 
 // ══════════════════════════════════════════════
@@ -1154,21 +1183,23 @@ function updateActiveChapter(t) {
 // Click-to-seek on text blocks
 // ══════════════════════════════════════════════
 document.addEventListener('click', (e) => {
-  // Text block click
+  // Text block click — preserve play/pause state
   const block = e.target.closest('.text-block[data-start]');
   if (block && playerReady) {
+    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
     const t = parseFloat(block.dataset.start);
     player.seekTo(t, true);
-    player.playVideo();
+    if (wasPlaying) player.playVideo();
     return;
   }
 
-  // Chapter link click
+  // Chapter link click — preserve play/pause state
   const chLink = e.target.closest('.chapter-link, .mobile-ch-link');
   if (chLink && playerReady) {
+    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
     const t = parseFloat(chLink.dataset.time);
     player.seekTo(t, true);
-    player.playVideo();
+    if (wasPlaying) player.playVideo();
     const chId = 'chapter-' + chLink.dataset.chapter;
     const section = document.getElementById(chId);
     if (section) {
@@ -1179,12 +1210,13 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Time badge click
+  // Time badge click — preserve play/pause state
   const badge = e.target.closest('.time-badge[data-time]');
   if (badge && playerReady) {
+    const wasPlaying = player.getPlayerState() === YT.PlayerState.PLAYING;
     const t = parseFloat(badge.dataset.time);
     player.seekTo(t, true);
-    player.playVideo();
+    if (wasPlaying) player.playVideo();
     return;
   }
 });
@@ -1199,16 +1231,17 @@ function handleScroll() {
   clearTimeout(userScrollTimeout);
   userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 3000);
 
-  // Debounced seek
+  // Smooth interpolated seek — compute exact time from scroll position within block
   clearTimeout(scrollSeekDebounce);
   scrollSeekDebounce = setTimeout(() => {
     if (!playerReady) return;
 
-    // Find the text block most in viewport center
+    // Find the text block most in viewport center and interpolate time
     const blocks = document.querySelectorAll('.text-block[data-start]');
     const viewCenter = window.innerHeight / 2;
     let closest = null;
     let closestDist = Infinity;
+    let interpolatedTime = 0;
 
     for (const b of blocks) {
       const rect = b.getBoundingClientRect();
@@ -1220,21 +1253,24 @@ function handleScroll() {
       }
     }
 
-    // 2. Scroll-to-seek: DON'T auto-play video on scroll
     if (closest) {
-      const t = parseFloat(closest.dataset.start);
+      const blockStart = parseFloat(closest.dataset.start);
+      const blockEnd = parseFloat(closest.dataset.end);
+      const rect = closest.getBoundingClientRect();
+      // How far through this block is the viewport center? (0..1)
+      const progress = Math.max(0, Math.min(1, (viewCenter - rect.top) / rect.height));
+      interpolatedTime = blockStart + (blockEnd - blockStart) * progress;
+
       const now = Date.now();
-      // Only seek if enough time has passed
-      if (now - lastSeekFromScroll > 1500) {
+      if (now - lastSeekFromScroll > 300) {
         const currentTime = player.getCurrentTime();
-        if (Math.abs(currentTime - t) > 5) {
-          player.seekTo(t, true);
-          // Do NOT call playVideo() — keep paused state
+        if (Math.abs(currentTime - interpolatedTime) > 2) {
+          player.seekTo(interpolatedTime, true);
           lastSeekFromScroll = now;
         }
       }
     }
-  }, 800);
+  }, 150);
 }
 
 window.addEventListener('scroll', handleScroll, { passive: true });
