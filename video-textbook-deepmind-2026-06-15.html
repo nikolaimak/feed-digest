@@ -1071,12 +1071,26 @@ window.onYouTubeIframeAPIReady = function () {
 function onPlayerReady() {
   playerReady = true;
   // YouTube API requires at least one play before seekTo works.
-  // Briefly play then immediately pause+mute to unlock seeking.
-  player.mute();
-  player.playVideo();
+  // Browser autoplay policy blocks play without user gesture,
+  // so we unlock on first user interaction.
+  function unlockSeek() {
+    if (hasUnlockedSeek) return;
+    player.mute();
+    player.playVideo();
+    // onPlayerStateChange will handle the pause+unmute
+  }
+  // Listen for first user interaction to unlock
+  const unlockEvents = ['scroll', 'click', 'keydown', 'touchstart'];
+  function onFirstInteraction() {
+    unlockSeek();
+    unlockEvents.forEach(e => window.removeEventListener(e, onFirstInteraction, true));
+  }
+  unlockEvents.forEach(e => window.addEventListener(e, onFirstInteraction, { capture: true, once: false }));
+
   // Click on video wrapper to toggle play/pause
   document.querySelector('.video-aspect').addEventListener('click', () => {
     if (!playerReady) return;
+    if (!hasUnlockedSeek) { unlockSeek(); return; }
     const state = player.getPlayerState();
     if (state === YT.PlayerState.PLAYING) {
       player.pauseVideo();
@@ -1088,13 +1102,20 @@ function onPlayerReady() {
 }
 
 let hasUnlockedSeek = false;
+let pendingSeekTime = null; // queued seek for after unlock
 function onPlayerStateChange(e) {
   // After the initial play to unlock seeking, immediately pause and unmute
   if (!hasUnlockedSeek && e.data === YT.PlayerState.PLAYING) {
     hasUnlockedSeek = true;
     player.pauseVideo();
-    player.seekTo(0, true);
     player.unMute();
+    // Apply any queued seek from scroll that happened before unlock
+    if (pendingSeekTime !== null) {
+      player.seekTo(pendingSeekTime, true);
+      pendingSeekTime = null;
+    } else {
+      player.seekTo(0, true);
+    }
   }
   // Toggle pointer-events so controls overlay is hidden when paused
   const wrap = document.querySelector('.video-aspect');
@@ -1246,7 +1267,8 @@ function handleScroll() {
   // Smooth interpolated seek — compute exact time from scroll position within block
   clearTimeout(scrollSeekDebounce);
   scrollSeekDebounce = setTimeout(() => {
-    if (!playerReady || !hasUnlockedSeek) return;
+    if (!playerReady) return;
+    // Find the text block most in viewport center and interpolate time
     const blocks = document.querySelectorAll('.text-block[data-start]');
     const viewCenter = window.innerHeight / 2;
     let closest = null;
@@ -1275,7 +1297,11 @@ function handleScroll() {
       if (now - lastSeekFromScroll > 300) {
         const currentTime = player.getCurrentTime();
         if (Math.abs(currentTime - interpolatedTime) > 2) {
-          player.seekTo(interpolatedTime, true);
+          if (hasUnlockedSeek) {
+            player.seekTo(interpolatedTime, true);
+          } else {
+            pendingSeekTime = interpolatedTime;
+          }
           lastSeekFromScroll = now;
         }
       }
