@@ -617,7 +617,15 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 2;
   pointer-events: none;
+  background: transparent;
+}
+/* Before first play, cover the entire iframe to hide YouTube's big play button */
+.video-aspect:not(.unlocked)::after {
+  background: #000;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 </style>
@@ -1154,6 +1162,7 @@ function onPlayerReady() {
         hasUnlockedSeek = true;
         player.pauseVideo();
         player.unMute();
+        document.querySelectorAll('.video-aspect').forEach(el => el.classList.add('unlocked'));
         if (pendingSeekTime !== null) {
           player.seekTo(pendingSeekTime, true);
           pendingSeekTime = null;
@@ -1170,15 +1179,17 @@ function onPlayerReady() {
   unlockEvents.forEach(e => window.addEventListener(e, onFirstInteraction, { capture: true, once: false }));
 
   // Click on video wrapper to toggle play/pause
-  document.querySelector('.video-aspect').addEventListener('click', () => {
-    if (!playerReady) return;
-    if (!hasUnlockedSeek) { unlockSeek(); return; }
-    const state = player.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      player.pauseVideo();
-    } else {
-      player.playVideo();
-    }
+  document.querySelectorAll('.video-aspect').forEach(wrap => {
+    wrap.addEventListener('click', () => {
+      if (!playerReady) return;
+      if (!hasUnlockedSeek) { unlockSeek(); return; }
+      const state = player.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+      } else {
+        player.playVideo();
+      }
+    });
   });
   requestAnimationFrame(syncLoop);
 }
@@ -1191,7 +1202,8 @@ function onPlayerStateChange(e) {
     hasUnlockedSeek = true;
     player.pauseVideo();
     player.unMute();
-    // Apply any queued seek from scroll that happened before unlock
+    // Show video frame now that YouTube's play button is gone
+    document.querySelectorAll('.video-aspect').forEach(el => el.classList.add('unlocked'));
     if (pendingSeekTime !== null) {
       player.seekTo(pendingSeekTime, true);
       pendingSeekTime = null;
