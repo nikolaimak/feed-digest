@@ -1077,7 +1077,18 @@ function onPlayerReady() {
     if (hasUnlockedSeek) return;
     player.mute();
     player.playVideo();
-    // onPlayerStateChange will handle the pause+unmute
+    // Fallback: if browser blocks play, force unlock after 1s
+    setTimeout(() => {
+      if (!hasUnlockedSeek) {
+        hasUnlockedSeek = true;
+        player.pauseVideo();
+        player.unMute();
+        if (pendingSeekTime !== null) {
+          player.seekTo(pendingSeekTime, true);
+          pendingSeekTime = null;
+        }
+      }
+    }, 1000);
   }
   // Listen for first user interaction to unlock
   const unlockEvents = ['scroll', 'click', 'keydown', 'touchstart'];
