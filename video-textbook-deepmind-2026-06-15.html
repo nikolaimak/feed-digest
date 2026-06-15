@@ -196,6 +196,13 @@ header .controls .reading-pct {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
+/* Before unlock: show YouTube thumbnail as poster, hiding the iframe */
+.video-aspect:not(.unlocked) iframe {
+  opacity: 0;
+}
+.video-aspect:not(.unlocked) {
+  background: #000 url('https://img.youtube.com/vi/8oyZB24-vAM/maxresdefault.jpg') center/cover no-repeat;
+}
 .video-info {
   padding: 0.5rem 1rem;
   display: flex; align-items: center; gap: 0.5rem;
@@ -511,6 +518,12 @@ tr:nth-child(even) td { background: var(--table-stripe); }
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+.mobile-video-aspect:not(.unlocked) iframe {
+  opacity: 0;
+}
+.mobile-video-aspect:not(.unlocked) {
+  background: #000 url('https://img.youtube.com/vi/8oyZB24-vAM/maxresdefault.jpg') center/cover no-repeat;
 }
 
 @media (max-width: 1100px) {
@@ -1176,6 +1189,7 @@ window.onYouTubeIframeAPIReady = function () {
           setTimeout(() => {
             if (state === 'locked') {
               state = 'paused';
+              document.querySelectorAll('.video-aspect, .mobile-video-aspect').forEach(el => el.classList.add('unlocked'));
               player.pauseVideo();
               player.unMute();
               if (pendingSeek !== null) { player.seekTo(pendingSeek, true); pendingSeek = null; }
@@ -1191,6 +1205,7 @@ window.onYouTubeIframeAPIReady = function () {
           player.pauseVideo();
           player.unMute();
           state = 'paused';
+          document.querySelectorAll('.video-aspect, .mobile-video-aspect').forEach(el => el.classList.add('unlocked'));
           if (pendingSeek !== null) { player.seekTo(pendingSeek, true); pendingSeek = null; }
           else { player.seekTo(0, true); }
           return;
