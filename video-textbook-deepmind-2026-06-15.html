@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepMind Was Two Steps Ahead, AGAIN! — Interactive Video Textbook</title>
+<meta name="description" content="An interactive textbook experience synced with video: DeepMind's strategy beyond transformers, autoregression, and toward AGI.">
+<meta property="og:title" content="DeepMind Was Two Steps Ahead, AGAIN! — Interactive Video Textbook">
+<meta property="og:description" content="Interactive textbook synced with video exploring DeepMind's AGI strategy: beyond transformers, diffusion language models, world models, and continual learning.">
+<meta property="og:image" content="https://img.youtube.com/vi/8oyZB24-vAM/maxresdefault.jpg">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DeepMind Was Two Steps Ahead, AGAIN! — Interactive Video Textbook">
+<meta name="twitter:description" content="Interactive textbook synced with video exploring DeepMind's AGI strategy.">
+<meta name="twitter:image" content="https://img.youtube.com/vi/8oyZB24-vAM/maxresdefault.jpg">
+<style>
+:root {
+  --bg: #faf9f7;
+  --bg-sidebar: #f0efed;
+  --bg-card: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --accent-glow: rgba(37,99,235,0.08);
+  --border: #e5e4e2;
+  --border-light: #f0efed;
+  --active-bg: #eff6ff;
+  --active-border: #2563eb;
+  --quote-bg: #f8f7f5;
+  --quote-border: #d1d5db;
+  --header-bg: rgba(250,249,247,0.92);
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+  --chapter-hover: #f0efed;
+  --kbd-bg: #f3f4f6;
+  --table-stripe: #f9fafb;
+  --font-body: 'Georgia', 'Times New Roman', serif;
+  --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  --content-width: 720px;
+  --sidebar-width: 50%;
+  --transition: 0.2s ease;
+}
+[data-theme="dark"] {
+  --bg: #0c0c0c;
+  --bg-sidebar: #141414;
+  --bg-card: #1a1a1a;
+  --text: #e2e2e2;
+  --text-muted: #9ca3af;
+  --text-light: #6b7280;
+  --accent: #60a5fa;
+  --accent-light: #1e3a5f;
+  --accent-glow: rgba(96,165,250,0.06);
+  --border: #2a2a2a;
+  --border-light: #1f1f1f;
+  --active-bg: #172033;
+  --active-border: #60a5fa;
+  --quote-bg: #161616;
+  --quote-border: #374151;
+  --header-bg: rgba(12,12,12,0.92);
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.4);
+  --chapter-hover: #1f1f1f;
+  --kbd-bg: #2a2a2a;
+  --table-stripe: #141414;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text);
+  background: var(--bg);
+  transition: background var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Progress Bar ── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; z-index: 1000;
+  height: 3px; background: var(--accent);
+  width: 0%; transition: width 0.1s linear;
+}
+
+/* ── Header ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+}
+header .title-area {
+  display: flex; align-items: center; gap: 0.75rem;
+  min-width: 0;
+}
+header .logo { font-size: 1.4rem; flex-shrink: 0; }
+header h1 {
+  font-family: var(--font-heading);
+  font-size: 0.95rem; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+header .controls {
+  display: flex; align-items: center; gap: 0.75rem;
+  flex-shrink: 0;
+}
+header .controls .reading-pct {
+  font-family: var(--font-heading);
+  font-size: 0.8rem; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.btn-icon {
+  background: none; border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.35rem 0.5rem;
+  cursor: pointer; font-size: 1.05rem;
+  color: var(--text); transition: all var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-icon:hover { background: var(--chapter-hover); }
+
+/* ── Layout ── */
+.layout {
+  display: flex; min-height: calc(100vh - 50px);
+  position: relative;
+}
+
+/* ── Resize Handle ── */
+.resize-handle {
+  width: 6px;
+  cursor: col-resize;
+  background: var(--border);
+  transition: background 0.15s;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.resize-handle:hover, .resize-handle.dragging {
+  background: var(--accent);
+}
+.resize-handle::after {
+  content: '⋮';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-light);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  position: sticky; top: 50px;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  background: var(--bg-sidebar);
+  display: flex; flex-direction: column;
+  transition: background var(--transition);
+}
+.video-wrap {
+  padding: 1rem 1rem 0.75rem;
+}
+.video-aspect {
+  position: relative;
+  width: 100%; padding-bottom: 56.25%;
+  border-radius: 10px; overflow: hidden;
+  background: #000;
+  box-shadow: var(--shadow-lg);
+}
+.video-aspect iframe {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%; border: 0;
+}
+.video-info {
+  padding: 0.5rem 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.video-time {
+  font-family: var(--font-mono);
+  font-size: 0.8rem; color: var(--text-muted);
+  background: var(--kbd-bg);
+  padding: 0.15rem 0.5rem; border-radius: 4px;
+}
+.chapter-nav {
+  flex: 1; overflow-y: auto;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border);
+}
+.chapter-nav h3 {
+  font-family: var(--font-heading);
+  font-size: 0.7rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-light);
+  padding: 0.5rem 1rem 0.25rem;
+}
+.chapter-link {
+  display: flex; align-items: flex-start; gap: 0.65rem;
+  padding: 0.55rem 1rem;
+  text-decoration: none; color: var(--text);
+  font-family: var(--font-heading);
+  font-size: 0.85rem; line-height: 1.4;
+  border-left: 3px solid transparent;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+.chapter-link:hover {
+  background: var(--chapter-hover);
+}
+.chapter-link.active {
+  background: var(--accent-glow);
+  border-left-color: var(--active-border);
+  color: var(--accent);
+  font-weight: 600;
+}
+.chapter-link .ch-num {
+  flex-shrink: 0;
+  width: 1.4rem; height: 1.4rem;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+.chapter-link.active .ch-num {
+  background: var(--accent);
+  color: white;
+}
+.chapter-link .ch-time {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; color: var(--text-light);
+  margin-left: auto; flex-shrink: 0;
+}
+.shortcuts-hint {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-heading);
+  font-size: 0.72rem; color: var(--text-light);
+  line-height: 1.7;
+}
+.shortcuts-hint kbd {
+  display: inline-block;
+  background: var(--kbd-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  margin: 0 0.1rem;
+}
+
+/* ── Main Content ── */
+main {
+  flex: 1; min-width: 0;
+  padding: 2.5rem 3rem 6rem;
+  max-width: calc(var(--content-width) + 6rem);
+}
+.section-block {
+  margin-bottom: 3.5rem;
+}
+.section-block h2 {
+  font-family: var(--font-heading);
+  font-size: 1.65rem; font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+  line-height: 1.3;
+}
+.section-meta {
+  font-family: var(--font-heading);
+  font-size: 0.8rem; color: var(--text-light);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.section-meta .time-badge {
+  font-family: var(--font-mono);
+  background: var(--kbd-bg);
+  padding: 0.15rem 0.5rem; border-radius: 4px;
+  cursor: pointer;
+}
+.section-meta .time-badge:hover { color: var(--accent); }
+
+.text-block {
+  padding: 0.8rem 0 0.8rem 1.2rem;
+  border-left: 3px solid transparent;
+  margin-bottom: 0.3rem;
+  border-radius: 0 6px 6px 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.text-block:hover {
+  border-left-color: var(--border);
+}
+.text-block.active {
+  border-left-color: var(--active-border);
+  background: var(--active-bg);
+}
+.text-block.active::before {
+  content: '▶';
+  position: absolute;
+  left: -0.2rem;
+  color: var(--accent);
+  font-size: 0.6rem;
+  opacity: 0.7;
+}
+.text-block { position: relative; }
+
+.text-block h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem; font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: var(--text);
+}
+.text-block p {
+  margin-bottom: 0.9rem;
+}
+.text-block p:last-child { margin-bottom: 0; }
+.text-block strong { font-weight: 700; }
+.text-block em { font-style: italic; }
+
+/* Blockquotes */
+blockquote {
+  border-left: 3px solid var(--quote-border);
+  background: var(--quote-bg);
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--text-muted);
+}
+blockquote p { margin-bottom: 0.5rem; }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote .quote-attr {
+  font-style: normal;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+
+/* Lists */
+.text-block ol, .text-block ul {
+  padding-left: 1.5rem;
+  margin: 0.8rem 0;
+}
+.text-block li { margin-bottom: 0.4rem; }
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+}
+th, td {
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  font-weight: 600;
+  background: var(--bg-sidebar);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+tr:nth-child(even) td { background: var(--table-stripe); }
+
+/* References */
+.ref-link {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent);
+  transition: opacity var(--transition);
+}
+.ref-link:hover { opacity: 0.7; }
+.ref-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  vertical-align: super;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+}
+.further-reading {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: var(--bg-sidebar);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.further-reading h4 {
+  font-family: var(--font-heading);
+  font-size: 0.85rem; font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.further-reading ul {
+  list-style: none; padding: 0;
+}
+.further-reading li {
+  margin-bottom: 0.4rem;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+}
+.further-reading a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.further-reading a:hover { text-decoration: underline; }
+
+/* Summary box */
+.summary-box {
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-light);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.summary-box strong { color: var(--text); }
+
+/* ── Mobile ── */
+.mobile-chapter-bar {
+  display: none;
+  position: sticky; top: 50px; z-index: 90;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mobile-chapter-bar::-webkit-scrollbar { display: none; }
+.mobile-ch-link {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 0.78rem; font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 20px;
+  transition: all var(--transition);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.mobile-ch-link:hover { background: var(--chapter-hover); }
+.mobile-ch-link.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+  border-color: var(--accent);
+}
+.mobile-video-container {
+  display: none;
+  position: sticky; top: 50px; z-index: 95;
+  background: #000;
+}
+.mobile-video-aspect {
+  position: relative;
+  width: 100%; padding-bottom: 56.25%;
+}
+.mobile-video-aspect iframe {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%; border: 0;
+}
+
+@media (max-width: 1100px) {
+  .sidebar { display: none; }
+  .mobile-chapter-bar { display: block; top: 50px; }
+  .mobile-video-container { display: block; }
+  main { padding: 1.5rem 1.25rem 4rem; max-width: 100%; }
+  .section-block h2 { font-size: 1.35rem; }
+  header h1 { font-size: 0.85rem; }
+}
+@media (max-width: 600px) {
+  header { padding: 0.5rem 0.75rem; }
+  main { padding: 1rem 1rem 4rem; }
+  body { font-size: 1rem; }
+  .section-block h2 { font-size: 1.2rem; }
+  .text-block { padding-left: 0.8rem; }
+}
+
+/* ── Print ── */
+@media print {
+  header, .sidebar, .mobile-chapter-bar, .mobile-video-container,
+  #progress-bar, .shortcuts-hint, .video-info { display: none !important; }
+  main { padding: 0; max-width: 100%; }
+  .text-block { border-left: none !important; background: none !important; padding-left: 0; }
+  .text-block.active { border-left: none; background: none; }
+  body { font-size: 11pt; line-height: 1.6; color: #000; background: #fff; }
+  .section-block { page-break-inside: avoid; }
+  blockquote { border-left-color: #ccc; background: #f5f5f5; }
+  a { color: #000; text-decoration: underline; }
+  .further-reading { border: 1px solid #ccc; background: #f9f9f9; }
+}
+
+/* ── Scrollbar ── */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+main::-webkit-scrollbar { width: 6px; }
+main::-webkit-scrollbar-track { background: transparent; }
+main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section-block { animation: fadeIn 0.4s ease forwards; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease;
+  z-index: 200;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<header>
+  <div class="title-area">
+    <span class="logo">📖</span>
+    <h1>DeepMind Was Two Steps Ahead, AGAIN!</h1>
+  </div>
+  <div class="controls">
+    <span class="reading-pct" id="reading-pct">0%</span>
+    <button class="btn-icon" id="theme-toggle" title="Toggle dark mode">🌙</button>
+  </div>
+</header>
+
+<!-- Mobile video -->
+<div class="mobile-video-container" id="mobile-video-container">
+  <div class="mobile-video-aspect">
+    <div id="mobile-player-slot"></div>
+  </div>
+</div>
+
+<!-- Mobile chapter bar -->
+<div class="mobile-chapter-bar" id="mobile-chapter-bar">
+  <a class="mobile-ch-link active" data-chapter="1" data-time="0">1. Introduction</a>
+  <a class="mobile-ch-link" data-chapter="2" data-time="60">2. Replacing Transformers</a>
+  <a class="mobile-ch-link" data-chapter="3" data-time="452">3. Beyond Autoregression</a>
+  <a class="mobile-ch-link" data-chapter="4" data-time="945">4. The AGI Debate</a>
+  <a class="mobile-ch-link" data-chapter="5" data-time="1613">5. Continual Learning</a>
+</div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="video-wrap">
+      <div class="video-aspect">
+        <div id="player"></div>
+      </div>
+    </div>
+    <div class="video-info">
+      <span class="video-time" id="video-time">0:00 / 31:08</span>
+    </div>
+    <nav class="chapter-nav">
+      <h3>Chapters</h3>
+      <a class="chapter-link active" data-chapter="1" data-time="0">
+        <span class="ch-num">1</span>
+        <span>Introduction: The Blueprint of Modern AI</span>
+        <span class="ch-time">0:00</span>
+      </a>
+      <a class="chapter-link" data-chapter="2" data-time="60">
+        <span class="ch-num">2</span>
+        <span>Replacing Transformers: From Attention to Selective Memory</span>
+        <span class="ch-time">1:00</span>
+      </a>
+      <a class="chapter-link" data-chapter="3" data-time="452">
+        <span class="ch-num">3</span>
+        <span>Beyond Autoregression: Diffusion Language Models</span>
+        <span class="ch-time">7:32</span>
+      </a>
+      <a class="chapter-link" data-chapter="4" data-time="945">
+        <span class="ch-num">4</span>
+        <span>The Biggest Debate on AGI</span>
+        <span class="ch-time">15:45</span>
+      </a>
+      <a class="chapter-link" data-chapter="5" data-time="1613">
+        <span class="ch-num">5</span>
+        <span>Continual Learning vs. Pre-training</span>
+        <span class="ch-time">26:53</span>
+      </a>
+    </nav>
+    <div class="shortcuts-hint">
+      <kbd>Space</kbd> Play/Pause &nbsp;
+      <kbd>←</kbd><kbd>→</kbd> ±10s &nbsp;
+      <kbd>D</kbd> Dark mode
+    </div>
+  </aside>
+
+  <!-- Resize Handle -->
+  <div class="resize-handle" id="resize-handle"></div>
+
+  <!-- Main Content -->
+  <main id="content">
+
+    <!-- ═══════════ CHAPTER 1 ═══════════ -->
+    <div class="section-block" id="chapter-1">
+      <h2>1. Introduction: The Blueprint of Modern AI</h2>
+      <div class="section-meta">
+        <span class="time-badge" data-time="0">⏱ 0:00 – 1:00</span>
+      </div>
+      <div class="summary-box">
+        <strong>Key idea:</strong> DeepMind has consistently treated AGI as a long-term scientific mission rather than a race to build profitable software. The current AI stack rests on four pillars — transformer-based, autoregressive, pre-trained, and generative — and DeepMind is actively working to move beyond all four.
+      </div>
+
+      <div class="text-block" data-start="0" data-end="17">
+        <p>For years, Google DeepMind has treated Artificial General Intelligence (AGI) as a long-term scientific mission — a quest to recreate the human mind, not merely a race to build a profitable software product. When the game of Go was considered essentially unsolvable for AI, DeepMind went all in on AlphaGo, investing heavily with no immediate return. That bet paid off spectacularly.</p>
+      </div>
+
+      <div class="text-block" data-start="17" data-end="33">
+        <p>Right now, history is repeating itself. DeepMind is pouring resources into another seemingly intractable problem that nobody else wants to touch. Depending on how this plays out, they are either executing an extraordinary vision or making one of the biggest miscalculations in modern history.</p>
+      </div>
+
+      <div class="text-block" data-start="33" data-end="47">
+        <p>To understand what DeepMind is building, we need to examine the blueprint of modern AI. The current paradigm is held up by four main pillars:</p>
+        <ol>
+          <li><strong>Transformer-based</strong> architecture</li>
+          <li><strong>Autoregressive</strong> generation (next-token prediction)</li>
+          <li><strong>Pre-trained</strong> on massive datasets</li>
+          <li><strong>Generative</strong> output (producing new content)</li>
+        </ol>
+      </div>
+
+      <div class="text-block" data-start="47" data-end="60">
+        <p>Most researchers agree that this specific combination has enormous potential, but also has theoretical limitations that prevent it from reaching human-level intelligence. And that is exactly why DeepMind is already moving beyond it — systematically challenging each pillar with alternative approaches.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════ CHAPTER 2 ═══════════ -->
+    <div class="section-block" id="chapter-2">
+      <h2>2. Replacing Transformers: From Attention to Selective Memory</h2>
+      <div class="section-meta">
+        <span class="time-badge" data-time="60">⏱ 1:00 – 7:32</span>
+      </div>
+      <div class="summary-box">
+        <strong>Key idea:</strong> DeepMind is actively exploring alternatives to the standard transformer architecture through projects like Griffin, Recurrent Gemma, Titans, and Gemma 4. These architectures address the transformer's quadratic scaling problem by introducing selective memory mechanisms — replacing the expensive "carry every page" approach with an evolving "index card" of compressed past information.
+      </div>
+
+      <!-- The Transformer's Power -->
+      <div class="text-block" data-start="60" data-end="97">
+        <h3>The Transformer's Power and Limitation</h3>
+        <p>The transformer is a remarkably powerful idea. At its core, it consists of a stack of layers where each token repeatedly examines all other tokens in the sequence, determines which ones matter most, and uses that information to update its own meaning in context. This mechanism — called <strong>self-attention</strong> — works exceptionally well because it can dynamically decide how each token relates to every other token, making it very powerful for building contextual representations.</p>
+      </div>
+
+      <div class="text-block" data-start="97" data-end="120">
+        <p>However, this power comes with a critical trade-off: it does not scale cheaply. As the sequence gets longer, every token must compare itself with every other token. The number of interactions grows roughly with the <strong>square of the sequence length</strong> (quadratic complexity), which becomes prohibitively expensive very quickly.</p>
+      </div>
+
+      <div class="text-block" data-start="120" data-end="137">
+        <p>While modern systems still use attention, they rarely employ fully naive all-to-all attention. Instead, they adopt a growing range of efficient approximations, sparse patterns, and hybrid architectures to control the quadratic cost while preserving most of the modeling power. Most leading labs have largely avoided experimenting with entirely new foundations, but DeepMind is actively exploring alternatives and extensions, including recurrent and state-space inspired architectures.</p>
+      </div>
+
+      <!-- Titans -->
+      <div class="text-block" data-start="137" data-end="170">
+        <h3>Titans: Learning to Memorize at Test Time</h3>
+        <p>In December 2024, Google released the influential <strong>Titans</strong> paper, titled "Learning to Memorize at Test Time."<a href="https://arxiv.org/abs/2501.00663" target="_blank" class="ref-tag" title="Titans Architecture paper">[1]</a> The research team has since published follow-up work on nested learning<a href="https://arxiv.org/abs/2512.24695" target="_blank" class="ref-tag" title="Nested Learning paper">[2]</a>, and more recently, <strong>Titans + Miras</strong>, focused on helping AI develop long-term memory.</p>
+        <p>The central idea behind Titans is elegantly simple: instead of remembering everything all the time, what if we develop a specific strategy to keep only the most important parts of the input?</p>
+      </div>
+
+      <div class="text-block" data-start="170" data-end="200">
+        <p>Titans demonstrated that a model can be more selective about what it retains by using a <strong>surprise mechanism</strong>. The model is taught to memorize unexpected things — information that deviates from its predictions — and this selectivity made it more effective on common-sense reasoning, genomics, and time-series tasks.</p>
+        <p>This approach represents a promising direction for complementing or extending transformers, and it could even help with continual learning since part of the adaptation happens at inference time. So far, it is perhaps the most notable approach to challenge pure transformer architectures, and almost all of the research behind it still comes from DeepMind.</p>
+      </div>
+
+      <!-- Griffin -->
+      <div class="text-block" data-start="200" data-end="235">
+        <h3>Griffin: The Index Card Architecture</h3>
+        <p>In a lesser-known release, Google introduced <strong>Recurrent Gemma</strong><a href="https://deepmind.google/models/gemma/" target="_blank" class="ref-tag" title="RecurrentGemma">[3]</a>, built on the <strong>Griffin architecture</strong><a href="https://arxiv.org/abs/2402.19427" target="_blank" class="ref-tag" title="Griffin Architecture paper">[4]</a>. Griffin mixes two key components: <strong>gated linear recurrences</strong> with <strong>local attention</strong>.</p>
+        <p>The difference between standard attention and Griffin can be understood through an analogy. Imagine you start reading a book:</p>
+      </div>
+
+      <div class="text-block" data-start="235" data-end="270">
+        <p><strong>Standard Transformer (Global Attention):</strong> When you reach page 2, you must tear out page 1 and keep it in front of you. By page 100, you are carrying 99 previous pages — an unbearable liability. This growing stack of pages represents the <strong>KV cache</strong> in standard attention.</p>
+        <p><strong>Griffin:</strong> Instead of carrying every previous page, you maintain a single <strong>index card</strong> that is constantly rewritten for each new page. The model uses only <strong>local attention</strong> — roughly 2,000 tokens — to understand the context of words within the current page. The AI synthesizes the core meaning of the input into a fixed-size state.</p>
+      </div>
+
+      <div class="text-block" data-start="270" data-end="320">
+        <p>The "gated" part is the most sophisticated element. The Griffin architecture relies on matrices called <strong>gate weights</strong> that learn the best strategies for retaining information during training. These gates might learn that bold words, specific numbers, or the start of a new chapter are more important and need to be remembered — along with far more complicated strategies for deciding what is worth keeping.</p>
+        <p>When something is decided to enter the index card, a <strong>recurrence gate</strong> looks at the past information and the new information and determines how best to integrate them. If the model learns the main character is tall on page 1 and has blue eyes on page 65, the index card will contain a unified representation of a character who is tall and has blue eyes. The index card is an evolving state of past information, not a list of items.</p>
+      </div>
+
+      <!-- Gemma 4 -->
+      <div class="text-block" data-start="320" data-end="380">
+        <h3>Gemma 4: Practical Efficiency at Scale</h3>
+        <p>DeepMind then distilled the insights from these experiments into <strong>Gemma 4</strong><a href="https://ai.google.dev/gemma/docs/core" target="_blank" class="ref-tag" title="Gemma 4 documentation">[5]</a>, a model designed for maximum compute and memory efficiency. Gemma 4 employs several key innovations:</p>
+        <ul>
+          <li><strong>Sparsity methods</strong> dramatically reduce effective model weight. For example, the "4 billion parameter" model actually contains about 25 billion parameters, but uses <strong>Mixture of Experts (MoE)</strong> and per-layer embedding methods to reduce the number of active parameters.</li>
+          <li><strong>Hybrid attention:</strong> The model combines local sliding window attention for some layers with global attention for others.</li>
+        </ul>
+      </div>
+
+      <div class="text-block" data-start="380" data-end="420">
+        <p>Imagine reading a paragraph in a huge book — you first focus intensely on that single paragraph (local sliding window), then go back to read relevant pages to understand it in the full context of the book (global attention).</p>
+        <p>In a document of 256K tokens, some layers look only at a sliding window of ~1,000 tokens to ensure local coherence, while a limited number of other layers take the entire global context into account, connecting local understanding to the whole document.</p>
+      </div>
+
+      <div class="text-block" data-start="420" data-end="452">
+        <p>These attempts might appear to be consumer products, but more than anything, they are <strong>public experiments</strong> serving DeepMind's core strategy toward AGI. As Demis Hassabis has stated:</p>
+        <blockquote>
+          <p>"We need one or two more big breakthroughs before we'll get to AGI. And I think they're along the lines of things like continual learning, better memory, longer context windows — or perhaps more efficient context windows would be the right way to say it. Don't store everything, just store the important things. That would be a lot more efficient. That's what the brain does."</p>
+          <div class="quote-attr">— Demis Hassabis, CEO of Google DeepMind</div>
+        </blockquote>
+      </div>
+
+      <div class="further-reading">
+        <h4>📚 Further Reading</h4>
+        <ul>
+          <li><a href="https://arxiv.org/abs/2501.00663" target="_blank">Titans: Learning to Memorize at Test Time</a> — arXiv</li>
+          <li><a href="https://arxiv.org/abs/2512.24695" target="_blank">Nested Learning</a> — arXiv</li>
+          <li><a href="https://arxiv.org/abs/2402.19427" target="_blank">Griffin Architecture</a> — arXiv</li>
+          <li><a href="https://deepmind.google/models/gemma/" target="_blank">RecurrentGemma</a> — Google DeepMind</li>
+          <li><a href="https://ai.google.dev/gemma/docs/core" target="_blank">Gemma 4 Documentation</a> — Google AI</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══════════ CHAPTER 3 ═══════════ -->
+    <div class="section-block" id="chapter-3">
+      <h2>3. Beyond Autoregression: The Rise of Diffusion Language Models</h2>
+      <div class="section-meta">
+        <span class="time-badge" data-time="452">⏱ 7:32 – 15:45</span>
+      </div>
+      <div class="summary-box">
+        <strong>Key idea:</strong> Autoregression (next-token prediction) is not inherent to transformers — it was an architectural choice. Diffusion language models offer a compelling alternative: they generate text through parallel iterative refinement rather than sequential left-to-right prediction, offering advantages in speed, error correction, and flexibility.
+      </div>
+
+      <div class="text-block" data-start="452" data-end="485">
+        <h3>Autoregression Is Not the Transformer</h3>
+        <p>Right alongside the transformer is another fundamental idea called <strong>autoregression</strong>. The generation process in GPT-style models is next-token prediction — an iterative process where each new token is generated conditioned on all previous tokens. This process is so well-known that some people assume the transformer architecture is inherently an autoregressive system.</p>
+      </div>
+
+      <div class="text-block" data-start="485" data-end="520">
+        <p>But this is a misconception. Even the original transformer, invented for machine translation, was not a pure autoregressive model. It was only when <strong>Alec Radford</strong> adapted it into a <strong>decoder-only transformer</strong> that it became fully autoregressive — transforming it from its original machine translation function into a more general self-supervised next-token predictor.</p>
+        <p>The main invention of the transformer was the <strong>self-attention mechanism</strong>, and that mechanism does not require next-token prediction or autoregression. This means there is an entire design space of models that are transformer-based but not autoregressive.</p>
+      </div>
+
+      <div class="text-block" data-start="520" data-end="580">
+        <h3>How Diffusion Language Models Work</h3>
+        <p><strong>Diffusion language models</strong> are the best example of non-autoregressive transformer models. Professor <strong>Stefano Ermon</strong>, one of the pioneers of diffusion models, explains the core difference:</p>
+        <blockquote>
+          <p>"All existing or most of the existing LLMs are autoregressive, meaning that they generate text or code one word, one token at a time, left to right. On the other hand, some of the best generative models for images, video, and music are diffusion-based, where the object is generated by an iterative refinement process — you start with a rough guess of what the answer should be and then keep refining it. Crucially, this refinement process is highly parallel."</p>
+          <div class="quote-attr">— Stefano Ermon, Stanford / Inception Labs</div>
+        </blockquote>
+      </div>
+
+      <div class="text-block" data-start="580" data-end="640">
+        <h3>Three Advantages of Diffusion Models</h3>
+        <p><strong>1. Speed and Efficiency.</strong> Although diffusion models also loop, they typically need far fewer iterations to reach a final answer because the process is massively parallel — which GPUs excel at. A reasonable number of steps for language generation is often in the tens or at most low hundreds, as opposed to thousands or even tens of thousands of sequential steps for autoregressive models. In practice, diffusion language models are already approximately <strong>10× faster</strong>.</p>
+      </div>
+
+      <div class="text-block" data-start="640" data-end="710">
+        <p><strong>2. Smarter Outputs with Built-in Error Correction.</strong> Autoregressive LLMs generate text left to right — once a token is generated, there is no opportunity to revise it. Diffusion models, on the other hand, can more naturally correct mistakes by working on the entire response holistically. The network is literally trained to fix mistakes, which is how the model learns at inference time.</p>
+      </div>
+
+      <div class="text-block" data-start="710" data-end="780">
+        <p><strong>3. Flexibility.</strong> While autoregressive models expect the prompt to be a prefix (everything before the generation point), diffusion LLMs allow the prompt to sit at any arbitrary position. This is particularly powerful for <strong>code editing</strong>: a diffusion model is naturally trained to see the entire codebase and complete the missing part, while autoregressive models struggle because they cannot naturally see what comes after the edit point.</p>
+      </div>
+
+      <div class="text-block" data-start="780" data-end="850">
+        <h3>Inception Labs and Gemini Diffusion</h3>
+        <p>Although most major labs are ignoring diffusion models for language, a small lab out of Stanford called <strong>Inception Labs</strong><a href="https://www.inceptionlabs.ai/blog/int" target="_blank" class="ref-tag" title="Mercury Reasoning Diffusion LLM">[6]</a> has already introduced the first reasoning LLM powered by diffusion. It is dramatically faster than models of its size while remaining competitive in quality — the sort of leap that forces a reimagining of the entire stack.</p>
+        <p>Google DeepMind is the only major lab working on a diffusion language model, having introduced <strong>Gemini Diffusion</strong> in mid-2025. The jury is still out on the importance of diffusion language modeling — a hybrid approach might work best — but the direction is clearly promising.</p>
+      </div>
+
+      <div class="text-block" data-start="850" data-end="920">
+        <h3>OpenAI's Strategic Choice</h3>
+        <p>The contrast with OpenAI is stark. OpenAI recently shut down <strong>Sora 2</strong>, its diffusion-based video model, letting go of a billion-dollar contract with Disney to double down on GPT technology. As OpenAI's leadership explained:</p>
+        <blockquote>
+          <p>"The Sora models, which are incredible models, are a different branch of the tech tree than the core reasoning GPT series. They're just built in a very different way. And to some extent, we're really saying that pursuing both branches is very hard for us to do."</p>
+          <div class="quote-attr">— OpenAI Leadership</div>
+        </blockquote>
+      </div>
+
+      <div class="text-block" data-start="920" data-end="945">
+        <p>DeepMind, by contrast, maintains projects across multiple stacks: VEO and Genie (video), Gemini Diffusion (language), the Imagen lineup (diffusion-based image generation), the Gemma family, AlphaFold/AlphaGenome, and many more. As Demis Hassabis puts it:</p>
+        <blockquote>
+          <p>"This is one advantage we have of having such a deep and rich research bench. We can go after both of those things at maximum force — scaling up the current paradigms and ideas, and then really new blue-sky ideas for new architectures."</p>
+          <div class="quote-attr">— Demis Hassabis</div>
+        </blockquote>
+      </div>
+
+      <div class="further-reading">
+        <h4>📚 Further Reading</h4>
+        <ul>
+          <li><a href="https://www.inceptionlabs.ai/blog/int" target="_blank">Mercury: First Reasoning Diffusion LLM</a> — Inception Labs</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══════════ CHAPTER 4 ═══════════ -->
+    <div class="section-block" id="chapter-4">
+      <h2>4. The Biggest Debate on AGI: Generative World Models vs. Joint Embedding</h2>
+      <div class="section-meta">
+        <span class="time-badge" data-time="945">⏱ 15:45 – 26:53</span>
+      </div>
+      <div class="summary-box">
+        <strong>Key idea:</strong> The most fascinating argument at the center of AI pits Demis Hassabis against Yann LeCun. Hassabis argues that generative video models force AI to develop implicit world models essential for AGI. LeCun counters with Joint Embedding Predictive Architectures (JEPA), arguing generative models waste compute on irrelevant details. The debate hinges on reconstruction vs. representation matching.
+      </div>
+
+      <div class="text-block" data-start="945" data-end="1000">
+        <h3>Hassabis: Foundation Models Are Essential</h3>
+        <p>Demis Hassabis has been clear about his position on the path to AGI:</p>
+        <blockquote>
+          <p>"It remains to be seen whether just scaling up existing ideas and technologies will be enough, or we need one or two more really big insightful innovations. If you were to push me, I would say I'm in the latter camp. But no matter what camp you're in, we're going to need large foundation models as the key component of the final AGI systems. Of that I'm sure."</p>
+          <div class="quote-attr">— Demis Hassabis</div>
+        </blockquote>
+      </div>
+
+      <div class="text-block" data-start="1000" data-end="1060">
+        <h3>LeCun: The Limits of Language</h3>
+        <p>Many might automatically side with Hassabis because of his practical successes, but <strong>Yann LeCun's</strong> argument is deeply principled. As one of the foundational architects of modern deep learning, LeCun explains that self-supervised next-token prediction works for language because language itself is a constrained notation humans invented to communicate:</p>
+        <blockquote>
+          <p>"In the case of text, that's a very simple problem because you only have a finite number of words in the dictionary. You can never predict exactly what word follows a sequence, but you can predict a probability distribution over all words. And that's good enough."</p>
+          <div class="quote-attr">— Yann LeCun</div>
+        </blockquote>
+      </div>
+
+      <div class="text-block" data-start="1060" data-end="1120">
+        <p>The model has only about 50,000 to 100,000 possible tokens for output and can assign probabilities to them. But when it comes to something like video — a natural modality — training a model on self-supervised video frames is far more challenging because the number of possible frames for full HD video dwarfs the number of atoms in the observable universe.</p>
+        <blockquote>
+          <p>"You can't do this with video. We do not know how to represent appropriate probability distributions over the set of all images or video frames. It's actually a mathematically intractable problem."</p>
+          <div class="quote-attr">— Yann LeCun</div>
+        </blockquote>
+      </div>
+
+      <div class="text-block" data-start="1120" data-end="1200">
+        <h3>The Latent Space Solution</h3>
+        <p>However, this argument is somewhat of a straw man, because no one is trying to predict every pixel on screen. In a modern video diffusion model, researchers don't jump straight into predicting pixels. Instead, the process works in three stages:</p>
+        <ol>
+          <li><strong>Encode:</strong> Use an encoder to move the image into a <strong>latent space</strong> — a compact representation that still allows for reconstruction.</li>
+          <li><strong>Diffuse:</strong> Train a diffusion model inside this frozen latent space, teaching it to denoise random noise into a valid latent representation.</li>
+          <li><strong>Decode:</strong> Convert the latent back into pixels.</li>
+        </ol>
+        <p>The philosophical insight: instead of predicting inside the space of all possible future frames, modern video models exploit the fact that <strong>real-world videos occupy an extremely tiny, structured subset</strong> of all possible frames — constrained by physics, geometry, object permanence, lighting, and motion continuity.</p>
+      </div>
+
+      <div class="text-block" data-start="1200" data-end="1290">
+        <h3>Why Video Models Matter for AGI</h3>
+        <p>But here is the trillion-dollar question: why would Google DeepMind invest so heavily just to create realistic-looking videos?</p>
+        <p>The answer is that this may be the clearest path we currently know toward AGI. The biggest flaw in current language models is a phenomenon called <strong>jagged intelligence</strong>: today's models can achieve gold medals in math olympiads and solve open mathematical conjectures, but still make absurd errors in basic physical reasoning.</p>
+        <p>The fundamental issue is that spoken and written language are just artificial artifacts of the human mind. Language is a <strong>super-lossy compression</strong> of our inner model of the world — it is not a fundamental part of human intelligence.</p>
+      </div>
+
+      <div class="text-block" data-start="1290" data-end="1370">
+        <p>Consider the difference between someone who has read a thousand books on Formula 1 racing and Lewis Hamilton. The reader knows all the facts and physics, but the driver has developed such a deep, robust understanding that the car feels like an extension of his own body. The human mind relies on a <strong>wordless internal representation of reality</strong> — that is the core of intelligence.</p>
+        <p>This leads to the holy grail of modern AI: the <strong>world model</strong>. The first step to building one is teaching machines to predict basic physics across primary natural human modalities — vision, sound, and touch.</p>
+      </div>
+
+      <div class="text-block" data-start="1370" data-end="1440">
+        <p>Hassabis' core argument is that generative AI video can force AI to develop a physics-based natural world model<a href="https://deepmind.google/models/gemini" target="_blank" class="ref-tag" title="Gemini Omni">[7]</a>:</p>
+        <blockquote>
+          <p>"You can think of a video model that can generate 10 seconds, 20 seconds of a realistic scene — it's sort of a model of the physical world. Intuitive physics. It's intuitively understood how liquids and objects behave in the world. One way to exhibit understanding is to be able to generate it. That would be essential for AGI, because it would allow these systems to plan long-term in the real world."</p>
+          <div class="quote-attr">— Demis Hassabis</div>
+        </blockquote>
+      </div>
+
+      <div class="text-block" data-start="1440" data-end="1510">
+        <h3>LeCun's Counter: JEPA</h3>
+        <p>LeCun argues that the generative approach is fundamentally limited because it is trained with the objective of <strong>reconstructing the original input</strong>. If the training objective is pixel-level reconstruction, then the model wastes compute predicting unpredictable details like the random movement of leaves on a tree.</p>
+        <p><strong>Joint Embedding Predictive Architectures (JEPA)</strong><a href="https://ai.meta.com/research/vjepa/" target="_blank" class="ref-tag" title="V-JEPA">[8]</a>, which LeCun advocates, do something fundamentally different. The learning signal comes from pressure for the context and target encoders to <strong>agree on a similar latent representation</strong>, since both are derived from the same underlying scene.</p>
+      </div>
+
+      <div class="text-block" data-start="1510" data-end="1570">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Aspect</th><th>Generative Models</th><th>JEPA</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Objective</strong></td><td>Reconstruct original input accurately</td><td>Predict a compatible representation</td></tr>
+              <tr><td><strong>Output space</strong></td><td>Pixel / token space</td><td>Embedding space</td></tr>
+              <tr><td><strong>Compute focus</strong></td><td>All details, including irrelevant ones</td><td>Only semantically meaningful representations</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>With video, the same principle applies: if a ball rolls behind a wall, JEPA must predict a compatible future representation where the ball emerges on the other side. Over enough examples, the model develops an implicit understanding of object permanence <strong>without ever generating the video itself</strong>.</p>
+      </div>
+
+      <div class="text-block" data-start="1570" data-end="1613">
+        <h3>DeepMind's Full Vision</h3>
+        <p>If JEPA sounds so reasonable, why isn't everyone switching? Theoretically, architectures like JEPA should eventually outperform purely generative systems, but empirically, <strong>generative models still perform much better</strong> across many important domains today.</p>
+        <p>The key insight is that for DeepMind, the generative diffusion model is <strong>not the final product</strong>. The strategy is to build a hyperrealistic, grounded simulation of the world using generative diffusion models, then use that simulated world to train <strong>Gemini</strong> to develop an explicit, evolving model of reality internally. This is what <strong>Gemini Omni</strong> represents — not just another video generator, but an early iteration of DeepMind's world model.</p>
+      </div>
+
+      <div class="further-reading">
+        <h4>📚 Further Reading</h4>
+        <ul>
+          <li><a href="https://deepmind.google/models/gemini" target="_blank">Gemini Omni</a> — Google DeepMind</li>
+          <li><a href="https://ai.meta.com/research/vjepa/" target="_blank">V-JEPA: Video Joint Embedding Predictive Architecture</a> — Meta AI</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══════════ CHAPTER 5 ═══════════ -->
+    <div class="section-block" id="chapter-5">
+      <h2>5. Continual Learning vs. Large-Scale Pre-training</h2>
+      <div class="section-meta">
+        <span class="time-badge" data-time="1613">⏱ 26:53 – 31:08</span>
+      </div>
+      <div class="summary-box">
+        <strong>Key idea:</strong> Researchers like Ilya Sutskever and Richard Sutton argue that massive pre-training assumes an inefficient learner and that true AGI requires continual learning from experience. DeepMind, however, bets that pre-training provides an essential foundation. The resolution will determine the shape of AGI.
+      </div>
+
+      <div class="text-block" data-start="1613" data-end="1660">
+        <h3>The Case Against Large-Scale Pre-training</h3>
+        <p>The final pillar of modern AI — large-scale pre-training as the foundation of the whole system — is one DeepMind has been a strong advocate for. But highly respected researchers like <strong>Ilya Sutskever</strong> and <strong>Richard Sutton</strong> suggest that this approach may be a dead end.</p>
+        <p>Their argument has two parts. First, <strong>learning from experience</strong>: the physical world is a messy environment full of unorganized goals, very subtle learning signals, and dynamic interactions. Performing all training in an isolated lab with rigid, arbitrary goals will never result in a truly intelligent system. The model should require only <strong>minimal pre-training</strong> paired with an <strong>extremely efficient learning algorithm</strong>.</p>
+      </div>
+
+      <div class="text-block" data-start="1660" data-end="1720">
+        <p>Second, <strong>biological plausibility</strong>. As Sutskever explains:</p>
+        <blockquote>
+          <p>"The thing that happened with AGI and pre-training is that in some sense they overshot the target. A human being is not an AGI — a human being lacks a huge amount of knowledge. Instead, we rely on continual learning. It's a process, as opposed to dropping a finished thing."</p>
+          <div class="quote-attr">— Ilya Sutskever</div>
+        </blockquote>
+        <p>The vision is not a finished mind that knows how to do every single job in the economy, but rather <strong>a mind which can learn to do any job</strong>. Once you have the learning algorithm, it gets deployed into the world the same way a human worker might join an organization.</p>
+      </div>
+
+      <div class="text-block" data-start="1720" data-end="1770">
+        <h3>The Richness of Human Learning</h3>
+        <p>Most current learning systems operate with extremely rigid objectives: reach the target and receive a reward; fail and get punished. Learning becomes a harsh binary process.</p>
+        <p>Human learning works very differently. You do not need to crash the car to understand danger. The moment you sit behind the wheel, you already have a sense of what "optimal" should feel like — a sense of balance, control, confidence, uncertainty, and whether something feels wrong. The brain is constantly evaluating itself long before any catastrophic outcome occurs because the <strong>learning signals are so rich</strong>. Humans learn with astonishing efficiency and are surprisingly robust.</p>
+      </div>
+
+      <div class="text-block" data-start="1770" data-end="1820">
+        <h3>DeepMind's Counterargument</h3>
+        <p>Despite these criticisms, DeepMind continues to advocate for large-scale pre-training. Hassabis argues:</p>
+        <blockquote>
+          <p>"My betting would be that the quickest way to get to AGI is to use all the knowledge existing in the world right now — on the web — ingesting all of that information. I don't see why you wouldn't start with a model as a kind of prior to build on. My betting would be that the final AGI system will have these large multimodal models as part of the overall solution, but probably won't be enough on their own. You will need additional planning and search on top."</p>
+          <div class="quote-attr">— Demis Hassabis</div>
+        </blockquote>
+      </div>
+
+      <div class="text-block" data-start="1820" data-end="1850">
+        <h3>The Synthesis</h3>
+        <p>This is the same philosophy that built AlphaGo. That breakthrough proved deep learning could solve near-infinite problems using deeply efficient pattern recognition. It gave DeepMind the conviction that AGI — despite seeming impossibly vast — can be solved using those same principles.</p>
+      </div>
+
+      <div class="text-block" data-start="1850" data-end="1868">
+        <p>From one angle, Google DeepMind is doubling down on generative AI and massive pre-trained models. From another, they are actively pushing research far beyond standard transformers and autoregressive models. It is a <strong>highly specific bet</strong> on exactly what AGI should look like:</p>
+        <ul>
+          <li><strong>Architecture:</strong> Hybrid models combining transformers with selective memory (Titans, Griffin)</li>
+          <li><strong>Generation:</strong> Both autoregressive and diffusion-based approaches in parallel</li>
+          <li><strong>World understanding:</strong> Generative video as implicit world simulators</li>
+          <li><strong>Foundation:</strong> Large-scale pre-training augmented by planning, search, and continual learning</li>
+        </ul>
+        <p>Fortunately, it will only take a couple more years for us to understand who is right. <em>What an odd time to be alive.</em></p>
+      </div>
+
+      <div class="further-reading">
+        <h4>📚 All References</h4>
+        <ul>
+          <li><a href="https://arxiv.org/abs/2501.00663" target="_blank">[1] Titans: Learning to Memorize at Test Time</a></li>
+          <li><a href="https://arxiv.org/abs/2512.24695" target="_blank">[2] Nested Learning</a></li>
+          <li><a href="https://deepmind.google/models/gemma/" target="_blank">[3] RecurrentGemma</a></li>
+          <li><a href="https://arxiv.org/abs/2402.19427" target="_blank">[4] Griffin Architecture</a></li>
+          <li><a href="https://ai.google.dev/gemma/docs/core" target="_blank">[5] Gemma 4 Documentation</a></li>
+          <li><a href="https://www.inceptionlabs.ai/blog/int" target="_blank">[6] Mercury Reasoning Diffusion LLM</a></li>
+          <li><a href="https://deepmind.google/models/gemini" target="_blank">[7] Gemini Omni</a></li>
+          <li><a href="https://ai.meta.com/research/vjepa/" target="_blank">[8] V-JEPA</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// Configuration
+// ══════════════════════════════════════════════
+const VIDEO_ID = '8oyZB24-vAM';
+const TOTAL_DURATION = 1868; // 31:08
+
+const CHAPTERS = [
+  { num: 1, start: 0, end: 60, id: 'chapter-1' },
+  { num: 2, start: 60, end: 452, id: 'chapter-2' },
+  { num: 3, start: 452, end: 945, id: 'chapter-3' },
+  { num: 4, start: 945, end: 1613, id: 'chapter-4' },
+  { num: 5, start: 1613, end: 1868, id: 'chapter-5' },
+];
+
+// ══════════════════════════════════════════════
+// State
+// ══════════════════════════════════════════════
+let player = null;
+let playerReady = false;
+let isUserScrolling = false;
+let userScrollTimeout = null;
+let lastSeekFromScroll = 0;
+let activeBlockEl = null;
+let isMobile = window.innerWidth <= 1100;
+
+// ══════════════════════════════════════════════
+// YouTube IFrame API
+// ══════════════════════════════════════════════
+const tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+
+window.onYouTubeIframeAPIReady = function () {
+  const containerId = isMobile ? 'mobile-player-slot' : 'player';
+  player = new YT.Player(containerId, {
+    videoId: VIDEO_ID,
+    playerVars: {
+      modestbranding: 1,
+      rel: 0,
+      enablejsapi: 1,
+      origin: location.origin,
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+    },
+  });
+};
+
+function onPlayerReady() {
+  playerReady = true;
+  requestAnimationFrame(syncLoop);
+}
+
+function onPlayerStateChange(e) {
+  // nothing special needed
+}
+
+// ══════════════════════════════════════════════
+// Format time helper
+// ══════════════════════════════════════════════
+function fmt(s) {
+  s = Math.floor(s);
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  return m + ':' + (ss < 10 ? '0' : '') + ss;
+}
+
+// ══════════════════════════════════════════════
+// Sync Loop — polls video time and updates UI
+// ══════════════════════════════════════════════
+function syncLoop() {
+  if (!playerReady || !player.getCurrentTime) {
+    requestAnimationFrame(syncLoop);
+    return;
+  }
+
+  const t = player.getCurrentTime();
+  const dur = player.getDuration() || TOTAL_DURATION;
+
+  // Update time display
+  const timeEl = document.getElementById('video-time');
+  if (timeEl) timeEl.textContent = fmt(t) + ' / ' + fmt(dur);
+
+  // Update progress bar
+  const pct = Math.min((t / dur) * 100, 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+
+  // Highlight active text block
+  const blocks = document.querySelectorAll('.text-block[data-start]');
+  let found = null;
+  for (const b of blocks) {
+    const s = parseFloat(b.dataset.start);
+    const e = parseFloat(b.dataset.end);
+    if (t >= s && t < e) { found = b; break; }
+  }
+
+  if (found && found !== activeBlockEl) {
+    if (activeBlockEl) activeBlockEl.classList.remove('active');
+    found.classList.add('active');
+    activeBlockEl = found;
+
+    // Auto-scroll if user isn't manually scrolling
+    if (!isUserScrolling) {
+      found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  // Highlight active chapter
+  updateActiveChapter(t);
+
+  requestAnimationFrame(syncLoop);
+}
+
+// ══════════════════════════════════════════════
+// Active chapter highlight
+// ══════════════════════════════════════════════
+function updateActiveChapter(t) {
+  let activeChapter = CHAPTERS[0];
+  for (const ch of CHAPTERS) {
+    if (t >= ch.start) activeChapter = ch;
+  }
+
+  // Desktop sidebar
+  document.querySelectorAll('.chapter-link').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.chapter) === activeChapter.num);
+  });
+
+  // Mobile bar
+  document.querySelectorAll('.mobile-ch-link').forEach(el => {
+    const isActive = parseInt(el.dataset.chapter) === activeChapter.num;
+    el.classList.toggle('active', isActive);
+    if (isActive) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  });
+
+  // Reading percentage
+  const readPct = Math.min(Math.round((t / TOTAL_DURATION) * 100), 100);
+  document.getElementById('reading-pct').textContent = readPct + '%';
+}
+
+// ══════════════════════════════════════════════
+// Click-to-seek on text blocks
+// ══════════════════════════════════════════════
+document.addEventListener('click', (e) => {
+  // Text block click
+  const block = e.target.closest('.text-block[data-start]');
+  if (block && playerReady) {
+    const t = parseFloat(block.dataset.start);
+    player.seekTo(t, true);
+    player.playVideo();
+    return;
+  }
+
+  // Chapter link click
+  const chLink = e.target.closest('.chapter-link, .mobile-ch-link');
+  if (chLink && playerReady) {
+    const t = parseFloat(chLink.dataset.time);
+    player.seekTo(t, true);
+    player.playVideo();
+    const chId = 'chapter-' + chLink.dataset.chapter;
+    const section = document.getElementById(chId);
+    if (section) {
+      setTimeout(() => {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+    return;
+  }
+
+  // Time badge click
+  const badge = e.target.closest('.time-badge[data-time]');
+  if (badge && playerReady) {
+    const t = parseFloat(badge.dataset.time);
+    player.seekTo(t, true);
+    player.playVideo();
+    return;
+  }
+});
+
+// ══════════════════════════════════════════════
+// Scroll-to-seek (bidirectional sync)
+// ══════════════════════════════════════════════
+let scrollSeekDebounce = null;
+
+function handleScroll() {
+  isUserScrolling = true;
+  clearTimeout(userScrollTimeout);
+  userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 3000);
+
+  // Debounced seek
+  clearTimeout(scrollSeekDebounce);
+  scrollSeekDebounce = setTimeout(() => {
+    if (!playerReady) return;
+
+    // Find the text block most in viewport center
+    const blocks = document.querySelectorAll('.text-block[data-start]');
+    const viewCenter = window.innerHeight / 2;
+    let closest = null;
+    let closestDist = Infinity;
+
+    for (const b of blocks) {
+      const rect = b.getBoundingClientRect();
+      const blockCenter = rect.top + rect.height / 2;
+      const dist = Math.abs(blockCenter - viewCenter);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closest = b;
+      }
+    }
+
+    // 2. Scroll-to-seek: DON'T auto-play video on scroll
+    if (closest) {
+      const t = parseFloat(closest.dataset.start);
+      const now = Date.now();
+      // Only seek if enough time has passed
+      if (now - lastSeekFromScroll > 1500) {
+        const currentTime = player.getCurrentTime();
+        if (Math.abs(currentTime - t) > 5) {
+          player.seekTo(t, true);
+          // Do NOT call playVideo() — keep paused state
+          lastSeekFromScroll = now;
+        }
+      }
+    }
+  }, 800);
+}
+
+window.addEventListener('scroll', handleScroll, { passive: true });
+
+// ══════════════════════════════════════════════
+// Theme toggle
+// ══════════════════════════════════════════════
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+
+// Load saved theme, default to system preference
+const savedTheme = localStorage.getItem('vt-theme');
+if (savedTheme) {
+  html.dataset.theme = savedTheme;
+} else {
+  // Default to dark if system prefers dark, otherwise dark anyway per user preference
+  html.dataset.theme = 'dark';
+}
+themeToggle.textContent = html.dataset.theme === 'dark' ? '☀️' : '🌙';
+
+function toggleTheme() {
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  themeToggle.textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('vt-theme', html.dataset.theme);
+}
+
+themeToggle.addEventListener('click', toggleTheme);
+
+// ══════════════════════════════════════════════
+// Keyboard shortcuts
+// ══════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  // Don't intercept when typing in an input
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+  switch (e.key) {
+    case ' ':
+      e.preventDefault();
+      if (!playerReady) return;
+      const state = player.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+        showToast('⏸ Paused');
+      } else {
+        player.playVideo();
+        showToast('▶ Playing');
+      }
+      break;
+
+    case 'ArrowLeft':
+      e.preventDefault();
+      if (playerReady) {
+        const t = Math.max(0, player.getCurrentTime() - 10);
+        player.seekTo(t, true);
+        showToast('⏪ -10s');
+      }
+      break;
+
+    case 'ArrowRight':
+      e.preventDefault();
+      if (playerReady) {
+        const t = player.getCurrentTime() + 10;
+        player.seekTo(t, true);
+        showToast('⏩ +10s');
+      }
+      break;
+
+    case 'd':
+    case 'D':
+      toggleTheme();
+      showToast(html.dataset.theme === 'dark' ? '🌙 Dark mode' : '☀️ Light mode');
+      break;
+  }
+});
+
+// ══════════════════════════════════════════════
+// Toast notification
+// ══════════════════════════════════════════════
+let toastTimeout = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => el.classList.remove('show'), 1500);
+}
+
+// ══════════════════════════════════════════════
+// Responsive: move player on resize
+// ══════════════════════════════════════════════
+window.addEventListener('resize', () => {
+  const wasMobile = isMobile;
+  isMobile = window.innerWidth <= 1100;
+  if (wasMobile !== isMobile && playerReady) {
+    // For simplicity, reload on layout change
+    // The YouTube player handles this gracefully
+  }
+});
+
+// ══════════════════════════════════════════════
+// Resize Handle — drag to resize sidebar/content split
+// ══════════════════════════════════════════════
+const resizeHandle = document.getElementById('resize-handle');
+const sidebarEl = document.getElementById('sidebar');
+let isResizing = false;
+
+if (resizeHandle && sidebarEl) {
+  resizeHandle.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    resizeHandle.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return;
+    const newWidth = Math.max(280, Math.min(e.clientX, window.innerWidth - 300));
+    sidebarEl.style.width = newWidth + 'px';
+    sidebarEl.style.flexShrink = '0';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (isResizing) {
+      isResizing = false;
+      resizeHandle.classList.remove('dragging');
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>
