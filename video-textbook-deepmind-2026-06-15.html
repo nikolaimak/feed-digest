@@ -1070,6 +1070,10 @@ window.onYouTubeIframeAPIReady = function () {
 
 function onPlayerReady() {
   playerReady = true;
+  // YouTube API requires at least one play before seekTo works.
+  // Briefly play then immediately pause+mute to unlock seeking.
+  player.mute();
+  player.playVideo();
   // Click on video wrapper to toggle play/pause
   document.querySelector('.video-aspect').addEventListener('click', () => {
     if (!playerReady) return;
@@ -1083,11 +1087,19 @@ function onPlayerReady() {
   requestAnimationFrame(syncLoop);
 }
 
+let hasUnlockedSeek = false;
 function onPlayerStateChange(e) {
+  // After the initial play to unlock seeking, immediately pause and unmute
+  if (!hasUnlockedSeek && e.data === YT.PlayerState.PLAYING) {
+    hasUnlockedSeek = true;
+    player.pauseVideo();
+    player.seekTo(0, true);
+    player.unMute();
+  }
   // Toggle pointer-events so controls overlay is hidden when paused
   const wrap = document.querySelector('.video-aspect');
   if (wrap) {
-    if (e.data === YT.PlayerState.PLAYING) {
+    if (e.data === YT.PlayerState.PLAYING && hasUnlockedSeek) {
       wrap.classList.add('playing');
     } else {
       wrap.classList.remove('playing');
@@ -1234,9 +1246,7 @@ function handleScroll() {
   // Smooth interpolated seek — compute exact time from scroll position within block
   clearTimeout(scrollSeekDebounce);
   scrollSeekDebounce = setTimeout(() => {
-    if (!playerReady) return;
-
-    // Find the text block most in viewport center and interpolate time
+    if (!playerReady || !hasUnlockedSeek) return;
     const blocks = document.querySelectorAll('.text-block[data-start]');
     const viewCenter = window.innerHeight / 2;
     let closest = null;
