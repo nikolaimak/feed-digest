@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-06-23</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">June 23, 2026 — late afternoon micro-batch</p>
+  <p class="hero-stats">4 posts · 4 handles · 2026-06-23 16:00–16:21 UTC (Following), 2026-06-21 17:00–2026-06-23 16:21 UTC (For You)</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-OmarShahine">@OmarShahine</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-06-23 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Omar Sarr highlights Vercel's new 'eve' agentic framework — everything is files (tools, skills, evals), optimised for fast TypeScript-based agent development.</p>
+  <blockquote class="quote">everything is files, from the tools to the skills to the evals</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Прямо по нашему стеку — TS, agent tooling, file-based config. Стоит глянуть архитектуру.</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2069455656214532137" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Sky News</div>
+      <div class="post-handle">@SkyNews · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">France recorded its hottest day ever during the current exceptional heatwave, per the national weather agency.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Контекст для путешествий/планирования — аномальная жара в Европе продолжается.</div>
+  <a class="view-link" href="https://x.com/SkyNews/status/2069452747947041273" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-OmarShahine"><h2><a href="https://x.com/OmarShahine" target="_blank" rel="noopener">@OmarShahine</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Mac productivity pain point</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">OmarShahine</div>
+      <div class="post-handle">@OmarShahine · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">MacBook Pro notch + too many menu bar apps. Bartender unreliable — asking for alternatives.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/OmarShahine/status/2069452094487306359" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days. Dropped: crypto/engagement bait, stream announcements, sponsored posts (ai_explorer25/Templafy), empty memes.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1795633924598632448/rGow-XWo_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">AJ Stuyvenberg</div>
+      <div class="post-handle">@astuyve · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">AWS Lambda launches Lambda MicroVMs — sandboxed environments with memory/filesystem/process snapshot and restore, up to 8 hours runtime.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HLdYiOTXMAAbqHu?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Прямой конкурент Firecracker-based sandbox стартапам. Если мы используем Lambda для agent tasks — это game changer.</div>
+  <a class="view-link" href="https://x.com/astuyve/status/2069220271915971015" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1996905418065375232/mzwynOLB_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Mistral AI</div>
+      <div class="post-handle">@MistralAI · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">Mistral OCR 4 announced — structured output with bounding boxes, block classification, and inline confidence scores across 170 languages.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HLgKXVjWEAA79GD?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> OCR upgrade для document processing — bounding boxes + confidence scores = production-grade extraction.</div>
+  <a class="view-link" href="https://x.com/MistralAI/status/2069420263825895917" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1899962463115751424/i-6MBWau_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name"> AI News | TestingCatalog</div>
+      <div class="post-handle">@testingcatalog · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">OpenAI is testing 'Bidi 1' — a bidirectional voice model that can speak while listening, switch between tasks, and will arrive in ChatGPT and possibly Codex.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HLdYWx9XcAANxU9?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Full-duplex voice AI — принципиальный скачок UX. Если попадёт в Codex, workflow изменится.</div>
+  <a class="view-link" href="https://x.com/testingcatalog/status/2069331697615749530" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1280029920593231872/mGZPCkdb_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Guanyang Wang</div>
+      <div class="post-handle">@GuanyangW · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">Mathematician tried a decade-old conjecture about random sampling for weeks, gave up. Ten days ago, an AI produced a valid proof.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Конкретный пример AI-in-research — не бенчмарк, а реальная математическая задача.</div>
+  <a class="view-link" href="https://x.com/GuanyangW/status/2069263758191395202" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1039778545738964992/6fl6RNN0_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">First Squawk</div>
+      <div class="post-handle">@FirstSquawk · 2026-06-22 </div>
+    </div>
+  </header>
+  <p class="summary">Meta suspended its internal AI training program after sensitive company data was found accessible across the organisation (Business Insider report).</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Cautionary tale для любой компании тренирующей internal models — data governance failure.</div>
+  <a class="view-link" href="https://x.com/FirstSquawk/status/2069156036330889638" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1978602411490205696/oLOuP7a2_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Vercel Developers</div>
+      <div class="post-handle">@vercel_dev · 2026-06-22 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Vercel now supports WebSockets natively (public beta) — standard Node.js libraries including socket.io work out of the box.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Серьёзный missing piece у Vercel закрыт. Realtime apps больше не нуждаются в отдельном сервере.</div>
+  <a class="view-link" href="https://x.com/vercel_dev/status/2069108513423454298" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">F</div>
+    <div class="post-meta">
+      <div class="post-name">fchollet</div>
+      <div class="post-handle">@fchollet · 2026-06-22 </div>
+    </div>
+  </header>
+  <p class="summary">Chollet: 'Programming is not about code, just like music is not about notation. It is the art &amp; science of managing complexity through layers of abstraction. AI is simply a part of it.'</p>
+  <blockquote class="quote">Programming is not about code, just like music is not about notation.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Лаконичный framing от автора Keras — хороший ответ на 'AI kills programming' takes.</div>
+  <a class="view-link" href="https://x.com/fchollet/status/2069059823069753486" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@News (SkyNews + BBCNews)</strong> — 2 posts <span class="dim">(Breaking news on heatwave and sport)</span></summary>
+    <ul></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Very thin Following batch (4 posts, 20-min window) — likely second run of the day after a recent earlier run.</li><li>For You rich (86 posts) covering ~33 hours of algorithmic content.</li><li>Starmer resignation / Burnham Labour leadership is the dominant UK political story in For You — multiple BBC posts merged.</li><li>France heatwave covered by SkyNews in Following; no overlap with For You.</li><li>Dropped from For You: jxnlco codex billboard memes (3 posts, no substance), reach_vb space announcement, Dimillian empty enthusiasm, peywalt cryptic one-liner, ClaudeDevs Japan ambassador (promo), Azure/Zammo (marketing), roon shitposts, Codelaby SwiftUI detail (too niche), JDihlmann 3D paper (too niche for digest), NVIDIA DRIVE (too niche), Kalshi SpaceX/Reflection (no context beyond headline), Retool migration guide (promo), DBeaver PRO (minor feature), jetbrains Central (vague tease).</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2069455656214532137</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
