@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-06-26</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">June 26, 2026 — afternoon feed</p>
+  <p class="hero-stats">165 posts · 18 handles · 2026-06-25 15:48 → 2026-06-26 15:56 UTC</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-GergelyOrosz">@GergelyOrosz</a><a href="#h-simonw">@simonw</a><a href="#h-omarsar0">@omarsar0</a><a href="#h-steipete">@steipete</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-davefarley77">@davefarley77</a><a href="#h-ProverenoM">@ProverenoM</a><a href="#h-AmsterdamNL">@AmsterdamNL</a><a href="#h-SkyYaldaHakim">@SkyYaldaHakim</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-25 </div>
+    </div>
+  </header>
+  <p class="summary">Gergely Orosz visited NVIDIA HQ and shared a thread about their unusual culture: no free snacks ('we use salary'), no layoff anxiety so engineers help each other instead of elbowing, teams operate faster than startups, boomerang hires are common, and early-career devs get proper mentoring.</p>
+  <blockquote class="quote">We don't need to worry about layoffs. This means no need to worry about elbowing people out of the way to try and make yourself 'safe' and important. So everyone helps everyone.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Rare inside look at how NVIDIA's engineering culture differs from typical Big Tech. Relevant for career thinking.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2070210683182981206" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-26 </div>
+    </div>
+  </header>
+  <p class="summary">Peter Steinberger (steipete), now at OpenAI, on the shift from token scarcity to attention scarcity. Gergely also shared a related quote about knowledge work becoming 'a folder of files, notes and data'.</p>
+  <blockquote class="quote">Six months ago, my bottleneck was tokens. Then I joined OpenAI. Now my bottleneck is attention.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Pithy framing of how AI-native work changes the bottleneck. Directly relevant to productivity systems.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2070338196248961514" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">Y</div>
+    <div class="post-meta">
+      <div class="post-name">Yulia Navalnaya</div>
+      <div class="post-handle">@yulia_navalnaya · 2026-06-26 </div>
+    </div>
+  </header>
+  <p class="summary">Юлия Навальная: на 27-м году правления Путина по всей России дефицит бензина. Очереди на заправках и рекордные цены — уже не сенсация, а обыденность.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> First-hand political commentary on Russia's deteriorating infrastructure.</div>
+  <a class="view-link" href="https://x.com/yulia_navalnaya/status/2070509447604998466" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Sky News</div>
+      <div class="post-handle">@SkyNews · 2026-06-26 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Two powerful earthquakes struck Venezuela near Caracas. Death toll approaching 600, 50,000+ reported missing. UN halted Strait of Hormuz evacuation after a separate cargo ship attack.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Major international disaster — multiple sources converging.</div>
+  <a class="view-link" href="https://x.com/SkyNews/status/2070486768294432985" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Simon Willison</div>
+      <div class="post-handle">@simonw · 2026-06-25 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Simon Willison pointed out that Daytona (a sandboxing product) quietly went closed-source after marketing itself as FOSS — and notes the irony of a sandboxing company not trusting its own security enough to expose the code.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Open-source licensing drama; relevant to dev tooling ecosystem.</div>
+  <a class="view-link" href="https://x.com/simonw/status/2070212662903099536" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-06-25 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Omar Sarfraz shared notes on dynamic agentic workflows: applies to narrow use cases, treat as a new TTC paradigm, careful planning beats brute-force iteration. Separately shared Meta's Autodata research on using AI agents as data scientists to build training data.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Cutting-edge AI engineering concepts — dynamic workflows + synthetic data automation.</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2070241450227331120" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-GergelyOrosz"><h2><a href="https://x.com/GergelyOrosz" target="_blank" rel="noopener">@GergelyOrosz</a> <span class="count">11 posts · 2 featured</span></h2><p class="handle-summary">NVIDIA HQ visit, OpenAI attention bottleneck, knowledge work evolution, NeetCode/YouTube growth.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-26 </div>
+    </div>
+  </header>
+  <p class="summary">Knowledge work = 'a folder of files, notes and data'</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2070333093542568115" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-26 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">NeetCode's path: documented interview prep → Google → huge YouTube channel</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2070522111186391221" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-simonw"><h2><a href="https://x.com/simonw" target="_blank" rel="noopener">@simonw</a> <span class="count">2 posts · 1 featured</span></h2><p class="handle-summary">OSS licensing drama with Daytona going closed-source; quick fix for Claude Code egress issue.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">simonw</div>
+      <div class="post-handle">@simonw · 2026-06-25 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">CJ Avilla's Claude Code egress bug fixed</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/simonw/status/2070177896237543874" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-omarsar0"><h2><a href="https://x.com/omarsar0" target="_blank" rel="noopener">@omarsar0</a> <span class="count">3 posts · 1 featured</span></h2><p class="handle-summary">AI research roundup: dynamic workflows as TTC paradigm, Meta's Autodata for synthetic training data, AI employee platforms.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-25 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Meta Autodata: AI agent as data scientist building training/eval data</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2070235085732000228" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-steipete"><h2><a href="https://x.com/steipete" target="_blank" rel="noopener">@steipete</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Confirmed attention-as-bottleneck at OpenAI; reposted OpenClaw community manager intro and Lindsay McCallum/Ben Thompson content.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">steipete</div>
+      <div class="post-handle">@steipete · 2026-06-26 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Endorsed his own quote on tokens→attention shift at OpenAI</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/steipete/status/2070355589994336345" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Видео о скандале с прудом у мемориала Линкольна: Трамп починил, водоросли вернулись, Белый дом арестовывает 'вандалов'.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-26 </div>
+    </div>
+  </header>
+  <p class="summary">Фарс вокруг Reflecting Pool — нелепая попытка ремонта стала летним скандалом</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2070458298541764889" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-davefarley77"><h2><a href="https://x.com/davefarley77" target="_blank" rel="noopener">@davefarley77</a> <span class="count">3 posts · 1 featured</span></h2><p class="handle-summary">Continuous Delivery survey with Octopus Deploy — capturing state of CD for modern teams.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">davefarley77</div>
+      <div class="post-handle">@davefarley77 · 2026-06-26 </div>
+    </div>
+  </header>
+  <p class="summary">State of CD survey: principles, practices, culture, tools collaboration</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/davefarley77/status/2070483029013701029" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-ProverenoM"><h2><a href="https://x.com/ProverenoM" target="_blank" rel="noopener">@ProverenoM</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Фактчек: из мячей Уимблдона делали домики для мышей — один раз в 2000 году, 350 мячей.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">ProverenoM</div>
+      <div class="post-handle">@ProverenoM · 2026-06-25 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Wimbledon balls as mouse houses — factcheck: happened once, 350 balls, cute story</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/ProverenoM/status/2070219948383740402" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-AmsterdamNL"><h2><a href="https://x.com/AmsterdamNL" target="_blank" rel="noopener">@AmsterdamNL</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">KNMI issued code red for Amsterdam region due to extreme heat.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">AmsterdamNL</div>
+      <div class="post-handle">@AmsterdamNL · 2026-06-25 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Code red heat warning for Amsterdam starting midnight</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/AmsterdamNL/status/2070230997107453987" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-SkyYaldaHakim"><h2><a href="https://x.com/SkyYaldaHakim" target="_blank" rel="noopener">@SkyYaldaHakim</a> <span class="count">3 posts · 3 featured</span></h2><p class="handle-summary">Tucker Carlson apologises for 'being mean' to Britain; Rory Stewart says Carlson/Musk UK criticism is projection of US frustrations; World Cup chief on Iran team.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">SkyYaldaHakim</div>
+      <div class="post-handle">@SkyYaldaHakim · 2026-06-26 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Tucker Carlson: sorry for 'being mean' to Britain — admits projection</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/SkyYaldaHakim/status/2070430395275850023" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">SkyYaldaHakim</div>
+      <div class="post-handle">@SkyYaldaHakim · 2026-06-25 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Rory Stewart: what Carlson/Musk say about Britain are statements about the US</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/SkyYaldaHakim/status/2070209473298264336" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">SkyYaldaHakim</div>
+      <div class="post-handle">@SkyYaldaHakim · 2026-06-26 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">World Cup chief on Iran's coach claiming most oppressed team</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/SkyYaldaHakim/status/2070305040930095196" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup: removed posts from handles already in Following (GergelyOrosz, DutchNewsNL, SkyNews, etc). 14-day shown dedup active.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">Patrick Collison</div>
+      <div class="post-handle">@patrickc · 2026-06-25 </div>
+    </div>
+  </header>
+  <p class="summary">Patrick Collison shared Stripe Economics research: 'The Age of the Solopreneur' — data on solo founders scaling through modern tools.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Directly relevant to thinking about solo/small-team leverage with AI tools.</div>
+  <a class="view-link" href="https://x.com/patrickc/status/2070210504388133155" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">I</div>
+    <div class="post-meta">
+      <div class="post-name">IBM News</div>
+      <div class="post-handle">@IBMNews · 2026-06-25 </div>
+    </div>
+  </header>
+  <p class="summary">IBM announced the world's first sub-1nm node chip: 70% more energy-efficient, powering next-gen computing.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Hardware milestone — sets the floor for what software will run on in 3-5 years.</div>
+  <a class="view-link" href="https://x.com/IBMNews/status/2070100944017092734" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">M</div>
+    <div class="post-meta">
+      <div class="post-name">Microsoft Research</div>
+      <div class="post-handle">@MSFTResearch · 2026-06-26 </div>
+    </div>
+  </header>
+  <p class="summary">Microsoft Research analysed 5 million M365 Copilot conversations to understand what people actually do with AI at work.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Directly relevant to work at Microsoft + AI adoption patterns.</div>
+  <a class="view-link" href="https://x.com/MSFTResearch/status/2070529737051488731" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2069435650307444736/K-j1dxyZ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Aleph</div>
+      <div class="post-handle">@alephneuro · 2026-06-25 </div>
+    </div>
+  </header>
+  <p class="summary">Aleph lab obtained the highest-resolution 3D brain images ever taken non-invasively. Building brain interfaces for 'telepathic future'.</p>
+  <blockquote class="quote">We recently obtained the highest-resolution 3D images of the human brain ever taken from outside the skull.</blockquote>
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/amplify_video_thumb/2070181309167923203/img/qujgSG4IAHiTDmF_.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Frontier neuroscience — brain-computer interfaces moving from sci-fi to real engineering.</div>
+  <a class="view-link" href="https://x.com/alephneuro/status/2070183632132845995" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">M</div>
+    <div class="post-meta">
+      <div class="post-name">Mitchell Hashimoto</div>
+      <div class="post-handle">@mitchellh · 2026-06-25 </div>
+    </div>
+  </header>
+  <p class="summary">Mitchell Hashimoto is building a new split layout framework for Apple platforms — SwiftUI + CoreAnimation targeting 'every frame perfect' animation, eventually for Ghostty.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Engineering excellence in native UI — interesting approach to terminal app development.</div>
+  <a class="view-link" href="https://x.com/mitchellh/status/2070273858154987537" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">V</div>
+    <div class="post-meta">
+      <div class="post-name">Vik Paruchuri</div>
+      <div class="post-handle">@VikParuchuri · 2026-06-26 </div>
+    </div>
+  </header>
+  <p class="summary">Vik Paruchuri called out Mistral's OCR 4 launch for reporting artificially low Chandra 2 scores vs their public repo, and omitting Infinity Parser (87.6%) from comparisons.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Benchmark integrity in AI — how companies game comparisons.</div>
+  <a class="view-link" href="https://x.com/VikParuchuri/status/2070465523926630477" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Satya Nadella</div>
+      <div class="post-handle">@satyanadella · 2026-06-25 </div>
+    </div>
+  </header>
+  <p class="summary">Satya Nadella announced skills for Copilot in Excel — teams can scale domain expertise across workbooks.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Microsoft product launch; relevant to day job context.</div>
+  <a class="view-link" href="https://x.com/satyanadella/status/2070180313654063255" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@SkyNews + BBCNews + BBCBreaking</strong> — 119 posts <span class="dim">(UK news firehose — merged across outlets)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=UK%20heatwave%3A%20June%20record%20broken%204%20times%2C%20red%20warning%20for%20London%2FSE%2C%20teen%20drowned%20in%20lake%2C%20courts%20abandoned" target="_blank" rel="noopener">UK heatwave: June record broken 4 times, red warning for London/SE, teen drowned in lake, courts abandoned</a></li><li><a href="https://www.google.com/search?q=Venezuela%20double%20earthquake%3A%20~600%20dead%2C%2050k%20missing%2C%20ongoing%20disaster%20coverage" target="_blank" rel="noopener">Venezuela double earthquake: ~600 dead, 50k missing, ongoing disaster coverage</a></li><li><a href="https://www.google.com/search?q=UK%20politics%3A%20Andy%20Burnham%20Labour%20leadership%20likely%20unopposed%2C%20Farage%20worst%20week%2C%20courts%20300yr%20backlog" target="_blank" rel="noopener">UK politics: Andy Burnham Labour leadership likely unopposed, Farage worst week, courts 300yr backlog</a></li><li><a href="https://www.google.com/search?q=John%20Bolton%20pleads%20guilty%20to%20mishandling%20classified%20docs" target="_blank" rel="noopener">John Bolton pleads guilty to mishandling classified docs</a></li><li><a href="https://www.google.com/search?q=Magdeburg%20Christmas%20market%20attacker%20sentenced%20to%20life" target="_blank" rel="noopener">Magdeburg Christmas market attacker sentenced to life</a></li><li><a href="https://www.google.com/search?q=Royal%20finances%3A%20King%20paid%20%C2%A312.9m%20tax%2C%20%C2%A3370m%20Buckingham%20Palace%20refurb%2C%20won't%20live%20there" target="_blank" rel="noopener">Royal finances: King paid £12.9m tax, £370m Buckingham Palace refurb, won't live there</a></li><li><a href="https://www.google.com/search?q=World%20Cup%202026%3A%20Ecuador%2FSweden%20through%2C%20Scotland%20out%2C%20VAR%20controversy%2C%20Wimbledon%20tennis%20protests" target="_blank" rel="noopener">World Cup 2026: Ecuador/Sweden through, Scotland out, VAR controversy, Wimbledon tennis protests</a></li><li><a href="https://www.google.com/search?q=Beijing%20plane%20crash%20into%20tallest%20building" target="_blank" rel="noopener">Beijing plane crash into tallest building</a></li><li><a href="https://www.google.com/search?q=British%20TikToker%20facing%20death%20penalty%20in%20Dubai" target="_blank" rel="noopener">British TikToker facing death penalty in Dubai</a></li><li><a href="https://www.google.com/search?q=Weinstein%20won't%20face%204th%20NY%20rape%20trial" target="_blank" rel="noopener">Weinstein won't face 4th NY rape trial</a></li><li><a href="https://www.google.com/search?q=Pellegaud%20wife%20drugging%20case%3A%2013%20charged%20including%20paramedic" target="_blank" rel="noopener">Pellegaud wife drugging case: 13 charged including paramedic</a></li></ul>
+  </details><details class="firehose-section">
+    <summary><strong>@DutchNewsNL</strong> — 15 posts <span class="dim">(Dutch news roundup)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=Code%20red%20extended%20to%20Saturday%2C%2037%C2%B0C%2B%2C%20three%20drownings%20in%20one%20day" target="_blank" rel="noopener">Code red extended to Saturday, 37°C+, three drownings in one day</a></li><li><a href="https://www.google.com/search?q=Cabinet%20agrees%20plan%20to%20slash%20nitrogen%20pollution" target="_blank" rel="noopener">Cabinet agrees plan to slash nitrogen pollution</a></li><li><a href="https://www.google.com/search?q=Oranje%20through%20to%20WC%20knockout%20with%203-1%20over%20Tunisia" target="_blank" rel="noopener">Oranje through to WC knockout with 3-1 over Tunisia</a></li><li><a href="https://www.google.com/search?q=Private%20firms%20fining%20festival-goers%20caught%20with%20drugs" target="_blank" rel="noopener">Private firms fining festival-goers caught with drugs</a></li><li><a href="https://www.google.com/search?q=FvD%20establishing%20own%20school%20in%20Almere%20(skirting%20rules)" target="_blank" rel="noopener">FvD establishing own school in Almere (skirting rules)</a></li><li><a href="https://www.google.com/search?q=VU%20medical%20centre%20Amsterdam%20stopping%20operations%20as%20separate%20hospital" target="_blank" rel="noopener">VU medical centre Amsterdam stopping operations as separate hospital</a></li><li><a href="https://www.google.com/search?q=Dutch%20charitable%20donations%20shrinking%20despite%20higher%20wages" target="_blank" rel="noopener">Dutch charitable donations shrinking despite higher wages</a></li><li><a href="https://www.google.com/search?q=Healthcare%20spending%20hit%20%E2%82%AC120bn%20(6%25%20rise)" target="_blank" rel="noopener">Healthcare spending hit €120bn (6% rise)</a></li><li><a href="https://www.google.com/search?q=Dutch%20police%20arrested%20suspects%20for%20cross-border%20child%20trafficking" target="_blank" rel="noopener">Dutch police arrested suspects for cross-border child trafficking</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>119 of 165 Following posts are from SkyNews+BBCNews+BBCBreaking — extremely heavy news day (heatwave + Venezuela + UK politics)</li><li>GergelyOrosz thread on NVIDIA is 6+ posts — grouped as single highlight</li><li>Tucker Carlson / Rory Stewart interviews were spread across 3 SkyYaldaHakim posts — grouped under handle</li><li>For You had strong AI/dev tooling signal today: Anthropic, OpenAI, Stripe Economics, IBM hardware</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2070536731388956829</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
