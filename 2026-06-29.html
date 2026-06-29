@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-06-29</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">June 29, 2026 — Sunday afternoon feed</p>
+  <p class="hero-stats">203 posts · 18 handles · 2026-06-28 16:00 UTC – 2026-06-29 15:58 UTC</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-GergelyOrosz">@GergelyOrosz</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-pevchikh">@pevchikh</a><a href="#h-omarsar0">@omarsar0</a><a href="#h-ModernSoftwareX">@ModernSoftwareX</a><a href="#h-steipete">@steipete</a><a href="#h-fe_city_boy">@fe_city_boy</a><a href="#h-OmarShahine">@OmarShahine</a><a href="#h-ProverenoM">@ProverenoM</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">Gergely Orosz raises alarm: the US government has banned the most capable coding model (Fable / GPT-5.6), and the best open alternative is Chinese. Questions what happens to US developer productivity.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Direct impact on anyone using AI coding tools — regulatory risk to the toolchain.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071378540872770007" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Gergely calls out Anthropic's CEO for badmouthing open models after Anthropic silently nerfed Claude in April. Hypocrisy angle.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Context on the open-vs-closed AI models debate with insider behavior.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071380692265509025" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-29 </div>
+    </div>
+  </header>
+  <p class="summary">After DMs with inference insiders, Gergely shares a nuance: hosting inference at scale is far more expensive than people assume. The economics don't work for most companies self-hosting.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Practical insight on AI infrastructure costs — relevant to anyone making build-vs-buy decisions.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071449176270143704" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">BBC News (UK)</div>
+      <div class="post-handle">@BBCNews · 2026-06-29 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Ford rehires human engineers after its AI systems failed to match quality checks. The automation promise hit a wall.</p>
+  <blockquote class="quote">Ford rehires human engineers after AI fails to match quality checks</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Counter-narrative to AI-replaces-everything — real-world data point.</div>
+  <a class="view-link" href="https://x.com/BBCNews/status/2071570522173800711" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-29 </div>
+    </div>
+  </header>
+  <p class="summary">Евгений Фельдман: серия поражений Трампа в Верховном суде — суд разрешил штатам продолжить считать бюллетени, полученные после дня выборов (5-4), сохранил почтовое голосование, не отменил увольнение главы ФРС.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Значимый поворот в американской политике — суд ограничивает исполнительную власть.</div>
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2071598264084840494" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">Boris Cherny</div>
+      <div class="post-handle">@bcherny · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">Boris Cherny reflects: as engineering, product, design, and DS roles melt together, he maps what the new hybrid roles might look like.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Relevant to anyone thinking about career evolution in tech orgs.</div>
+  <a class="view-link" href="https://x.com/bcherny/status/2071379474277613732" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-GergelyOrosz"><h2><a href="https://x.com/GergelyOrosz" target="_blank" rel="noopener">@GergelyOrosz</a> <span class="count">9 posts · 6 featured</span></h2><p class="handle-summary">Massive thread day on AI regulation, open models, and industry dynamics.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">US still benefits from open models via inference providers</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071379789047320983" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Semgrep article: US (not EU) has stepped in to regulate AI coding</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HL8DzD2XIAAOYkI?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071378924462911870" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">OpenClaw employs people now — not just a side project</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HL3cXDoWUAA7v77?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071374585891537203" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">Salesforce pushing Agentforce is comical when most tech companies ignore their AI</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071295201608687839" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">Google removed his article about the Pollen collapse (employees lied to)</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071285614885187973" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">Catching up with Claire Vo — running exec/founder workshops</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071360384548667776" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">4 posts · 2 featured</span></h2><p class="handle-summary">Серия постов о поражениях Трампа в Верховном суде и преследованиях в России.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-29 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Целая серия поражений Трампа: почтовое голосование, увольнение главы ФРС</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2071600274238493046" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-29 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Пришли за теми, кто зиговал недостаточно уверенно (Медуза)</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2071545209393922052" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-pevchikh"><h2><a href="https://x.com/pevchikh" target="_blank" rel="noopener">@pevchikh</a> <span class="count">2 posts · 2 featured</span></h2><p class="handle-summary">Мария Певчих продвигает расследование ФБК о клане Темрезова в Карачаево-Черкесии.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">pevchikh</div>
+      <div class="post-handle">@pevchikh · 2026-06-29 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Призыв распространить расследование о КЧР для местных жителей</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/pevchikh/status/2071526950313537988" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">pevchikh</div>
+      <div class="post-handle">@pevchikh · 2026-06-29 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Расследование запоздало на 15 лет — клан Темрезова правит КЧР</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/pevchikh/status/2071525850365759730" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-omarsar0"><h2><a href="https://x.com/omarsar0" target="_blank" rel="noopener">@omarsar0</a> <span class="count">4 posts · 4 featured</span></h2><p class="handle-summary">DAIR.AI reposts on AI research — Cline's subscription model, LLM-as-Judge, self-improving agents.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-29 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Cline launched ClinePass — subscription for discounted model access</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2071622772652924975" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-29 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Impressive LLM + deep learning real-time use case (recommended reading)</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2071610593677582765" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-29 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">LLM-as-a-Judge explained in 10 mins — how to build AI verifiers</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2071595490454434214" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-28 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Paper on self-improving agents — bookmark for agentic loop work</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2071285506630160761" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-ModernSoftwareX"><h2><a href="https://x.com/ModernSoftwareX" target="_blank" rel="noopener">@ModernSoftwareX</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Dave Farley RT: if your AI coding assistant feels like a distracting autocomplete, you're using it wrong.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1884973285617582081/8tem6fvv_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Modern Software Engineering</div>
+      <div class="post-handle">@ModernSoftwareX · 2026-06-29 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">AI coding assistants shouldn't feel like autocomplete — different mental model needed</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HL-zbXfW8AEdBCO?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/ModernSoftwareX/status/2071572070815703155" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-steipete"><h2><a href="https://x.com/steipete" target="_blank" rel="noopener">@steipete</a> <span class="count">1 posts · 2 featured</span></h2><p class="handle-summary">Peter Steinberger on AT&amp;T signup rejections and OpenClaw having employees.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">steipete</div>
+      <div class="post-handle">@steipete · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">Tried to sign up to AT&amp;T 4 times, rejected without explanation</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/steipete/status/2071382416703500510" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-28 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">OpenClaw employs people now (RT'd by Gergely)</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HL3cXDoWUAA7v77?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2071374585891537203" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-fe_city_boy"><h2><a href="https://x.com/fe_city_boy" target="_blank" rel="noopener">@fe_city_boy</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Денис Чужой о выступлениях на английском.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">F</div>
+    <div class="post-meta">
+      <div class="post-name">Денис Чужой</div>
+      <div class="post-handle">@fe_city_boy · 2026-06-29 </div>
+    </div>
+  </header>
+  <p class="summary">Меньше нервничаешь на английском — не можешь одновременно нервничать и переводить в голове</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/fe_city_boy/status/2071500046562918729" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-OmarShahine"><h2><a href="https://x.com/OmarShahine" target="_blank" rel="noopener">@OmarShahine</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">iOS 27 Beta 2 impressions.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">OmarShahine</div>
+      <div class="post-handle">@OmarShahine · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">iOS 27 Beta 2 is the most stable beta ever — seems as stable as production</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/OmarShahine/status/2071360603332235301" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-ProverenoM"><h2><a href="https://x.com/ProverenoM" target="_blank" rel="noopener">@ProverenoM</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Проверено.медиа: как починить выдачу через предпочитаемые источники.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">ProverenoM</div>
+      <div class="post-handle">@ProverenoM · 2026-06-29 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Подробная инструкция по функции «Предпочитаемые источники» для починки поисковой выдачи</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/ProverenoM/status/2071543735758856379" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">6 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days. Dropped news outlets and followed-handle dupes.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">J</div>
+    <div class="post-meta">
+      <div class="post-name">Jean-Rémi King</div>
+      <div class="post-handle">@JeanRemiKing · 2026-06-29 </div>
+    </div>
+  </header>
+  <p class="summary">Jean-Rémi King announces two releases: Brain2qwerty v1 published in Nature Neuroscience, and v2 — non-invasive brain-to-text decoder that translates brain activity into text.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Frontier neuroscience + AI intersection. Real publication, not hype.</div>
+  <a class="view-link" href="https://x.com/JeanRemiKing/status/2071568417522369008" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1713995709916012544/GHmSl9EK_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Ben Lang</div>
+      <div class="post-handle">@benln · 2026-06-29 </div>
+    </div>
+  </header>
+  <p class="summary">Cafe Cursor returns to London on July 11 — coffee, merch, co-working, meet the Cursor team.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HL-4HnCXAAA4CnX?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Local London event, directly relevant.</div>
+  <a class="view-link" href="https://x.com/benln/status/2071576932622234105" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">R</div>
+    <div class="post-meta">
+      <div class="post-name">Rocket Lab</div>
+      <div class="post-handle">@RocketLab · 2026-06-29 </div>
+    </div>
+  </header>
+  <p class="summary">Rocket Lab is acquiring Iridium Communications — one of the most transformative deals in the space industry.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Major space industry consolidation — vertical integration play.</div>
+  <a class="view-link" href="https://x.com/RocketLab/status/2071552739608531008" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">R</div>
+    <div class="post-meta">
+      <div class="post-name">Rory Sutherland</div>
+      <div class="post-handle">@rorysutherland · 2026-06-29 </div>
+    </div>
+  </header>
+  <p class="summary">Rory Sutherland: after starting to use WisprFlow, he can finally predict the death of the keyboard for text input. Voice typing is now good enough.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Rory's behavioral insights + practical tool recommendation.</div>
+  <a class="view-link" href="https://x.com/rorysutherland/status/2071522018437058562" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">H</div>
+    <div class="post-meta">
+      <div class="post-name">Hamel Husain</div>
+      <div class="post-handle">@HamelHusain · 2026-06-28 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Hamel Husain: Codex desktop is miles ahead of Claude Code for remote access via mobile or another computer.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Practical comparison of AI coding tools — relevant to daily workflow.</div>
+  <a class="view-link" href="https://x.com/HamelHusain/status/2071266938375016515" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1557421659925237763/RzJu2YI3_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">SkalskiP</div>
+      <div class="post-handle">@skalskip92 · 2026-06-28 </div>
+    </div>
+  </header>
+  <p class="summary">Roboflow's supervision library hit 45K GitHub stars — 5K in just 3 weeks. Computer vision toolkit gaining massive traction.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Open-source CV ecosystem growth signal.</div>
+  <a class="view-link" href="https://x.com/skalskip92/status/2071292392225800619" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK News (BBC, Sky, BBC Politics, Ridge &amp; Frost, BBC Breaking)</strong> — 120 posts <span class="dim">(Combined UK news outlets — heavy political day)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=Andy%20Burnham's%20leadership%20speech%20%E2%80%94%20devolution%2C%20No%2010%20North%20in%20Manchester%2C%20housing%20crisis%2C%2010-year%20mission" target="_blank" rel="noopener">Andy Burnham's leadership speech — devolution, No 10 North in Manchester, housing crisis, 10-year mission</a></li><li><a href="https://www.google.com/search?q=Kemi%20Badenoch%20response%20%E2%80%94%20defence%20spending%2C%20criticism%20of%20Labour" target="_blank" rel="noopener">Kemi Badenoch response — defence spending, criticism of Labour</a></li><li><a href="https://www.google.com/search?q=Craig%20Williams%20(ex-MP)%20guilty%20plea%20for%20election%20betting" target="_blank" rel="noopener">Craig Williams (ex-MP) guilty plea for election betting</a></li><li><a href="https://www.google.com/search?q=Rishi%20Sunak's%20aide%20guilty%20of%20gambling%20on%202024%20election%20date" target="_blank" rel="noopener">Rishi Sunak's aide guilty of gambling on 2024 election date</a></li><li><a href="https://www.google.com/search?q=Dame%20Penelope%20Keith%20(The%20Good%20Life)%20dies%20aged%2086" target="_blank" rel="noopener">Dame Penelope Keith (The Good Life) dies aged 86</a></li><li><a href="https://www.google.com/search?q=Ben%20Stokes%20retires%20from%20international%20cricket" target="_blank" rel="noopener">Ben Stokes retires from international cricket</a></li><li><a href="https://www.google.com/search?q=Raducanu%20withdraws%20from%20Wimbledon%20(injury)" target="_blank" rel="noopener">Raducanu withdraws from Wimbledon (injury)</a></li><li><a href="https://www.google.com/search?q=Enzo%20Maresca%20appointed%20Man%20City%20manager%20(replacing%20Guardiola)" target="_blank" rel="noopener">Enzo Maresca appointed Man City manager (replacing Guardiola)</a></li><li><a href="https://www.google.com/search?q=Jack%20Draper%20pulls%20out%20of%20Wimbledon" target="_blank" rel="noopener">Jack Draper pulls out of Wimbledon</a></li><li><a href="https://www.google.com/search?q=Council%20tax%20debt%20at%20record%20high%20in%20England" target="_blank" rel="noopener">Council tax debt at record high in England</a></li><li><a href="https://www.google.com/search?q=Children's%20mental%20health%20crisis%20%E2%80%94%201M%2B%20referrals" target="_blank" rel="noopener">Children's mental health crisis — 1M+ referrals</a></li><li><a href="https://www.google.com/search?q=White%20working-class%20disadvantage%20gap%20%E2%80%94%20education%20inquiry" target="_blank" rel="noopener">White working-class disadvantage gap — education inquiry</a></li><li><a href="https://www.google.com/search?q=British%20American%20Tobacco%20cutting%205%2C500-9%2C000%20jobs%20(AI%20drive)" target="_blank" rel="noopener">British American Tobacco cutting 5,500-9,000 jobs (AI drive)</a></li><li><a href="https://www.google.com/search?q=Ford%20rehires%20human%20engineers%20after%20AI%20fails%20quality%20checks" target="_blank" rel="noopener">Ford rehires human engineers after AI fails quality checks</a></li><li><a href="https://www.google.com/search?q=Heatwave%20return%20over%20weekend%3B%20temperatures%20to%20drop%20then%20return" target="_blank" rel="noopener">Heatwave return over weekend; temperatures to drop then return</a></li><li><a href="https://www.google.com/search?q=UK%20Navy%20scraps%20destroyers%20for%20hybrid%20drone-equipped%20warships" target="_blank" rel="noopener">UK Navy scraps destroyers for hybrid drone-equipped warships</a></li><li><a href="https://www.google.com/search?q=Southport%20attack%20researcher%20sentenced%20(3y%2011m)" target="_blank" rel="noopener">Southport attack researcher sentenced (3y 11m)</a></li><li><a href="https://www.google.com/search?q=Stade%20(Germany)%20shooting%20%E2%80%94%205%20dead" target="_blank" rel="noopener">Stade (Germany) shooting — 5 dead</a></li><li><a href="https://www.google.com/search?q=Supreme%20Court%20blocks%20Trump%20firing%20Fed%20Reserve%20governor" target="_blank" rel="noopener">Supreme Court blocks Trump firing Fed Reserve governor</a></li><li><a href="https://www.google.com/search?q=Princess%20of%20Wales%20completes%20Three%20Peaks%20Challenge" target="_blank" rel="noopener">Princess of Wales completes Three Peaks Challenge</a></li></ul>
+  </details><details class="firehose-section">
+    <summary><strong>@DutchNewsNL</strong> — 12 posts <span class="dim">(Dutch news — policy changes, missing athlete, weather)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=July%201%20changes%3A%20minimum%20wage%20and%20rents%20up" target="_blank" rel="noopener">July 1 changes: minimum wage and rents up</a></li><li><a href="https://www.google.com/search?q=Missing%20Dutch%20Olympic%20short%20track%20skater%20since%20Saturday" target="_blank" rel="noopener">Missing Dutch Olympic short track skater since Saturday</a></li><li><a href="https://www.google.com/search?q=Philip%20Morris%20used%20AI%20to%20generate%20fake%20public%20opposition%20to%20EU%20rules" target="_blank" rel="noopener">Philip Morris used AI to generate fake public opposition to EU rules</a></li><li><a href="https://www.google.com/search?q=US%20now%20Netherlands'%20biggest%20energy%20supplier" target="_blank" rel="noopener">US now Netherlands' biggest energy supplier</a></li><li><a href="https://www.google.com/search?q=Dutch%20navy%20ship%20heads%20for%20Venezuela%20with%20aid" target="_blank" rel="noopener">Dutch navy ship heads for Venezuela with aid</a></li><li><a href="https://www.google.com/search?q=Weight%20loss%20drug%20poisoning%20reports%20surge" target="_blank" rel="noopener">Weight loss drug poisoning reports surge</a></li><li><a href="https://www.google.com/search?q=Former%20photo%20museum%20director%20wins%20%E2%82%AC400K%20unfair%20dismissal" target="_blank" rel="noopener">Former photo museum director wins €400K unfair dismissal</a></li><li><a href="https://www.google.com/search?q=Lightning%2Fstorm%20damage%20ends%20heatwave%20(301K%20strikes%20Saturday)" target="_blank" rel="noopener">Lightning/storm damage ends heatwave (301K strikes Saturday)</a></li><li><a href="https://www.google.com/search?q=Halsema%3A%20coronavirus%20lockdowns%20led%20to%20unacceptable%20measures" target="_blank" rel="noopener">Halsema: coronavirus lockdowns led to unacceptable measures</a></li><li><a href="https://www.google.com/search?q=Retailers%20criticise%20deposit%20plan%20for%20milk%2Fjuice%20packs" target="_blank" rel="noopener">Retailers criticise deposit plan for milk/juice packs</a></li><li><a href="https://www.google.com/search?q=Armed%20forces%20to%20focus%20on%20drones%20for%205%25%20target" target="_blank" rel="noopener">Armed forces to focus on drones for 5% target</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Extremely heavy UK politics day — Andy Burnham dominating both BBC and Sky with leadership/devolution speech.</li><li>Gergely Orosz had a prolific thread day on AI regulation/open models — 9 substantive posts.</li><li>Pevchikh/Navalny team coordinated push on KCR investigation (Temrezov clan).</li><li>DutchNewsNL: missing Olympic athlete story developing.</li><li>World Cup 2026 content heavy but mostly match previews/results — filtered as low-signal for next-day read.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2071624260359966791</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
