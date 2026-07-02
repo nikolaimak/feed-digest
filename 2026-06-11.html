@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-06-11</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">June 11, 2026 — afternoon feed</p>
+  <p class="hero-stats">214 posts · 29 handles · 2026-06-10T16:00 → 2026-06-11T15:58 UTC</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  
+  <a href="#h-@GergelyOrosz">@@GergelyOrosz</a><a href="#h-@pevchikh">@@pevchikh</a><a href="#h-@simonw">@@simonw</a><a href="#h-@omarsar0">@@omarsar0</a><a href="#h-@davefarley77">@@davefarley77</a><a href="#h-@steipete">@@steipete</a><a href="#h-@EvgenyFeldman">@@EvgenyFeldman</a><a href="#h-@ProverenoM">@@ProverenoM</a><a href="#h-@antirez">@@antirez</a><a href="#h-@RnaudBertrand">@@RnaudBertrand</a><a href="#h-@bcherny">@@bcherny</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">simonw</div>
+      <div class="post-handle">@simonw · 2026-06-11 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">After fierce backlash, Anthropic reversed their policy of covertly degrading Claude Fable 5 for AI researchers. Flagged requests will now visibly fall back to Opus 4.8 instead of silently reducing quality. Simon Willison: they're undoing the decision to have the model lie about refusals, but refusals remain. antirez called the original policy 'deeply wrong' — Anthropic benefited from open research but now gates it. GergelyOrosz: this was never about safety. omarsar0: 'No company will decide for me what I can research.' Sources: @simonw, @antirez, @GergelyOrosz, @omarsar0, @SemiAnalysis_, @RnaudBertrand.</p>
+  <blockquote class="quote">Make them visible means they're undoing the truly egregious decision to have the model lie about its refusals — @simonw</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Напрямую затрагивает наш стек — мы используем Claude. Прецедент: вендор может тайно снижать качество для конкурентов.</div>
+  <a class="view-link" href="https://x.com/simonw/status/2064918665859080392" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">SemiAnalysis_</div>
+      <div class="post-handle">@SemiAnalysis_ · 2026-06-10 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">SemiAnalysis tested Anthropic and OpenAI $200/month subscription plans by running long-horizon coding tasks until hitting weekly limits. Found the actual token value significantly exceeds the commonly believed ~$2000/month ceiling.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Данные, а не мнения — ответ на вопрос 'стоит ли платить за Pro план'.</div>
+  <a class="view-link" href="https://x.com/SemiAnalysis_/status/2064815044085318040" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">Coinbase published the postmortem for their May 7 ten-hour outage. Root cause: global trading runs from a single region for latency, with no automated failover. GergelyOrosz: 'A $40B company? This is resiliency basics.'</p>
+  <blockquote class="quote">Are they praying the region never goes down?? — @GergelyOrosz</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Инженерный кейс для разговоров о resilience. Хороший пример 'чего не делать' для $40B компании.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2065052608738279555" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DarioAmodei</div>
+      <div class="post-handle">@DarioAmodei · 2026-06-10 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Dario Amodei published 'Policy on the AI Exponential' — an essay arguing AI is progressing much faster than the policy process was built to handle, calling for urgent action to close the gap between technology capabilities and governance.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Контекст для карьерных решений — CEO Anthropic задаёт рамку того, как быстро меняется ландшафт.</div>
+  <a class="view-link" href="https://x.com/DarioAmodei/status/2064781775247950326" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">pevchikh</div>
+      <div class="post-handle">@pevchikh · 2026-06-11 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">ФБК опубликовал расследование о генерале Александре Матовникове, заместителе главнокомандующего Сухопутными войсками: недвижимость на 500 млн рублей в Москве и Крыму, бизнес зятя на военных контрактах, связи с Кадыровым, стриптиз-скандал. Материал выпущен через Навальный LIVE, Сирену и канал Ежова.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Ключевое антикоррупционное расследование из круга источников, за которыми следишь.</div>
+  <a class="view-link" href="https://x.com/pevchikh/status/2064991905847329069" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">steipete</div>
+      <div class="post-handle">@steipete · 2026-06-11 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Next OpenClaw release replaces shell-out to ffmpeg with a WASM module for media conversion — reduced attack surface with similar performance for typical use cases. GitHub repo: openclaw/ffmpeg-wasm.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Прямо релевантно нашей инфраструктуре. Обновим когда выйдет релиз.</div>
+  <a class="view-link" href="https://x.com/steipete/status/2064999763397980286" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@GergelyOrosz"><h2>@@GergelyOrosz <span class="count">0 posts · 3 featured</span></h2><p class="handle-summary">Dominant voice today: Anthropic trust crisis, model routing, Coinbase postmortem, anti-AI-clutter rant.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-10 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Anthropic is the biggest structural business risk for AI users: arbitrary, non-transparent model limitations and data retention. Teams should use routers for easy provider switching. Since Opus 4.7 he gets unexpected pushback; GPT-5.5 doesn't do this. Quotes David Cramer's take on avoiding Anthropic's walled-off ecosystem. Thread of 5 posts spanning business risk, vendor lock-in, and acknowledgement that Anthropic does innovate.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2064748891598115195" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">Crowdsourced list of 'smart' model routers that route queries to the cheapest effective model: Factory Router, Not Diamond, Prism (Augment Code), OpenRouter auto, Kilo Gateway, Requestly, LiteLLM. Sensing massive demand.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2065040928151101466" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">Fed up with AI UI clutter in paid products. Google Docs now has an undismissable Gemini hover button. Publicly asked Google's Logan K how to turn it off. 'When I'm in a doc the last thing I want is this.'</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2065080846441234451" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@pevchikh"><h2>@@pevchikh <span class="count">0 posts · 2 featured</span></h2><p class="handle-summary">Шахматный стрим в поддержку политзаключённых + расследование ФБК + статья Медузы.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">pevchikh</div>
+      <div class="post-handle">@pevchikh · 2026-06-10 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Шахматный стрим Леонида Волкова собрал 581 710 рублей на помощь политзаключённым. В эфире участвовали Юлия Навальная, гроссмейстер Игорь Глек, журналист Сергей Смирнов. Волков выиграл все партии, включая у восьмилетнего ребёнка. Результат подтверждён Сиреной.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/pevchikh/status/2064756532311396853" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">pevchikh</div>
+      <div class="post-handle">@pevchikh · 2026-06-11 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Поделилась статьёй Медузы о мамах политзаключённых: «Если бы мне было 17 лет в 2024 году в России, возможно, и я была бы в тюрьме». Призвала прийти на вечерний стрим.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/pevchikh/status/2065080674361524483" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@simonw"><h2>@@simonw <span class="count">0 posts · 1 featured</span></h2><p class="handle-summary">Anthropic walkback analysis + coding agent hindsight from 2023.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">simonw</div>
+      <div class="post-handle">@simonw · 2026-06-11 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Looking back at a 2023 Twitter thread about ChatGPT Code Interpreter — with hindsight, that was the first glimpse of coding agents before the concept existed. Reposted his April 2023 tweet urging programmers not to ignore it.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/simonw/status/2064983143246188594" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@omarsar0"><h2>@@omarsar0 <span class="count">0 posts · 4 featured</span></h2><p class="handle-summary">Agent patterns, open-source coding models, diffusion LLMs, Anthropic frustration.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-11 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">His effective agent patterns: routing tasks to the right agent, looping with instructions + skills + dynamic workflows. Key for controlling costs and performance.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2065076344367570985" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-10 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Cohere released 'North Mini Code' — their first open-source coding model, small and efficient, designed for agentic performance. Plans to run it locally with his DAIR.AI coding agent.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2064759302322040960" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-10 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Google DeepMind released DiffusionGemma — generates entire text blocks simultaneously instead of word-by-word, enabling self-correction and real-time markdown formatting. Up to 4x faster on dedicated GPUs. Weights on HuggingFace.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2064742095387005352" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-06-10 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Reacted to Fable 5 restrictions: 'I can't use Fable to accelerate AI research and education. No company will decide that for me. An absolutely sad day for the research community.'</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2064741062761992597" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@davefarley77"><h2>@@davefarley77 <span class="count">0 posts · 1 featured</span></h2><p class="handle-summary">ATDD as the next programming language for AI code.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">davefarley77</div>
+      <div class="post-handle">@davefarley77 · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">Thread: AI generates code fast but non-deterministically. The hard part is exploring the problem and communicating intent. ATDD (Acceptance Test-Driven Development) is 'the next generation of programming language' — executable specs that dramatically improve AI output. Links to his courses and new video on automating agentic AI with ATDD.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/davefarley77/status/2065024637080088898" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@steipete"><h2>@@steipete <span class="count">0 posts · 1 featured</span></h2><p class="handle-summary">OpenClaw hardening + Codex orchestration pattern.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">steipete</div>
+      <div class="post-handle">@steipete · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">Codex orchestration loop: tell Codex to maintain repos, wake every 5 minutes, direct work to threads for parallel execution. Uses orchestrator + triage + autoreview + computer use skills to land some work autonomously.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/steipete/status/2064998499780084154" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@EvgenyFeldman"><h2>@@EvgenyFeldman <span class="count">0 posts · 2 featured</span></h2><p class="handle-summary">Видео к старту ЧМ и реакция на 'невозможную' сцену.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">Выпустил видео к началу чемпионата мира: пересказ главных скандалов — американские власти показывают расизм и коррупцию, мешая футболистам, болельщикам и судьям.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2065007380861989204" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">«Два года назад я был бы готов поставить квартиру на то, что эта сцена фейк» — реакция на фото или видео без текстового контекста.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2065101472023412742" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@ProverenoM"><h2>@@ProverenoM <span class="count">0 posts · 1 featured</span></h2><p class="handle-summary">Фактчек футбольных легенд к старту ЧМ.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">ProverenoM</div>
+      <div class="post-handle">@ProverenoM · 2026-06-11 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Серия разборов к чемпионату мира. Проверили историю про вратаря Сэма Бартрама из Чарльтона, забытого на поле в тумане в 1937 году — история реальна, но известное фото оказалось постановкой. Плюс другие футбольные мифы.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/ProverenoM/status/2065034725064953891" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@antirez"><h2>@@antirez <span class="count">0 posts · 1 featured</span></h2><p class="handle-summary">Anthropic's gating of AI research called 'deeply wrong'.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">antirez</div>
+      <div class="post-handle">@antirez · 2026-06-10 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Gating harmless activities like LLM research with oversensitive filters that even block medical questions is 'deeply wrong.' Anthropic benefited from open research — Transformers, GPT-2 — but now restricts others.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/antirez/status/2064766431531532588" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@RnaudBertrand"><h2>@@RnaudBertrand <span class="count">0 posts · 1 featured</span></h2><p class="handle-summary">Warning: don't use Claude to criticize Anthropic.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">R</div>
+    <div class="post-meta">
+      <div class="post-name">RnaudBertrand</div>
+      <div class="post-handle">@RnaudBertrand · 2026-06-11 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">PSA: don't use Claude to write posts criticizing Anthropic — their terms prohibit using Claude for anything that 'could damage Anthropic's reputation.' Called the irony out.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/RnaudBertrand/status/2064892380701237647" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-@bcherny"><h2>@@bcherny <span class="count">0 posts · 1 featured</span></h2><p class="handle-summary">Code with Claude Tokyo + Fable 5 CAD demo.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">bcherny</div>
+      <div class="post-handle">@bcherny · 2026-06-11 </div>
+    </div>
+  </header>
+  <p class="summary">Posted from the Code with Claude Tokyo event. Also shared Aaron Li's demo: Claude Fable 5 generated a fully working V8 engine CAD model in under 10 minutes.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/bcherny/status/2064885111477219664" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@News (BBC + Sky News + BBC Politics + BBC Breaking + BBC World + Ridge &amp; Frost)</strong> — 141 posts <span class="dim">(Healey resignation, Belfast protests, Wegovy, World Cup opening day)</span></summary>
+    <ul><li>Defence Secretary John Healey resigns over military spending; military chief writes unusual letter to PM about defence plan concerns</li><li>Belfast: second night of violent protests after knife attack; water cannon deployed; victim's family pleads for calm; Henry Nowak protesters jailed</li><li>Wegovy weight-loss pill approved in UK — first tablet version available within weeks</li><li>NHS crisis: ~3,000 patients a day face corridor care</li><li>PC Jess Turnbull, 19, dies in crash while attending another collision; teen driver and passenger charged with murder after 12yo killed</li><li>Ryanair investigated over charging parents to sit with children</li><li>Met Police pushes tech firms to make stolen phones unusable; Commissioner Rowley warns 'London will be less safe'</li><li>Asylum appeal backlog hits record high; terror adviser calls for security discussion on migration; changing care worker visa rules</li><li>Smacking children linked to lower GCSE grades, study finds</li><li>World Cup 2026 opens: England warm-up win, BBC/ITV broadcast guide, Scottish fan visa issues</li><li>Mike Ashley's Frasers makes £1.73bn offer for Hugo Boss; Everton ordered to pay Burnley £35m+ over PSR breaches; Wolves sack Edwards</li><li>Doctor Who Christmas special cancelled; Russell T Davies leaving</li><li>HMRC releases new inheritance tax details for pensions</li><li>Manhunt for escaped prisoner; girl, 14, sectioned after school stabbing</li></ul>
+  </details><details class="firehose-section">
+    <summary><strong>@@DutchNewsNL</strong> — 18 posts <span class="dim">(Tech investment, world order anxiety, housing, immigration, Zeeland tragedy)</span></summary>
+    <ul><li>Three die after car collides with cycling children in Zeeland</li><li>Government puts €360M more into high-risk tech fund</li><li>Netherlands is main EU importer of illegal Israeli settlement produce</li><li>Dutch worried country unprepared for decline of world order</li><li>International student numbers fall for first time in 20 years</li><li>Social housing rents up 3.6% per year</li><li>Stalking victims may get permits to carry pepper spray</li><li>Foreign investors crucial for building more rental homes</li><li>Government reverses decision: will replace air-raid sirens by 2028</li><li>Brother of fugitive drugs baron 'Bolle Jos' extradited from Turkey</li><li>Swingers' club burns down days after council buyout</li><li>Greenhouse gas emissions down 5%+ in Q1</li><li>Injury-hit Dutch hopeful for World Cup surprise</li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Dominant narrative: Anthropic Fable 5 controversy — covert AI research degradation, walkback, industry reaction. ~20 posts across 8 handles.</li><li>World Cup 2026 opening day drove high news volume from BBC + Sky.</li><li>For You collection failed — run_foryou.js stalled after loading dedup set. Non-fatal.</li><li>Richard Sutton (@RichardSSutton) posted apparent image-only post with no text — dropped.</li><li>Multiple pevchikh chess stream invitations merged into single fundraiser entry.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2065101472023412742</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>

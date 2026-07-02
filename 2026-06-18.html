@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-06-18</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">June 18, 2026 — afternoon feed</p>
+  <p class="hero-stats">223 posts · 24 handles · 2026-06-17T16:18:07Z to 2026-06-18T15:58:52Z</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-GergelyOrosz">@GergelyOrosz</a><a href="#h-omarsar0 + dair_ai">@omarsar0 + dair_ai</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-pevchikh + news_sirena + RBadanin">@pevchikh + news_sirena + RBadanin</a><a href="#h-shanselman + adrianmg">@shanselman + adrianmg</a><a href="#h-steipete (reposts)">@steipete (reposts)</a><a href="#h-claudeai">@claudeai</a><a href="#h-LuchoMzmz">@LuchoMzmz</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">C</div>
+    <div class="post-meta">
+      <div class="post-name">Charlie Marsh</div>
+      <div class="post-handle">@charliermarsh · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">OpenAI commits $600K to the Rust Foundation — Platinum membership plus additional maintainer support. Charlie Marsh (uv/Ruff creator, now at OpenAI) announced it as a signal that OpenAI is betting on Rust for systems programming.</p>
+  <blockquote class="quote">At OpenAI, we're continuing to bet on Rust as the future of systems programming.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Rust позиционируется как системный язык будущего для AI-инфры. OpenAI ставит деньги на это.</div>
+  <a class="view-link" href="https://x.com/charliermarsh/status/2067280638994968657" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">Gergely tells the story of a profitable resume service (built by an ex-Dropbox engineer) that went unmaintained after the dev pivoted to building an 'AI Engineer'. The site is down, customers are still billed, support disappeared. Gergely's conclusion: AI can't replace caring about your product.</p>
+  <blockquote class="quote">AI cannot replace caring :(</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Cautionary tale: side-project neglect усугубляется AI-хайпом. Релевантно для любого, кто жонглирует проектами.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2067568755102580957" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/939313677647282181/vZjFWtAn_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-06-18 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Paper on Compositional Skill Routing for LLM agents. Real tasks need several skills composed together, but existing routing treats it as picking one tool. This work formalises decomposing complex tasks into skill chains.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HLGoYcybQAAVLHR?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Прямо в тему OpenClaw skill-архитектуры — задачи почти никогда не маппятся на один скилл.</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2067618845926510770" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">PreAct paper: computer-using agents solve every task from scratch, re-reading the screen each time. PreAct extracts reusable 'pre-actions' — cached interaction patterns — so repeated tasks skip redundant reasoning. Significant latency/cost savings.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Та же боль что у нас: повторяющиеся browser actions каждый раз переоткрываются. PreAct — архитектурная идея для кэширования.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2067386816815387019" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">M</div>
+    <div class="post-meta">
+      <div class="post-name">Mitchell Hashimoto</div>
+      <div class="post-handle">@mitchellh · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Mitchell Hashimoto shares a quote from SQLite's creator Richard Hipp on pull requests: accepting a 'free' contribution actually means committing to maintain, document, and test it for 25 years. Not free at all.</p>
+  <blockquote class="quote">What you're doing is asking me to maintain it for you, to document it for you, to test it for you... for the next 25 years. That's not free.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Актуально для open-source мейнтейнеров и для anyone принимающего PRs.</div>
+  <a class="view-link" href="https://x.com/mitchellh/status/2067328048492622093" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">M</div>
+    <div class="post-meta">
+      <div class="post-name">Camilla Moraes</div>
+      <div class="post-handle">@moraes_c_ · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">GitHub ships PR limits: repo admins can cap open PRs per user without write access, with a bypass list for trusted contributors. Aimed at reducing PR noise from drive-by contributions and AI-generated spam.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Прямой ответ на проблему AI-сгенерированных PRs в open source. Практический инструмент.</div>
+  <a class="view-link" href="https://x.com/moraes_c_/status/2067304936556372308" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-GergelyOrosz"><h2>@GergelyOrosz <span class="count">7 posts · 4 featured</span></h2><p class="handle-summary">Resume service neglect story, CI/CD podcast with Robert Erez, Spotify reliability rant, AMA announcement</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-17 </div>
+    </div>
+  </header>
+  <p class="summary">New podcast episode: CI/CD with Robert Erez (former Skype teammate). Topics: canary deployments at Skype, how AI is changing CI/CD, sensible deployment practices. Links to YouTube, Spotify, Apple.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2067339672435773722" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">Irony: the 'AI Engineer' whose resume site broke is positioned to do work (keep things running, fix stuff) that isn't being done on his own production site.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2067569195886198921" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-17 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Spotify reliability getting ridiculous — can't publish episodes, website down. No official status page. Calls out @SpotifyEng.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2067285989710582271" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-06-17 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Announcing AMA edition of The Pragmatic Engineer Podcast. Questions accepted via form.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2067343438152921296" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-omarsar0 + dair_ai"><h2>@omarsar0 + dair_ai <span class="count">0 posts · 5 featured</span></h2><p class="handle-summary">AI research roundup: compositional skill routing, PreAct for agent caching, RL training environments, LifeSciBench, GLM-5.2 design quality, verifiers for coding agents</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">dair_ai</div>
+      <div class="post-handle">@dair_ai · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">Paper on making web agent skills reusable. LLM web agents usually run as tool callers re-reading fresh pages each turn; this proposes extracting transferable skills.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/dair_ai/status/2067620607643246861" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-06-18 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Paper questioning whether RL training environments should be designed by practitioners or by the policy itself. Proposes policy-driven environment redesign between RL stages.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/dair_ai/status/2067432115072098705" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-06-18 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Recommends LifeSciBench (OpenAI benchmark for scientific research). Specialised models beat general-purpose ones on complex structures.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2067629245493362779" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">GLM-5.2 performs well at design tasks — games, landing pages, HTML artifacts, 3D worlds. 'Opus-level quality' for visual generation.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2067344437810803052" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Endorses verifiers and guardrails as imperative for coding agents. Blind autonomous loops don't work — you need robust checks.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2067283235759935648" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2>@EvgenyFeldman <span class="count">3 posts · 2 featured</span></h2><p class="handle-summary">Видео об ирано-американской сделке, анонс текста про ИИ-регулирование на Patreon</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1950960808357208064/7qCHhg5D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">Видео-разбор: завтра США и Иран подпишут меморандум о прекращении войны. Трамп пошёл на унизительные условия — но точно ли проиграл? Анализ того, кто реально выиграл.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HLDotaOXMAAUu8-?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2067559195516244002" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-06-17 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Анонс текста на Patreon: деньги, фейки, регуляция — ИИ становится главной политической темой. Обзор главных новостей недели.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2067326205112582610" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-pevchikh + news_sirena + RBadanin"><h2>@pevchikh + news_sirena + RBadanin <span class="count">0 posts · 2 featured</span></h2><p class="handle-summary">Расследование ФБК о первом замминистра обороны Леониде Горнине + архивное видео о Трабере</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1326570768919130113/7J_yg93e_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Maria Pevchikh</div>
+      <div class="post-handle">@pevchikh · 2026-06-18 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Певчих публикует ролик о новом «Цаликове» — человеке Белоусова, который управляет финансами Минобороны. У семьи Горнина нашли недвижимость на ~500 млн рублей.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/pevchikh/status/2067541088961757621" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">R</div>
+    <div class="post-meta">
+      <div class="post-name">RBadanin</div>
+      <div class="post-handle">@RBadanin · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Баданин публикует уникальное архивное видео Трабера (из расследования 10-летней давности на «Дожде») с участием Невзорова.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/RBadanin/status/2067320619042279881" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-shanselman + adrianmg"><h2>@shanselman + adrianmg <span class="count">0 posts · 2 featured</span></h2><p class="handle-summary">GitHub Copilot app GA, PedalScape PWA for stationary bikes</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">Adrián Mato </div>
+      <div class="post-handle">@adrianmg · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">GitHub Copilot app officially GA — 'the best Agentic Development Environment purpose-built around GitHub primitives'.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/adrianmg/status/2067334879285567531" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Scott Hanselman </div>
+      <div class="post-handle">@shanselman · 2026-06-18 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Hanselman built PedalScape.com — a local PWA with no backend, no tracking. Just 4K bike ride videos for a $30 Goodwill stationary bike with an old Android tablet. No Peloton needed.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/shanselman/status/2067490360625123833" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-steipete (reposts)"><h2>@steipete (reposts) <span class="count">0 posts · 3 featured</span></h2><p class="handle-summary">Midjourney Medical announcement, GLM-5.2 benchmark, Meta morale meme, SQLite/PRs wisdom, PR limits, Rust/OpenAI</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Peter Steinberger </div>
+      <div class="post-handle">@steipete · 2026-06-18 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Midjourney announces 'Midjourney Medical' division. Steipete reacts: 'sci-fi vibes intensify'. MadChops replies about a 'Fullbody Ultrasonic Computational Tomography device'.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/steipete/status/2067431311317352809" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Lisan al Gaib</div>
+      <div class="post-handle">@scaling01 · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">New shape-rotator benchmark released. Fable and GPT-5.5 lead, but GLM-5.2 is ahead of Gemini 3.5 Flash and Opus 4.8 — gains appear genuine since the benchmark just dropped.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/scaling01/status/2067356872768639301" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">secondfret</div>
+      <div class="post-handle">@secondfret · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Joke about Meta HQ after Polymarket reports Meta CTO says morale is near worst ever — leadership offered increased snack budgets to compensate.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/secondfret/status/2067348925858934999" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-claudeai"><h2>@claudeai <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Claude Design update</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">C</div>
+    <div class="post-meta">
+      <div class="post-name">Claude</div>
+      <div class="post-handle">@claudeai · 2026-06-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Claude Design now stays on brand with your design system across projects, lets you edit directly on canvas, syncs with Claude Code, and connects to more external tools.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/claudeai/status/2067325887909884315" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-LuchoMzmz"><h2>@LuchoMzmz <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Agent evolution path: from CLI remote → project agent → multi-project manager → workflow-learning system</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">L</div>
+    <div class="post-meta">
+      <div class="post-name">Lucho</div>
+      <div class="post-handle">@LuchoMzmz · 2026-06-18 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Describes the natural progression: needed remote CLI → needed a project agent → needed a multi-project manager → needed it to learn workflows as they evolve. Key insight: 'The moment I gave my agents all my projects...'</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/LuchoMzmz/status/2067445180383252855" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days. Dropped posts from handles already in Following digest.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">X</div>
+    <div class="post-meta">
+      <div class="post-name">Xenova</div>
+      <div class="post-handle">@xenovacom · 2026-06-17 </div>
+    </div>
+  </header>
+  <p class="summary">Before Fable 5 was shut down, it pushed Gemma 4 to 255 tok/s on WebGPU. Xenova released the demo and custom kernels — agentic kernel optimisation for on-device inference.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> On-device inference hitting 255 tok/s via WebGPU is a real milestone. Demo is public to try.</div>
+  <a class="view-link" href="https://x.com/xenovacom/status/2067289897111638484" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">Daniel Han</div>
+      <div class="post-handle">@danielhanchen · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">GLM 5.2 dynamic 1-bit GGUF runs Flappy Bird with zero syntax errors while being 86% smaller than BF16. 1-bit quant retained 76.2% top-1% accuracy — normally 1-bit gets syntax errors.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> 1-bit quants actually working for code generation is a significant quality jump for edge deployment.</div>
+  <a class="view-link" href="https://x.com/danielhanchen/status/2067607488908984517" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">Andi Marafioti</div>
+      <div class="post-handle">@andimarafioti · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">VLM trained without a vision encoder for $100, inspired by Gemma 4 12B. Architecture: patchify image → linear projection with positional embeddings. Image processing latency drops from 112ms to 1.1ms on M3 Pro, 30% lower end-to-end.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Encoder-free VLM at $100 training cost. Architecture simplification with massive latency gains.</div>
+  <a class="view-link" href="https://x.com/andimarafioti/status/2067596807534756204" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">Ethan Mollick</div>
+      <div class="post-handle">@emollick · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">Ethan Mollick argues there's huge money betting that Big Three AI Labs' exponential curve will end soon. If it does: small/open models become viable, costs drop, world changes slower. But it isn't happening yet.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Framing of the current AI investment landscape and what happens if exponential scaling continues.</div>
+  <a class="view-link" href="https://x.com/emollick/status/2067408783156879788" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1892026270738739200/YH9XRC1x_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Yu Su</div>
+      <div class="post-handle">@ysu_nlp · 2026-06-17 </div>
+    </div>
+  </header>
+  <p class="summary">Researchers trained a ~frontier Deep Research Agent on academic budget: 32 H100s, 8K synthetic samples, fully open training infra. Models from 2B to 35B ready to use. Another demonstration that frontier is reachable cheaply.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HLDGiGHboAAJR5b?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Open Deep Research at academic scale — 32 GPUs to match frontier quality. Democratisation signal.</div>
+  <a class="view-link" href="https://x.com/ysu_nlp/status/2067380438134624742" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">C</div>
+    <div class="post-meta">
+      <div class="post-name">Cursor</div>
+      <div class="post-handle">@cursor_ai · 2026-06-17 </div>
+    </div>
+  </header>
+  <p class="summary">Cursor announces easier migration from local agents to cloud. Run agents with laptop closed, prompt from phone, many in parallel, get back PRs with demos of their work.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Local-to-cloud agent handoff is becoming table stakes. Phone as agent controller.</div>
+  <a class="view-link" href="https://x.com/cursor_ai/status/2067366343817805899" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">Orhun Parmaksız </div>
+      <div class="post-handle">@orhundev · 2026-06-18 </div>
+    </div>
+  </header>
+  <p class="summary">oyui — a TUI merge editor and staging interface for Git &amp; Jujutsu. Syntax highlighting, command palette, binary support, fully scriptable config. Written in Rust with ratatui.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Terminal-first Git tooling in Rust. Interesting alternative to fugitive/lazygit for conflict resolution.</div>
+  <a class="view-link" href="https://x.com/orhundev/status/2067582487421739224" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@News (BBCNews + SkyNews + BBCBreaking + RidgeandFrost)</strong> — 171 posts <span class="dim">(UK &amp; world news from BBC, Sky News, RidgeandFrost)</span></summary>
+    <ul><li>Bank of England holds interest rate at 3.75% for fourth consecutive time</li><li>Muckamore Abbey Hospital inquiry: patients 'zombified' and suffered systematic abuse in Northern Ireland</li><li>Two men (Bill Yuen, Peter Wai) jailed for 10 and 8 years for spying for China in the UK</li><li>UK lifts travel warning for Gulf states after Iran deal signed</li><li>First Russian shadow fleet vessel enters Channel since Smyrtos boarding</li><li>Amber heat health alert issued for parts of England</li><li>Attempted murder probe: boy, 3, ended up in crocodile enclosure in Cambridgeshire</li><li>Teacher Jamie Varley sentenced to whole-life order for murdering and sexually abusing adopted baby Preston Davey</li><li>Crime boss Steven Lyons loses extradition bid — can be sent to Spain</li><li>Pro-Palestinian protesters trial ends in hung jury</li><li>Prisoners guilty of murdering child killer found in bed at same prison</li></ul>
+  </details><details class="firehose-section">
+    <summary><strong>@Dutch News (DutchNewsNL)</strong> — 20 posts <span class="dim">(Netherlands news)</span></summary>
+    <ul><li>Amsterdam gym blast suspects were 'making explosives'; suspect arrested</li><li>Explosives found at planned asylum centre in Nuenen</li><li>Girl, 13, arrested after parents found dead at home in Groningen</li><li>Netherlands to spend another €500m on military aid for Ukraine</li><li>Prosecutors link 18 deaths to Funcaps drugs website</li><li>Funda shakes up fees, will let sellers advertise directly</li><li>Eemshaven best option for new nuclear power plants (Tennet)</li><li>Dutch property tax values rose 10.3% to average €439K</li><li>300,000 Dutch households face severe energy crisis impact</li><li>National heat plan enforced as temperatures soar</li><li>Emperor Naruhito acknowledges mistreatment of Dutch soldiers in POW camps during state visit</li><li>Frisian waterways polluted by PFAS, water board calls for ban</li><li>Four in 10 new Dutch fathers don't take full parental leave</li><li>First dig at Dutch medieval battlefield, 800 years on</li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>News dominated (171/223 posts from BBC+Sky+RidgeandFrost). Actual tech/opinion content: 32 non-news posts.</li><li>DAIR.AI (omarsar0+dair_ai) very active with AI research paper recommendations — 7 posts covering 5 papers.</li><li>GLM-5.2 appearing across multiple accounts (Following: omarsar0, scaling01; ForYou: danielhanchen, rasbt, stevibe) — clearly the model of the moment.</li><li>Iran-US deal was the dominant news story across all news outlets.</li><li>For You feed skewed heavily toward AI/dev tooling today — 60%+ of non-ad posts were AI-related.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2067638182020100144</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>

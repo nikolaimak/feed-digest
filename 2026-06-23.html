@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-06-23</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">June 23, 2026 — evening feed</p>
+  <p class="hero-stats">17 posts · 4 handles · 2026-06-23 16:22 – 17:53 UTC</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-bcherny">@bcherny</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">Boris Cherny</div>
+      <div class="post-handle">@bcherny · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">Anthropic launched Claude Tag — tag Claude into any Slack channel and it spins up a sandboxed instance that clones repos, writes code, tests, and responds proactively. Each thread gets its own memory, permissions, and isolated sandbox. Beta for Enterprise and Team customers today.</p>
+  <blockquote class="quote">Tag Claude in a channel, it spins up an instance with its own sandbox. It clones repos, writes code, tests, compiles all in that isolated environment.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Прямой конкурент паттерну, который ты строишь с OpenClaw. Архитектура (sandbox per thread, channel-scoped memory) — референс.</div>
+  <a class="view-link" href="https://x.com/bcherny/status/2069474688619958517" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-06-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Vercel released 'eve', an agentic framework where everything is files — tools, skills, evals. TypeScript-first, designed to get you building with agents fast. DAIR.AI promoting hands-on labs.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Ещё один file-based agent framework (как OpenClaw skills). Подход 'everything is files' стоит посмотреть для сравнения.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2069455953863320037" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Sky News</div>
+      <div class="post-handle">@SkyNews · 2026-06-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">NHS approved a first-of-its-kind therapy that can delay type 1 diabetes onset by up to three years. Landmark approval — the treatment is teplizumab, an immunotherapy.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> UK healthcare milestone. Первая превентивная терапия для T1D на NHS.</div>
+  <a class="view-link" href="https://x.com/SkyNews/status/2069458459695730914" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Sky News</div>
+      <div class="post-handle">@SkyNews · 2026-06-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Competition regulator ordered StubHub UK to refund more than 51,000 customers and fined the company nearly £900k over hidden fees.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> UK consumer protection в действии — касается всех кто покупает билеты.</div>
+  <a class="view-link" href="https://x.com/SkyNews/status/2069477763442970780" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-06-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Dutch national budget institute Nibud reports 38% of all households now struggle to make ends meet (up from 32% two years ago), with more than half of young adults affected.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> NL экономика — релевантно для Amsterdam flat и общего контекста.</div>
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2069465658597806341" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-bcherny"><h2><a href="https://x.com/bcherny" target="_blank" rel="noopener">@bcherny</a> <span class="count">3 posts · 2 featured</span></h2><p class="handle-summary">Claude Tag launch thread — technical details of Anthropic's new Slack integration</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">bcherny</div>
+      <div class="post-handle">@bcherny · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">Each tagged instance gets its own sandbox — clones repos, writes/tests code in isolation, sandbox discarded when done. One instance per thread, own memory and permissions per channel.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/bcherny/status/2069474689819480394" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">bcherny</div>
+      <div class="post-handle">@bcherny · 2026-06-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Beta on Slack today for Claude Enterprise and Team. More surfaces coming soon. Links to anthropic.com announcement.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/bcherny/status/2069474691010707486" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days. Dropped: followed handles already in digest, promos, engagement bait.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1970182748146180096/dhZeXi_X_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Cursor</div>
+      <div class="post-handle">@cursor_ai · 2026-06-22 </div>
+    </div>
+  </header>
+  <p class="summary">Cursor announced three things at their Compile keynote, including training a new model in partnership with SpaceX. Full 27-minute keynote video embedded.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Cursor + SpaceX collaboration on a coding model is unexpected and significant for the agent tooling space.</div>
+  <a class="view-link" href="https://x.com/cursor_ai/status/2069149296436330776" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1974859014639890432/Zgu9SCNU_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Ayaan </div>
+      <div class="post-handle">@twtayaan · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">Apple released apple/container (26.5k GitHub stars) — run Linux containers natively on Mac without Docker Desktop, completely free. No VM overhead, no daemon, just native container runtime.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HLbl6xla8AIsV5_?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Практично: может заменить Docker Desktop на маке. Бесплатно, нативно, без VM.</div>
+  <a class="view-link" href="https://x.com/twtayaan/status/2069307717177737658" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2061745411811872768/MpH1zpwo_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">msuiche</div>
+      <div class="post-handle">@msuiche · 2026-06-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Fable 5 (Anthropic's latest model) wrote a Windows kernel in 38 minutes. Blog post from tolmo.com with details on the benchmark.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Бенчмарк из дикой природы — kernel за 38 минут это новый уровень для code gen.</div>
+  <a class="view-link" href="https://x.com/msuiche/status/2069424954173718572" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1824002576/pg-railsconf_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Paul Graham</div>
+      <div class="post-handle">@paulg · 2026-06-22 </div>
+    </div>
+  </header>
+  <p class="summary">Paul Graham observes that AI-written emails are annoying because they're always longer than the person would have written themselves — paragraphs of plausible-sounding filler text.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Мета-наблюдение от PG про то как AI меняет коммуникацию. Применимо к собственному использованию.</div>
+  <a class="view-link" href="https://x.com/paulg/status/2068994868412629467" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1856486626072915968/JEQpB9CW_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Alex Albert</div>
+      <div class="post-handle">@alexalbert__ · 2026-06-23 </div>
+    </div>
+  </header>
+  <p class="summary">Alex Albert (Anthropic) says Claude Tag 'completely changed how I work — feels less like using a tool and more like managing a team.' Quotes the official Claude Tag launch announcement.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Внутренний взгляд из Anthropic на то как Claude Tag меняет workflow — дополняет bcherny thread из Following.</div>
+  <a class="view-link" href="https://x.com/alexalbert__/status/2069470389391241314" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2434343548/c80bae9z52ca9bbrh4ip_normal.jpeg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Erik Meijer</div>
+      <div class="post-handle">@headinthebox · 2026-06-22 </div>
+    </div>
+  </header>
+  <p class="summary">Erik Meijer talked Claude out of adding higher-order functions to his Prism language — Claude agreed it conflated 'lacks concise sugar' with 'lacks capability', same mistake as ecosystem/LSP/debugger arguments.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Интересный пример collaborative language design с AI — Claude отступил от позиции через аргументацию.</div>
+  <a class="view-link" href="https://x.com/headinthebox/status/2069184265326342424" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">patrickc</div>
+      <div class="post-handle">@patrickc · 2026-06-22 </div>
+    </div>
+  </header>
+  <p class="summary">Patrick Collison (Stripe CEO) teased stripe.directory — 'very early experiment but I think this will be cool.' No details yet, just the URL.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Stripe founder launching something new — даже без деталей, от Collison стоит отслеживать.</div>
+  <a class="view-link" href="https://x.com/patrickc/status/2069079147532665329" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@News (BBCNews + SkyNews)</strong> — 13 posts <span class="dim">(UK politics transition, courts, consumer protection, NHS)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=Starmer%20holds%20talks%20with%20Burnham%20seeking%20'orderly'%20transition%20of%20Labour%20leadership" target="_blank" rel="noopener">Starmer holds talks with Burnham seeking 'orderly' transition of Labour leadership</a></li><li><a href="https://www.google.com/search?q=StubHub%20UK%20ordered%20to%20refund%2051k%20customers%2C%20fined%20~%C2%A3900k%20for%20hidden%20fees" target="_blank" rel="noopener">StubHub UK ordered to refund 51k customers, fined ~£900k for hidden fees</a></li><li><a href="https://www.google.com/search?q=First-of-its-kind%20diabetes%20therapy%20(teplizumab)%20gets%20landmark%20NHS%20approval%20%E2%80%94%20delays%20T1D%20onset%20by%20up%20to%203%20years" target="_blank" rel="noopener">First-of-its-kind diabetes therapy (teplizumab) gets landmark NHS approval — delays T1D onset by up to 3 years</a></li><li><a href="https://www.google.com/search?q=Tate%20brothers%20challenge%20decision%20to%20withhold%20names%20of%20UK%20accusers" target="_blank" rel="noopener">Tate brothers challenge decision to withhold names of UK accusers</a></li></ul>
+  </details><details class="firehose-section">
+    <summary><strong>@Dutch News (DutchNewsNL)</strong> — 1 posts <span class="dim">(NL household economics)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=38%25%20of%20Dutch%20households%20finding%20it%20hard%20to%20get%20by%20(up%20from%2032%25)%2C%20over%20half%20of%20young%20adults%20struggling%20%E2%80%94%20Nibud%20report" target="_blank" rel="noopener">38% of Dutch households finding it hard to get by (up from 32%), over half of young adults struggling — Nibud report</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Short Following window (~1.5 hours) due to evening run timing.</li><li>Only 4 unique handles in Following (BBCNews, SkyNews, bcherny, dair_ai, DutchNewsNL) — quiet period.</li><li>bcherny thread (3 posts) merged into single entry per thread grouping rule.</li><li>News firehose heavily dominated by World Cup + UK politics transition stories; non-UK stories dropped per filter.</li><li>For You feed had strong agent-tooling signal: Cursor+SpaceX, Claude Tag, Mastra, Polygraph, eve.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2069478783111835865</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
