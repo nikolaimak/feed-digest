@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-07-26</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">July 26, 2026 — overnight feed</p>
+  <p class="hero-stats">87 posts · 11 handles · Jul 25, 17:02–Jul 26, 16:48 BST</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-EvgenyFeldman">@EvgenyFeldman</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Peter Steinberger </div>
+      <div class="post-handle">@steipete · 2026-07-26 </div>
+    </div>
+  </header>
+  <p class="summary">Peter Steinberger says GPT-5.6 Sol can now sustain massive parallel QA without losing intent at compaction boundaries or gaming the task. His concrete prompt delegates end-to-end OpenClaw testing across 12 subagents, isolated gateways and worktrees, asks them to find 200 bugs, fix root causes and open PRs autonomously.</p>
+  <blockquote class="quote">Use 12 subagents to split up functionality... Set a goal to find 200 bugs. Fix the root causes.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A production-scale example of turning an agent harness into a persistent test organisation rather than a single coding session.</div>
+  <a class="view-link" href="https://x.com/steipete/status/2081169373784633552" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-07-25 </div>
+    </div>
+  </header>
+  <p class="summary">Gergely Orosz sees human code review beginning to fade: one experienced engineer stopped reviewing most Fable-generated code except key paths. He distinguishes this from Opus 5, and notes that review agents are already commonplace but often inspect code without validating it by running it.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> The important shift is not merely AI writing code, but teams changing where—and whether—they spend human verification effort.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2081117183002705988" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Simon Willison</div>
+      <div class="post-handle">@simonw · 2026-07-25 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Ruff 0.16.0 increased its default-enabled Python lint rules from 59 to 413. Simon Willison immediately saw CI failures and 1,618 findings in sqlite-utils alone, illustrating how a tooling default can expose a large backlog overnight.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A potentially disruptive default change for Python repositories and CI pipelines.</div>
+  <a class="view-link" href="https://x.com/simonw/status/2081153980294648186" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-07-25 </div>
+    </div>
+  </header>
+  <p class="summary">The open-weights policy split became explicit: OpenAI, NVIDIA, Microsoft and Google support the Microsoft-led letter, while Anthropic and Amazon had not indicated support. OpenClaw also signed; Peter Steinberger frames open weights as user choice and argues that competition benefits the ecosystem.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOGgxBLXkAE94x_?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> This is a concrete alignment map for a policy question that directly affects model access, self-hosting and agent infrastructure.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2081121274361680031" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Реакция на новые карточки Минюста для иноагентов.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-07-25 </div>
+    </div>
+  </header>
+  <p class="summary">Евгений Фельдман пишет, что новые «красивые карточки» Минюста для иноагентов вызывают у него не смех, а грусть: он не хочет помогать государству превращать преследуемых людей в участников собственного публичного клеймения.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2081089990453305355" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days; Following overlaps, news-outlet items, boosted posts and promotions removed.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">C</div>
+    <div class="post-meta">
+      <div class="post-name">Chris Tate</div>
+      <div class="post-handle">@ctatedev · 2026-07-25 </div>
+    </div>
+  </header>
+  <p class="summary">Native SDK introduced a built-in terminal component with a real PTY, libghostty-vt rendering, truecolour, selection and scrollback, plus offline session recording and replay.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A reusable terminal primitive is valuable infrastructure for software factories and agent orchestrators.</div>
+  <a class="view-link" href="https://x.com/ctatedev/status/2081108843090571479" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2030734713405456384/5uudiB8I_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Alexis Fox</div>
+      <div class="post-handle">@alexisfox · 2026-07-25 </div>
+    </div>
+  </header>
+  <p class="summary">PRO-LONG reports 97.4% on the public ARC-AGI-3 benchmark with Fable 5 for $1,750—about four times cheaper and 400 million tokens below prior leading harnesses—using a minimal programmatic-memory addition for long-horizon reasoning.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> It suggests memory architecture can matter more than elaborate orchestration for long-running agent tasks.</div>
+  <a class="view-link" href="https://x.com/alexisfox/status/2081112533105279259" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">Sasha Malysheva</div>
+      <div class="post-handle">@aimalysheva · 2026-07-25 </div>
+    </div>
+  </header>
+  <p class="summary">Sasha Malysheva argues that transformers are almost surely injective: parameter settings that map two different prompts to the same hidden state form a measure-zero set, implying the exact input is theoretically recoverable from hidden states.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> An interesting theoretical reason to treat hidden states as potentially input-revealing rather than anonymised representations.</div>
+  <a class="view-link" href="https://x.com/aimalysheva/status/2081129866460606472" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">T</div>
+    <div class="post-meta">
+      <div class="post-name">Tobias_Petry.sql</div>
+      <div class="post-handle">@tobias_petry · 2026-07-26 </div>
+    </div>
+  </header>
+  <p class="summary">The HTTPS DNS record, standardised in 2023, can tell browsers not to try port 80 and can advertise HTTP/2, HTTP/3 and available IP addresses; Cloudflare already provisions it automatically.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A useful infrastructure detail that combines protocol discovery, performance and an HSTS-like security benefit at DNS resolution time.</div>
+  <a class="view-link" href="https://x.com/tobias_petry/status/2081308038686773567" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">Philip Kiely</div>
+      <div class="post-handle">@philipkiely · 2026-07-26 </div>
+    </div>
+  </header>
+  <p class="summary">A new GLM-5.2 serving stack claims peak generation of 280 tokens per second and averages around 100 tokens per second, with an article describing how the API was built for day-zero support.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Concrete serving-throughput numbers and implementation detail are more useful than a generic model-launch announcement.</div>
+  <a class="view-link" href="https://x.com/philipkiely/status/2081207212278706439" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">T</div>
+    <div class="post-meta">
+      <div class="post-name">The Hacker News</div>
+      <div class="post-handle">@TheHackersNews · 2026-07-26 </div>
+    </div>
+  </header>
+  <p class="summary">A GitLab exploit turns a committed Jupyter notebook into server-side command execution when its diff is opened, running commands as the git user. It was patched in June as a bug fix without a CVE, and the published exploit reportedly ports across x86-64 builds with offset changes.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A sharp reminder that rich repository renderers expand the attack surface of developer platforms.</div>
+  <a class="view-link" href="https://x.com/TheHackersNews/status/2081289637746864493" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GitHub</div>
+      <div class="post-handle">@github · 2026-07-26 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">GitHub is restructuring its bug-bounty programme around higher-impact research, adding a VIP track, changing public bounty tiers and tightening signal requirements.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Relevant operational context for how a major developer platform is trying to improve security-research quality rather than submission volume.</div>
+  <a class="view-link" href="https://x.com/github/status/2081205367380250653" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK-news-outlets</strong> — 73 posts <span class="dim">(BBC, Sky and affiliated accounts; international stories removed and repeated UK stories merged)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=A%20major%20water%20outage%20affected%20both%20terminals%20at%20Gatwick%20Airport%20in%20the%20UK%2C%20leaving%20passengers%20without%20running%20water%20or%20working%20toilets" target="_blank" rel="noopener">A major water outage affected both terminals at Gatwick Airport in the UK, leaving passengers without running water or working toilets</a></li><li><a href="https://www.google.com/search?q=The%20UK%20is%20forecast%20to%20enter%20a%20fourth%20heatwave%20next%20week%20after%20a%20cooler%20end%20to%20the%20weekend" target="_blank" rel="noopener">The UK is forecast to enter a fourth heatwave next week after a cooler end to the weekend</a></li><li><a href="https://www.google.com/search?q=Residents%20in%20Scotland%20were%20allowed%20back%20after%20the%20Cairngorms%20wildfire%20evacuation%2C%20following%20criticism%20that%20the%20response%20had%20been%20too%20slow" target="_blank" rel="noopener">Residents in Scotland were allowed back after the Cairngorms wildfire evacuation, following criticism that the response had been too slow</a></li><li><a href="https://www.google.com/search?q=Police%20are%20investigating%20donations%20by%20a%20Richard%20Tice%20company%20to%20Reform%20UK" target="_blank" rel="noopener">Police are investigating donations by a Richard Tice company to Reform UK</a></li><li><a href="https://www.google.com/search?q=UK%20political%20interviews%20covered%20Andy%20Burnham's%20first%20week%20as%20prime%20minister%2C%20Labour%20loyalty%2C%20Conservative%20candidate%20red%20lines%20on%20the%20ECHR%20and%20net%20zero%2C%20and%20prison%20overcrowding" target="_blank" rel="noopener">UK political interviews covered Andy Burnham's first week as prime minister, Labour loyalty, Conservative candidate red lines on the ECHR and net zero, and prison overcrowding</a></li><li><a href="https://www.google.com/search?q=The%20Royal%20Navy%20is%20giving%20young%20girls%20access%20to%20combat%20sports%20as%20an%20alternative%20to%20gang%20culture%20and%20youth%20violence%20in%20the%20UK" target="_blank" rel="noopener">The Royal Navy is giving young girls access to combat sports as an alternative to gang culture and youth violence in the UK</a></li><li><a href="https://www.google.com/search?q=A%20farm%20in%20Essex%2C%20England%2C%20is%20testing%20whether%20robots%20can%20replace%20humans%20in%20picking%20strawberries" target="_blank" rel="noopener">A farm in Essex, England, is testing whether robots can replace humans in picking strawberries</a></li><li><a href="https://www.google.com/search?q=Glasgow%20Commonwealth%20Games%20coverage%20included%20Reuben%20Ward's%20gymnastics%20gold%2C%20Gabriel%20Langton%20being%20cleared%20of%20serious%20injury%2C%20and%20Scotland's%20swimming%20finalists" target="_blank" rel="noopener">Glasgow Commonwealth Games coverage included Reuben Ward's gymnastics gold, Gabriel Langton being cleared of serious injury, and Scotland's swimming finalists</a></li><li><a href="https://www.google.com/search?q=A%20museum%20employee%20was%20charged%20after%20a%20suspected%20car%20bomb%20was%20intercepted%20near%20the%20Northern%20Ireland%20border" target="_blank" rel="noopener">A museum employee was charged after a suspected car bomb was intercepted near the Northern Ireland border</a></li><li><a href="https://www.google.com/search?q=Emmerdale's%20makers%20are%20seeking%20a%20permanent%20home%20for%20the%20soap%20village%20in%20Leeds" target="_blank" rel="noopener">Emmerdale's makers are seeking a permanent home for the soap village in Leeds</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>The Following feed was dominated by news outlets: 73 of 87 posts came from BBC, Sky or an affiliated breaking-news account.</li><li>News coverage was restricted to UK-domestic stories and merged across outlets by event; Berlin, France, DR Congo and other international stories were removed.</li><li>Related posts on parallel OpenClaw QA, fading code review and open-weights policy were grouped by topic across the full coverage window.</li><li>Expired programme announcements, bare release links, donation asks, empty reactions and paid-partnership material were omitted as noise.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2081406341633946030</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
