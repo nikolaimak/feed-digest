@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-08-01</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">August 1, 2026 — overnight feed</p>
+  <p class="hero-stats">130 posts · 17 handles · Jul 31, 17:00–Aug 1, 17:00 BST</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-DutchNewsNL">@DutchNewsNL</a><a href="#h-GergelyOrosz">@GergelyOrosz</a><a href="#h-simonw">@simonw</a><a href="#h-steipete">@steipete</a><a href="#h-omarsar0">@omarsar0</a><a href="#h-fe_city_boy">@fe_city_boy</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-unclebobmartin">@unclebobmartin</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1643277398522187778/31dedbLo_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-08-01 </div>
+    </div>
+  </header>
+  <p class="summary">A 288-run study tested Claude Code and Codex on 17 real tasks from three repositories while varying only the context-injection strategy. The headline result: changing how AGENTS.md or CLAUDE.md context is injected did not improve correctness for either agent.</p>
+  <blockquote class="quote">Correctness does not move on either agent.</blockquote>
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOpInQVa0AAmPqY?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Direct evidence about whether repository instruction files and their injection strategy materially improve coding-agent outcomes.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2083557620296859937" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2040409741050920960/1cqQSJX-_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Victor E. Nunez</div>
+      <div class="post-handle">@nunezvice · 2026-07-31 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">After GPT-5.6 Luna's 80% price cut, Luna Max reportedly matches GPT-5.5 xhigh's 67% DeepSWE score at about $0.12 per task instead of $7.23—roughly 60 times cheaper within three weeks.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A dramatic shift in the cost frontier for production coding-agent workloads.</div>
+  <a class="view-link" href="https://x.com/nunezvice/status/2083254872338554926" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/378800000261649705/be9cc55e64014e6d7663c50d7cb9fc75_normal.jpeg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Simon Willison</div>
+      <div class="post-handle">@simonw · 2026-07-31 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Simon Willison says the stateless MCP 2.0 specification has revived his interest in the protocol. He has already built mcp-explorer and datasette-mcp around the new design.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Statelessness may remove enough operational friction to make MCP worth revisiting for practical agent systems.</div>
+  <a class="view-link" href="https://x.com/simonw/status/2083330693313220615" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">simonw</div>
+      <div class="post-handle">@simonw · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">Simon Willison and Prime Radiant released smevals, a small evaluation framework for comparing models, prompts and harnesses. It can run and grade suites and generate inspectable reports, with a quick start via `uvx smevals docs`.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A lightweight way to turn model and harness choices into measured engineering decisions rather than impressions.</div>
+  <a class="view-link" href="https://x.com/simonw/status/2083310510729216039" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">dair_ai</div>
+      <div class="post-handle">@dair_ai · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">OpenMLE turns recursive self-improvement into an executable machine-learning engineering testbed, with the full stack released across verifiable task environments and the surrounding improvement loop.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> It moves recursive self-improvement from an abstract claim toward a reproducible system that can be inspected and tested.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2083231722913882159" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">4 posts · 4 featured</span></h2><p class="handle-summary">Drought measures, football management, organised crime and an unexpectedly large garden visitor in the Netherlands.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-07-31 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Regional authorities agreed to coordinate water distribution and introduced local measures to protect drinking water as more sluice gates closed, but no national drought restrictions were imposed.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2083236381061492843" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-07-31 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Former Liverpool and Feyenoord coach Arne Slot ruled himself out of the Netherlands head-coach job because he wants to remain in club football.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2083266567769297319" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-07-31 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">A Belgian court sentenced Dutch drug trafficker Jos L., known as Bolle Jos, to 14 years in prison in absentia.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2083251449924890690" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-01 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">A woman in Twente found a poisonous tarantula the size of a dinner plate in her garden.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2083523388039966937" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-GergelyOrosz"><h2><a href="https://x.com/GergelyOrosz" target="_blank" rel="noopener">@GergelyOrosz</a> <span class="count">3 posts · 1 featured</span></h2><p class="handle-summary">Stacked pull requests may have arrived just as coding agents make the workflow less important.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-08-01 </div>
+    </div>
+  </header>
+  <p class="summary">Gergely argues that GitHub's stacked-PR launch is years late: stacked diffs were highly useful from roughly 2015 to 2025, but their relevance has fallen sharply as agents write more of the code. He links his detailed 2023 guide for the workflow's historical and technical context.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2083466968837857765" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-simonw"><h2><a href="https://x.com/simonw" target="_blank" rel="noopener">@simonw</a> <span class="count">8 posts · 1 featured</span></h2><p class="handle-summary">DeepSeek V4 Flash looks price-competitive, but its output remains sensitive to reasoning level.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/378800000261649705/be9cc55e64014e6d7663c50d7cb9fc75_normal.jpeg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Simon Willison</div>
+      <div class="post-handle">@simonw · 2026-08-01 </div>
+    </div>
+  </header>
+  <p class="summary">Simon places DeepSeek-V4-Flash-0731 on the attractive edge of Artificial Analysis's price-performance chart, while his pelican test improved substantially only after he raised reasoning from default to high.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOmFBy5aUAA0Ykh?format=png&amp;name=small" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HOmFDdgaAAAm82H?format=png&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/simonw/status/2083343395704160359" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-steipete"><h2><a href="https://x.com/steipete" target="_blank" rel="noopener">@steipete</a> <span class="count">2 posts · 1 featured</span></h2><p class="handle-summary">Newer models appear better at accepting work while already running.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">steipete</div>
+      <div class="post-handle">@steipete · 2026-08-01 </div>
+    </div>
+  </header>
+  <p class="summary">Peter says queueing prompts used to be safer, but GPT-5.5 can now accept additional instructions mid-task and process them without becoming confused.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/steipete/status/2083369880599015713" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-omarsar0"><h2><a href="https://x.com/omarsar0" target="_blank" rel="noopener">@omarsar0</a> <span class="count">2 posts · 2 featured</span></h2><p class="handle-summary">Research on long-horizon coordination and scalable computer-use training.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/939313677647282181/vZjFWtAn_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-07-31 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">A long-horizon multi-agent design lets agents exchange findings during work rather than only at staged handoffs or synchronised phase boundaries, targeting a common coordination bottleneck.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOlX1JCacAAd-Kb?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2083292876587577549" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 · 2026-07-31 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Microsoft's Echoverse compiles specifications into stateful synthetic applications for training computer-use agents, shifting attention from generating more environments to controlling what those environments contain.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/omarsar0/status/2083232479641821418" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-fe_city_boy"><h2><a href="https://x.com/fe_city_boy" target="_blank" rel="noopener">@fe_city_boy</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Литературный совет, не выдержавший встречи со взрослой жизнью.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1941895394486525952/5Oo0TZBi_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Денис Чужой</div>
+      <div class="post-handle">@fe_city_boy · 2026-08-01 </div>
+    </div>
+  </header>
+  <p class="summary">Денис Чужой замечает, что воландовское «никогда ничего не просите — сами предложат» впечатляет в одиннадцатом классе, а потом выясняется, что никто ничего сам не предлагает.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/fe_city_boy/status/2083527530577813529" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Пауза в острых высказываниях не убирает саму тему войны.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1950960808357208064/7qCHhg5D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман пишет, что после попытки реже высказываться на острые темы снова столкнулся с множеством агрессивных реакций; по его мнению, за ними стоит желание не замечать войну.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOkuwFPWEAA3cOO?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2083247711692706194" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-unclebobmartin"><h2><a href="https://x.com/unclebobmartin" target="_blank" rel="noopener">@unclebobmartin</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">A blunt political warning about the US Democratic Party's embrace of DSA candidates.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">U</div>
+    <div class="post-meta">
+      <div class="post-name">Uncle Bob Martin</div>
+      <div class="post-handle">@unclebobmartin · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">Robert Martin says Democrats have embraced extreme DSA candidates and warns that the country would be badly damaged if it followed their direction.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/unclebobmartin/status/2083315371084247433" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days; exact Following duplicates and repeated stories removed.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1846606265046192128/qzcCB5Qm_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Lambda</div>
+      <div class="post-handle">@LambdaAPI · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">Lambda clustered 1,433 successful attacks from an adversarial-agent competition and found that 46% fit four prompt-injection patterns that transfer across domains, from expense bots to supply agents.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOk8R-raAAA4P6s?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> It suggests prompt-injection defences should target reusable attack shapes rather than isolated application-specific strings.</div>
+  <a class="view-link" href="https://x.com/LambdaAPI/status/2083263690388967851" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1816856437567406080/ByISu1ft_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Docker</div>
+      <div class="post-handle">@Docker · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">Docker Hub now supports GitHub Actions OIDC for Docker Organizations, replacing stored registry credentials with short-lived tokens bound to workflow identity. It is available for Team and Business plans.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOln3cIWUAAvZOm?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A straightforward supply-chain security improvement for CI/CD pipelines.</div>
+  <a class="view-link" href="https://x.com/Docker/status/2083310525723602996" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">sphinx</div>
+      <div class="post-handle">@protosphinx · 2026-08-01 </div>
+    </div>
+  </header>
+  <p class="summary">An upcoming free, web-based CAD system is being built for headless agent control, allowing agents to create designs through calls rather than operating a SolidWorks-style interface.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A useful example of designing professional software around agent-native primitives instead of adding UI automation later.</div>
+  <a class="view-link" href="https://x.com/protosphinx/status/2083372797456458077" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1666460461884211204/SmBm505D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Matt Pocock</div>
+      <div class="post-handle">@mattpocockuk · 2026-08-01 </div>
+    </div>
+  </header>
+  <p class="summary">Matt Pocock distinguishes his workflow from spec-driven development: the generated specification is disposable scaffolding, intended to be deleted immediately rather than maintained as source code.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HOpM5ZtWgAAlQed?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> The distinction clarifies when planning artifacts help agents and when they become a second system that must be kept in sync.</div>
+  <a class="view-link" href="https://x.com/mattpocockuk/status/2083563195671667176" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">Alexi Gladstone</div>
+      <div class="post-handle">@AlexiGlad · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">Alexi Gladstone describes exploration as a third pretraining scaling axis alongside parameters and data. Increasing exploration reportedly improves image, video and language models monotonically and enables end-to-end generation.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> If reproducible, this changes the framing of pretraining scale from two inputs to three.</div>
+  <a class="view-link" href="https://x.com/AlexiGlad/status/2083230922196107288" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1903193217870581761/CLMNjvPl_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">bashbunni</div>
+      <div class="post-handle">@sudobunni · 2026-07-30 </div>
+    </div>
+  </header>
+  <p class="summary">Bashbunni argues that functional programming may improve AI-generated code by constraining agents to pure functions without side effects, making output easier to reason about, test and maintain.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete language-design hypothesis for reducing agent-generated code risk.</div>
+  <a class="view-link" href="https://x.com/sudobunni/status/2082903054609965298" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2016718977960120320/a3F0LOz6_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Deedy</div>
+      <div class="post-handle">@deedydas · 2026-07-31 </div>
+    </div>
+  </header>
+  <p class="summary">Deedy built an air-gapped file-transfer tool that sends data from a computer to a phone through the camera at roughly 50 Kbps, useful offline or when no network path is acceptable.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/amplify_video_thumb/2083046531062788096/img/VHWrXMVM8Z5gy9tz.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A clever, practical use of a visual channel as a secure transport.</div>
+  <a class="view-link" href="https://x.com/deedydas/status/2083046554064339203" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK-news-outlets</strong> — 101 posts <span class="dim">(BBC, Sky and affiliated accounts; repeated stories merged and non-UK stories removed)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=Labour's%20Bev%20Craig%20was%20elected%20Mayor%20of%20Greater%20Manchester%2C%20succeeding%20Andy%20Burnham%20after%20defeating%20Reform%20in%20the%20final%20round" target="_blank" rel="noopener">Labour's Bev Craig was elected Mayor of Greater Manchester, succeeding Andy Burnham after defeating Reform in the final round</a></li><li><a href="https://www.google.com/search?q=Reservoirs%20in%20England%20reached%20exceptionally%20low%20levels%20as%20England%20and%20Wales%20completed%20what%20was%20expected%20to%20be%20their%20driest%20July%20on%20record" target="_blank" rel="noopener">Reservoirs in England reached exceptionally low levels as England and Wales completed what was expected to be their driest July on record</a></li><li><a href="https://www.google.com/search?q=Firefighters%20continued%20tackling%20a%20large%20wildfire%20in%20Suffolk%2C%20England%2C%20while%20the%20National%20Trust%20launched%20a%20public%20appeal" target="_blank" rel="noopener">Firefighters continued tackling a large wildfire in Suffolk, England, while the National Trust launched a public appeal</a></li><li><a href="https://www.google.com/search?q=An%2018-year-old%20man%20was%20arrested%20after%20a%20suspected%20explosion%20at%20a%20block%20of%20flats%20in%20Ipswich%2C%20England" target="_blank" rel="noopener">An 18-year-old man was arrested after a suspected explosion at a block of flats in Ipswich, England</a></li><li><a href="https://www.google.com/search?q=Families%20of%20victims%20of%20jailed%20Hull%20funeral%20director%20Robert%20Bush%20called%20for%20statutory%20UK%20funeral-industry%20regulation%2C%20while%20prosecutors%20pursued%20his%20assets" target="_blank" rel="noopener">Families of victims of jailed Hull funeral director Robert Bush called for statutory UK funeral-industry regulation, while prosecutors pursued his assets</a></li><li><a href="https://www.google.com/search?q=The%20Gold%20family%20agreed%20to%20sell%20its%2025%25%20stake%20in%20London%20Premier%20League%20club%20West%20Ham%20United%20to%20an%20Amanda%20Staveley-led%20consortium" target="_blank" rel="noopener">The Gold family agreed to sell its 25% stake in London Premier League club West Ham United to an Amanda Staveley-led consortium</a></li><li><a href="https://www.google.com/search?q=A%20technology%20investor%20pursued%20a%20%241%20billion%20bid%20for%20London's%20prospective%20NBA%20basketball%20team" target="_blank" rel="noopener">A technology investor pursued a $1 billion bid for London's prospective NBA basketball team</a></li><li><a href="https://www.google.com/search?q=England%20lost%20to%20New%20Zealand%20in%20the%20Commonwealth%20Games%20netball%20semi-final%20in%20Glasgow" target="_blank" rel="noopener">England lost to New Zealand in the Commonwealth Games netball semi-final in Glasgow</a></li><li><a href="https://www.google.com/search?q=Prince%20William%20and%20Kate%20attended%20the%20Commonwealth%20Games%20netball%20semi-final%20with%20their%20children" target="_blank" rel="noopener">Prince William and Kate attended the Commonwealth Games netball semi-final with their children</a></li><li><a href="https://www.google.com/search?q=Premier%20League%20club%20Chelsea%20were%20fined%20%C2%A310%20million%20over%20secret%20payments%20to%20agents%20during%20the%20Abramovich%20era" target="_blank" rel="noopener">Premier League club Chelsea were fined £10 million over secret payments to agents during the Abramovich era</a></li><li><a href="https://www.google.com/search?q=Two%20more%20small-boat%20pilots%20were%20jailed%20for%20English%20Channel%20crossings" target="_blank" rel="noopener">Two more small-boat pilots were jailed for English Channel crossings</a></li><li><a href="https://www.google.com/search?q=Sam%20Fender%20and%20Olivia%20Dean's%20Rein%20Me%20In%20broke%20a%2073-year%20UK%20chart%20record%20for%20weeks%20at%20number%20one" target="_blank" rel="noopener">Sam Fender and Olivia Dean's Rein Me In broke a 73-year UK chart record for weeks at number one</a></li><li><a href="https://www.google.com/search?q=Parents%20sued%20a%20UK%20school%20over%20allegedly%20inhumane%20calming%20rooms%20following%20a%20BBC%20investigation" target="_blank" rel="noopener">Parents sued a UK school over allegedly inhumane calming rooms following a BBC investigation</a></li><li><a href="https://www.google.com/search?q=Remains%20of%20a%20Roman%20port%20were%20discovered%20behind%20a%20home%20in%20East%20Yorkshire%2C%20England" target="_blank" rel="noopener">Remains of a Roman port were discovered behind a home in East Yorkshire, England</a></li><li><a href="https://www.google.com/search?q=The%20first%20wild-born%20beavers%20in%20Scotland's%20Glen%20Affric%20in%20400%20years%20were%20recorded" target="_blank" rel="noopener">The first wild-born beavers in Scotland's Glen Affric in 400 years were recorded</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>The Following feed contained 130 posts from 17 handles; 101 posts from BBC, Sky and affiliated accounts were consolidated into one UK-only firehose.</li><li>Related posts about stacked pull requests, DeepSeek V4 Flash, smevals, Greater Manchester and repeated UK stories were grouped by topic.</li><li>The For You collector returned 75 non-promoted posts; seven substantive picks remain after exact Following deduplication and noise filtering.</li><li>Boosted advertisements and untimestamped promotional posts were excluded.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2083583562880545097</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
