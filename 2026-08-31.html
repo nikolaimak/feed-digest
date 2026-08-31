@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-08-31</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">August 31, 2026 — overnight feed</p>
+  <p class="hero-stats">119 posts · 19 handles · Aug 30, 17:03 – Aug 31, 16:40 BST</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-simonw">@simonw</a><a href="#h-dair_ai">@dair_ai</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-fe_city_boy">@fe_city_boy</a><a href="#h-DutchNewsNL">@DutchNewsNL</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1131851609774985216/OcsssQ9J_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Peter Steinberger </div>
+      <div class="post-handle">@steipete · 2026-08-31 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">OpenClaw 2.0 is out after the team spent two months moving from individual local coding harnesses to a shared agent that knows what everyone is working on and orchestrates the work. Peter Steinberger describes the result as multiplayer coding and says the team now builds OpenClaw with OpenClaw.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> It is a concrete attempt to turn coding agents from isolated developer tools into shared organisational infrastructure.</div>
+  <a class="view-link" href="https://x.com/steipete/status/2094290652649636173" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">simonw</div>
+      <div class="post-handle">@simonw · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Across three posts, Simon Willison maps the confusing but unusually powerful capabilities exclusive to ChatGPT Work, then uses it to build a searchable site documenting all of its own tools and descriptions.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> The self-documenting demo exposes both the breadth of the product and a practical method for reverse-engineering opaque agent platforms.</div>
+  <a class="view-link" href="https://x.com/simonw/status/2094214737957691854" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Gergely Orosz argues that Antigravity's November 2025 launch may have been the last major new IDE-shaped coding product: since January, developers around him have steadily shifted their work from IDEs into terminals.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> If the observation holds, AI agents are not merely adding features to developer tools; they are changing the dominant interface category.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2094446320828219712" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-08-31 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Omar Shahine released native macOS tooling for Calendar, Reminders, Contacts and Mail: a CLI, MCP server, OpenClaw and Claude plugins, an agent-friendly SQLite database, and a mail channel with cryptographically verified senders.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> It directly addresses the awkward gap between personal Apple data and trustworthy agent automation.</div>
+  <a class="view-link" href="https://x.com/OmarShahine/status/2094441045195133052" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/939313677647282181/vZjFWtAn_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-08-30 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Elvis argues that the reported autonomous-agent civilisations at OpenAI show how unprepared current systems are for persistent agents. In a related post, he highlights WikiSkill, which gives agents a framework for drawing on and extending a persistent wiki of reusable skills.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Persistence can compound both capability and failure; these two examples put the operational risk and the proposed architecture side by side.</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2094118955304563198" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">Y</div>
+    <div class="post-meta">
+      <div class="post-name">yulia_navalnaya</div>
+      <div class="post-handle">@yulia_navalnaya · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Юлия Навальная выпустила пятый ролик о сентябрьских выборах: даже при системных фальсификациях, утверждает она, можно мешать кандидатам «Единой России» и усложнять работу фальсификаторам.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Это практический политический призыв не путать нечестность выборов с полной бесполезностью участия.</div>
+  <a class="view-link" href="https://x.com/yulia_navalnaya/status/2094366550346133895" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-simonw"><h2><a href="https://x.com/simonw" target="_blank" rel="noopener">@simonw</a> <span class="count">4 posts · 1 featured</span></h2><p class="handle-summary">Automated social replies turn a convenience feature into a visible reputational liability.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/378800000261649705/be9cc55e64014e6d7663c50d7cb9fc75_normal.jpeg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Simon Willison</div>
+      <div class="post-handle">@simonw · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Simon asks operators of autoreply bots whether they have considered the damage to their professional reputation: anyone—including a future employer—can inspect the profile and immediately see that replies were automated.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/simonw/status/2094436273146749076" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-dair_ai"><h2><a href="https://x.com/dair_ai" target="_blank" rel="noopener">@dair_ai</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Microsoft research questions the usual handoff from supervised fine-tuning to reinforcement learning.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-08-30 </div>
+    </div>
+  </header>
+  <p class="summary">Microsoft researchers argue that a standard supervised fine-tuning pipeline does not necessarily produce the model one actually wants as the starting point for reinforcement learning, and propose a better way to reason about that transition.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/dair_ai/status/2094138107314753938" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">2 posts · 2 featured</span></h2><p class="handle-summary">Сообщество как взаимная поддержка и неожиданная литературная генеалогия песни.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">После трёх дней за кулисами рок-фестиваля в Праге Фельдман вспомнил, как ощущается настоящее сообщество: его главное правило — если кто-то падает, его поднимают.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2094408021883412618" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-08-30 </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман заметил, что «Полковнику никто не пишет» можно считать русским вариантом For Whom the Bell Tolls: известной песней об ужасах войны, выросшей из великого романа.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2094153381438792168" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-fe_city_boy"><h2><a href="https://x.com/fe_city_boy" target="_blank" rel="noopener">@fe_city_boy</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Сильный паспорт лучше всего распознаётся по тому, что его обладателю не приходится думать о его силе.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1941895394486525952/5Oo0TZBi_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Денис Чужой</div>
+      <div class="post-handle">@fe_city_boy · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Денис Чужой формулирует привилегию сильного паспорта одной репликой: если человек даже не знает, сильный ли паспорт у его страны, значит, сильный.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/fe_city_boy/status/2094395196683309113" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">12 posts · 11 featured</span></h2><p class="handle-summary">Dutch politics, urban pressure, care policy, education, culture and sport.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Coalition budget negotiations remained deadlocked with only hours left to reach an agreement.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HRDLksNWAAAyxh7?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094397660094447910" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Amsterdam mayor Femke Halsema says major Dutch cities are buckling under the combined pressure of homelessness and drug problems.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094358399488016680" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">A large explosion struck a restaurant in Utrecht.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HRDMOkUXAAAC2qs?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094398379514036265" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">A doctor apologised after criticising the euthanasia of a 17-year-old.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094331060511277421" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">The Dutch government apologised to young people who had been placed in secure care.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094327260358553693" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">The CPB concluded that foreign students provide a net benefit to the Dutch economy.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094314149824110692" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">The number of English-language bookshops in the Netherlands is increasing.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HRC4skYW4AEMbe1?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094376905004712018" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Amsterdam's baby raves let parents reconnect with techno culture in a toddler-friendly setting.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2094029462660583424/UTHCDv9c?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094440397053300930" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Former CDA leader Elco Brinkman died at the age of 78.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HRDi-HSXAAA7Hit?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094423385665069116" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">A September guide ranges from Sting concerts to beach outings and other events around the Netherlands.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094420918386688188" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">PSV beat Utrecht 6–1 while AZ remained top of the Eredivisie.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2094325962473115874" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days; Following duplicates, news outlets, boosted posts, promotions and low-information reactions removed.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1787660049868800000/PfMkSQNQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Tom Yeh</div>
+      <div class="post-handle">@ProfTomYeh · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Tom Yeh published an interactive, by-hand diagram of an autoencoder.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/ext_tw_video_thumb/2094428792257167360/pu/img/TsPNiC5Pe17D7c31.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Manipulable diagrams are a compact way to build intuition for the encoder, latent representation and decoder rather than memorising the architecture.</div>
+  <a class="view-link" href="https://x.com/ProfTomYeh/status/2094428808325517555" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1932867461642366976/Yze9x58F_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Hyper3D by Deemos</div>
+      <div class="post-handle">@DeemosTech · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">HYPER3D WorldGen turns one image into an interactive 3D world, separating foreground meshes from a 3D Gaussian-splatting background for use in robotics, games, film and XR.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Separating manipulable objects from the visual background is a useful bridge from impressive view synthesis to environments agents can actually act inside.</div>
+  <a class="view-link" href="https://x.com/DeemosTech/status/2094440163246256523" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">_</div>
+    <div class="post-meta">
+      <div class="post-name">Avi Chawla</div>
+      <div class="post-handle">@_avichawla · 2026-08-30 </div>
+    </div>
+  </header>
+  <p class="summary">Avi Chawla explains why transformer KV caches store keys and values but not queries: autoregressive generation reuses prior-token K/V vectors, while each query belongs only to the current token and is not needed again.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> It is a clean systems-level explanation of one of the main memory and latency mechanisms in LLM inference.</div>
+  <a class="view-link" href="https://x.com/_avichawla/status/2093962020962083139" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2028879663221882886/sMzEKnKc_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Together AI</div>
+      <div class="post-handle">@togethercompute · 2026-08-30 </div>
+    </div>
+  </header>
+  <p class="summary">Together AI says GLM-5.3's hallucination rate is less than half Claude Fable 5's and less than a third GPT-5.6 Luna's.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/amplify_video_thumb/2094171563499106304/img/9sLNvVyRPCA665Fb.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> If the measurement survives independent evaluation, lower hallucination could matter more than raw benchmark gains for unattended agent workflows.</div>
+  <a class="view-link" href="https://x.com/togethercompute/status/2094171804478701995" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">H</div>
+    <div class="post-meta">
+      <div class="post-name">Huaizu Jiang</div>
+      <div class="post-handle">@HuaizuJiang · 2026-08-30 </div>
+    </div>
+  </header>
+  <p class="summary">LumiTokens relights a 3D scene by transforming latent tokens instead of reconstructing geometry and materials or repainting every view with diffusion.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> The latent-space route could make consistent multi-view relighting substantially simpler and cheaper.</div>
+  <a class="view-link" href="https://x.com/HuaizuJiang/status/2094150657439609079" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2056719506785927168/ol1lqm8b_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Pi</div>
+      <div class="post-handle">@pidotdev · 2026-08-31 </div>
+    </div>
+  </header>
+  <p class="summary">Pi added a thinking-level selector that can be set through a command, saved as the startup default, or changed mid-session with a keyboard shortcut.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/amplify_video_thumb/2094374177302040576/img/aGko7AzKNQ62e8us.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Reasoning effort is becoming a first-class interactive control rather than a hidden model parameter.</div>
+  <a class="view-link" href="https://x.com/pidotdev/status/2094387225131626847" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2078715153499963392/FV2tspFN_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">jia</div>
+      <div class="post-handle">@jia_seed · 2026-08-30 </div>
+    </div>
+  </header>
+  <p class="summary">Jia modified a MIDI keyboard so voice commands can create loops and layer instruments; the implementation and source code are public.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/amplify_video_thumb/2094116948548505600/img/F5J6jAY1uurw6m8K.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> It is a charming, concrete example of voice acting as a control plane for creative software rather than merely dictating text.</div>
+  <a class="view-link" href="https://x.com/jia_seed/status/2094117230057488415" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK-news</strong> — 85 posts <span class="dim">(BBC and Sky; UK-only and cross-outlet deduplicated)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=The%20UK%20government%20excluded%20people%20convicted%20of%20unlawful%20killing%20from%20England%20and%20Wales's%20planned%20early-release%20scheme%20while%20debate%20continued%20over%20dangerous%20offenders%20and%20the%20prison-capacity%20crisis" target="_blank" rel="noopener">The UK government excluded people convicted of unlawful killing from England and Wales's planned early-release scheme while debate continued over dangerous offenders and the prison-capacity crisis</a></li><li><a href="https://www.google.com/search?q=Kemi%20Badenoch%20reshuffled%20the%20UK%20Conservative%20front%20bench%2C%20replacing%20Mel%20Stride%20with%20Andrew%20Griffith%20as%20shadow%20chancellor%20and%20Priti%20Patel%20with%20Tom%20Tugendhat%20as%20shadow%20foreign%20secretary" target="_blank" rel="noopener">Kemi Badenoch reshuffled the UK Conservative front bench, replacing Mel Stride with Andrew Griffith as shadow chancellor and Priti Patel with Tom Tugendhat as shadow foreign secretary</a></li><li><a href="https://www.google.com/search?q=Notting%20Hill%20Carnival%20marked%20its%2060th%20anniversary%20in%20London%3B%20police%20described%20the%20event%20as%20overwhelmingly%20positive%20despite%20169%20arrests" target="_blank" rel="noopener">Notting Hill Carnival marked its 60th anniversary in London; police described the event as overwhelmingly positive despite 169 arrests</a></li><li><a href="https://www.google.com/search?q=Seven%20people%20were%20arrested%20on%20suspicion%20of%20murder%20after%20the%20death%20of%20a%20newborn%20baby%20girl%20in%20South%20Yorkshire%2C%20England" target="_blank" rel="noopener">Seven people were arrested on suspicion of murder after the death of a newborn baby girl in South Yorkshire, England</a></li><li><a href="https://www.google.com/search?q=Police%20said%20a%20woman's%20body%20found%20in%20a%20Liverpool%20park%20had%20been%20inside%20a%20bin%20bag" target="_blank" rel="noopener">Police said a woman's body found in a Liverpool park had been inside a bin bag</a></li><li><a href="https://www.google.com/search?q=The%20search%20ended%20without%20finding%20two%20crew%20members%20from%20a%20French%20fishing%20boat%20that%20sank%20in%20the%20English%20Channel" target="_blank" rel="noopener">The search ended without finding two crew members from a French fishing boat that sank in the English Channel</a></li><li><a href="https://www.google.com/search?q=UK%20campaigners%20called%20for%20paid%20leave%20for%20parents%20of%20seriously%20ill%20children%20and%20emergency%20action%20to%20stop%20teachers%20leaving%20the%20profession" target="_blank" rel="noopener">UK campaigners called for paid leave for parents of seriously ill children and emergency action to stop teachers leaving the profession</a></li><li><a href="https://www.google.com/search?q=BBC%20reporting%20examined%20why%20many%20black%20Britons%20still%20cannot%20swim" target="_blank" rel="noopener">BBC reporting examined why many black Britons still cannot swim</a></li><li><a href="https://www.google.com/search?q=A%20high-risk%20level%20crossing%20in%20Burscough%2C%20England%20faced%20renewed%20scrutiny%20after%20a%20fatal%20train%20crash" target="_blank" rel="noopener">A high-risk level crossing in Burscough, England faced renewed scrutiny after a fatal train crash</a></li><li><a href="https://www.google.com/search?q=A%20British%20woman%20fatally%20stabbed%20in%20Germany%20had%20her%20suspected%20attacker%20detained%20in%20a%20psychiatric%20hospital" target="_blank" rel="noopener">A British woman fatally stabbed in Germany had her suspected attacker detained in a psychiatric hospital</a></li><li><a href="https://www.google.com/search?q=Gordonstoun%20pupils%20in%20Scotland%20discovered%20the%20remains%20of%20what%20may%20be%20a%201%2C000-year-old%20Viking%20church" target="_blank" rel="noopener">Gordonstoun pupils in Scotland discovered the remains of what may be a 1,000-year-old Viking church</a></li><li><a href="https://www.google.com/search?q=SNL%20UK%20writer%20Chris%20Cantrill%20won%20best%20show%20at%20the%20Edinburgh%20Fringe%20comedy%20awards" target="_blank" rel="noopener">SNL UK writer Chris Cantrill won best show at the Edinburgh Fringe comedy awards</a></li><li><a href="https://www.google.com/search?q=The%20sons%20of%20a%20police%20officer%20killed%20in%20an%20A66%20crash%20appeared%20as%20Manchester%20United%20mascots" target="_blank" rel="noopener">The sons of a police officer killed in an A66 crash appeared as Manchester United mascots</a></li><li><a href="https://www.google.com/search?q=A%20Norwegian%20steel%20group%20sought%20new%20funding%20for%20its%20bid%20for%20Britain's%20Speciality%20Steels%20UK" target="_blank" rel="noopener">A Norwegian steel group sought new funding for its bid for Britain's Speciality Steels UK</a></li><li><a href="https://www.google.com/search?q=Premier%20League%20transfer%20news%20included%20Liverpool%20signing%20Bradley%20Barcola%20from%20PSG%20for%20%C2%A3123%20million" target="_blank" rel="noopener">Premier League transfer news included Liverpool signing Bradley Barcola from PSG for £123 million</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Following collection retained 119 posts across 19 handles and stopped cleanly at the saved cursor, covering just under 24 hours.</li><li>BBC, Sky and BBC Sport contributed 85 posts; repeated reports were consolidated into one UK-only firehose and international-only stories were removed.</li><li>Simon Willison's ChatGPT Work posts and Elvis's persistent-agent posts were grouped by topic despite separate timestamps.</li><li>The OpenClaw 2.0 launch produced several cross-account reposts; the substantive first-party account was retained and promotional reactions were dropped.</li><li>For You retained 74 non-promoted candidates before editorial filtering; exact Following duplicates, news outlets, boosted promotions and low-information reactions were excluded.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2094450357917163603</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
