@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-09-04</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">September 4, 2026 — daily feed</p>
+  <p class="hero-stats">115 posts · 12 handles · Sep 3, 23:00 – Sep 4, 16:00 BST</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-DutchNewsNL">@DutchNewsNL</a><a href="#h-wwwillchen">@wwwillchen</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1643277398522187778/31dedbLo_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">A Qwen paper argues that terminal-agent trajectories are now plentiful, but realistic executable environments remain scarce. Because post-training needs environments in which actions have real consequences, environment construction is becoming the limiting resource rather than trajectory collection.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HRYQCpSbYAAaq1v?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Directly relevant to where agent-training infrastructure needs investment next.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2095880318146507139" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">A long-context study finds that the position of a reasoning trace can move accuracy by 50 percentage points. Appending prior deductions after the source document is not equivalent to placing task state where a causal transformer can use it effectively.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete prompt-architecture result with a very large effect on reasoning-model reliability.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2095693344689238465" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-09-04 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">TRACES is a benchmark for AI-assisted discovery that evaluates predictions before the answer is known, rather than scoring agents only against already-solved research questions.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Prospective evaluation is a better test of whether research agents can generate genuinely useful discoveries.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2095859744556605516" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-09-04 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Gergely argues that generated code is becoming an implementation artefact for machines rather than prose for people: if it is correct and works, human readability may soon matter much less because nobody is expected to read most of it.</p>
+  <blockquote class="quote">Does it work? Is it correct? If yes: code no longer matters.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A provocative framing for how review, maintainability and engineering ownership may change in agent-heavy development.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2095830302937457098" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">Gergely describes trusted peer groups — recurring meetups, walks, coffee chats, WhatsApp circles and a personal ‘board of directors’ — as increasingly useful for making major decisions amid rapid industry change. They appear calmer and better informed as participation grows.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A practical people-first mechanism for decision quality when public information is noisy and incentives are unclear.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2095867733808206103" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">2 posts · 1 featured</span></h2><p class="handle-summary">Американские праймериз и побочный эффект обязательной маркировки ИИ-контента.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман выпустил разбор итогов праймериз перед выборами в Конгресс: неожиданные поражения и победы за последние полгода. Из-за 15-секундного рекламного фрагмента, сделанного ИИ и корректно помеченного автором, Google теперь маркирует как ИИ весь ролик.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2095825449158860910" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">8 posts · 6 featured</span></h2><p class="handle-summary">Housing, justice, nitrogen policy, online abuse, emissions and one unusually empirical Ig Nobel — a dedicated English-language Netherlands section.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">Dutch rents rose 4.4% year on year in July, with Rotterdam recording the largest increase; the national rise was slower than in either of the previous two years.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2095759450048999536" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">Prosecutors detained 32 people, including two minors, over the attack in Overasselt.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HRX6t79XIAIl4xO?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2095856870871244819" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">An AD investigation found that public officials were among those directing online abuse at Rob Jetten.</p>
+  
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HRXZxesWoAIDg34?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2095820647687463043" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">Farmers face cuts to livestock numbers after the government's nitrogen plan was judged insufficient.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2095814401685107051" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">A Dutch soil scientist won an Ig Nobel after burying 1,000 pairs of underpants as an accessible way to measure soil life and decomposition.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2095779983021035916" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">CO2 emissions from Dutch road traffic fell for the first time since the pandemic.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2095760875042828341" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-wwwillchen"><h2><a href="https://x.com/wwwillchen" target="_blank" rel="noopener">@wwwillchen</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">A returning user's experience of OpenClaw onboarding.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">W</div>
+    <div class="post-meta">
+      <div class="post-name">Will Chen</div>
+      <div class="post-handle">@wwwillchen · 2026-09-04 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">After abandoning an earlier setup attempt, Will Chen says the current OpenClaw onboarding was substantially easier and let him configure gateways on both his phone and MacBook.</p>
+  
+  
+  
+  <a class="view-link" href="https://x.com/wwwillchen/status/2095760211202154777" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">6 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic suggestions. Dedup window: 14 days; current Following duplicates, promoted posts, outlet news and empty promotion removed.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Simon André</div>
+      <div class="post-handle">@simonandre · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">Symfony is adding form attributes so a data class can describe its own form directly, reversing the usual pattern of constructing a separate form type around that class.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete framework design that removes indirection from a common application boundary.</div>
+  <a class="view-link" href="https://x.com/simonandre/status/2095786693584670984" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">T</div>
+    <div class="post-meta">
+      <div class="post-name">Taylor Otwell</div>
+      <div class="post-handle">@taylorotwell · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">Laravel Cloud now supports read-only users for MySQL databases, giving agents and humans query access without granting mutation privileges.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A small but valuable least-privilege primitive for safely connecting agents to production data.</div>
+  <a class="view-link" href="https://x.com/taylorotwell/status/2095894848855314515" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">Boris Cherny</div>
+      <div class="post-handle">@bcherny · 2026-09-03 </div>
+    </div>
+  </header>
+  <p class="summary">Anthropic is exploring Function Hooks for Claude Code: a proposed extensibility mechanism that lets users customise and intervene in agent workflows. The design is public for feedback and has not shipped.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> Hooks could make coding-agent harnesses substantially more programmable than static commands or instructions.</div>
+  <a class="view-link" href="https://x.com/bcherny/status/2095590515765060076" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">Peter Steinberger 🦞</div>
+      <div class="post-handle">@steipete · 2026-09-03 </div>
+    </div>
+  </header>
+  <p class="summary">Peter Steinberger says GPT-6 Astra proactively debugged OpenClaw work and traced several failures into upstream dependencies, producing fixes for Vitest, tsx and SwiftPM.</p>
+  <blockquote class="quote">Astra debugged OC and ended up finding and patching issues in upstream dependencies.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete report of an agent crossing repository boundaries to repair root causes.</div>
+  <a class="view-link" href="https://x.com/steipete/status/2095600786264973822" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">Dave Farley</div>
+      <div class="post-handle">@davefarley77 · 2026-09-02 </div>
+    </div>
+  </header>
+  <p class="summary">Dave Farley frames AI-assisted development as a shift from writing lines of code to managing agents and specifying outcomes rather than prescribing solutions, while retaining engineering discipline around the result.</p>
+  
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A useful operating model for teams adopting coding agents without abandoning software-engineering responsibility.</div>
+  <a class="view-link" href="https://x.com/davefarley77/status/2095210148490817647" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">sysxplore</div>
+      <div class="post-handle">@sysxplore · 2026-09-04 </div>
+    </div>
+  </header>
+  <p class="summary">A shell-history search joke compresses a familiar engineering experience into one line: knowing the command exists somewhere is not the same as being able to retrieve it cleanly.</p>
+  <blockquote class="quote">I knew I had an ‘ls’ somewhere in my history.</blockquote>
+  
+  <div class="why"><span class="why-label">Why it matters:</span> A brief, deserved bit of command-line levity after the heavier agent material.</div>
+  <a class="view-link" href="https://x.com/sysxplore/status/2095870405558829216" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK News</strong> — 93 posts <span class="dim">(BBC, Sky and outlet reposts merged; repeated coverage, international stories, sport liveblogs and programme promotion removed)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=Reform%20UK%3A%20two%20senior%20officials%20resign%20after%20Channel%204's%20undercover%20funding%20investigation%3B%20Labour%20reports%20the%20claims%20to%20the%20Met%3B%20the%20party%20opens%20its%20conference%20under%20pressure%20and%20proposes%20a%20returns%20agreement%20with%20France's%20National%20Rally" target="_blank" rel="noopener">Reform UK: two senior officials resign after Channel 4's undercover funding investigation; Labour reports the claims to the Met; the party opens its conference under pressure and proposes a returns agreement with France's National Rally</a></li><li><a href="https://www.google.com/search?q=UK%20defence%20and%20foreign%20policy%3A%20the%20Army%20pauses%20some%20live-fire%20and%20other%20training%20for%20lack%20of%20money%2C%20while%20ministers%20reaffirm%20Falkland%20Islanders'%20right%20to%20self-determination%20amid%20renewed%20Argentine%20claims%20and%20uncertain%20US%20backing" target="_blank" rel="noopener">UK defence and foreign policy: the Army pauses some live-fire and other training for lack of money, while ministers reaffirm Falkland Islanders' right to self-determination amid renewed Argentine claims and uncertain US backing</a></li><li><a href="https://www.google.com/search?q=UK%20travel%3A%20Gatwick%20flights%20are%20grounded%20after%20an%20aircraft%20becomes%20stuck%20on%20the%20runway" target="_blank" rel="noopener">UK travel: Gatwick flights are grounded after an aircraft becomes stuck on the runway</a></li><li><a href="https://www.google.com/search?q=NHS%20and%20care%3A%20unsafe%20staffing%20closes%20Barnstaple%20maternity%20facilities%20and%20sends%20some%20expectant%20mothers%20on%20two-hour%20journeys%3B%20Wales'%20pause%20in%20transgender%20surgery%20prompts%20ministerial%20intervention" target="_blank" rel="noopener">NHS and care: unsafe staffing closes Barnstaple maternity facilities and sends some expectant mothers on two-hour journeys; Wales' pause in transgender surgery prompts ministerial intervention</a></li><li><a href="https://www.google.com/search?q=UK%20resilience%3A%20households%20are%20advised%20to%20stock%20food%20ahead%20of%20potential%20extreme%20El%20Ni%C3%B1o%20weather%2C%20followed%20by%20more%20UK%20rain%20after%20a%20warm%20weekend" target="_blank" rel="noopener">UK resilience: households are advised to stock food ahead of potential extreme El Niño weather, followed by more UK rain after a warm weekend</a></li><li><a href="https://www.google.com/search?q=UK%20housing%20and%20consumer%20risk%3A%20families%20leave%20defective%2C%20damp%20new-build%20homes%3B%20online%20recruitment%20scams%20are%20stealing%20jobseekers'%20savings" target="_blank" rel="noopener">UK housing and consumer risk: families leave defective, damp new-build homes; online recruitment scams are stealing jobseekers' savings</a></li><li><a href="https://www.google.com/search?q=UK%20policing%20and%20courts%3A%20an%20IOPC%20investigation%20follows%20a%20death%20near%20Notting%20Hill%20Carnival%3B%20the%20Met%20commissioner%20criticises%20bail%20decisions%20for%20knife%20and%20gun%20suspects%3B%20sentencing%20follows%20a%20fatal%20XL%20bully%20attack%20and%20a%20Lincolnshire%20kidnapping" target="_blank" rel="noopener">UK policing and courts: an IOPC investigation follows a death near Notting Hill Carnival; the Met commissioner criticises bail decisions for knife and gun suspects; sentencing follows a fatal XL bully attack and a Lincolnshire kidnapping</a></li><li><a href="https://www.google.com/search?q=UK%20energy%20and%20business%3A%20the%20Jackdaw%20gas%20field%20could%20receive%20approval%20within%20weeks%2C%20NCP%20administrators%20seek%20buyers%20for%20car-park%20sites%2C%20and%20a%20%C2%A370m%20tree-planting%20fraud%20brings%20prison%20terms" target="_blank" rel="noopener">UK energy and business: the Jackdaw gas field could receive approval within weeks, NCP administrators seek buyers for car-park sites, and a £70m tree-planting fraud brings prison terms</a></li><li><a href="https://www.google.com/search?q=UK%20primary%20care%20AI%3A%20a%20study%20warns%20that%20automated%20GP%20note-taking%20tools%20can%20omit%20clinically%20important%20information" target="_blank" rel="noopener">UK primary care AI: a study warns that automated GP note-taking tools can omit clinically important information</a></li><li><a href="https://www.google.com/search?q=British%20culture%20and%20public%20life%3A%20actor%20Richard%20O'Sullivan%20dies%20at%2082%2C%20Aardman%20marks%2050%20years%2C%20and%20Russell%20Howard%20announces%20the%20death%20of%20his%20newborn%20son" target="_blank" rel="noopener">British culture and public life: actor Richard O'Sullivan dies at 82, Aardman marks 50 years, and Russell Howard announces the death of his newborn son</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Following reached the prior cursor and yielded 115 posts from 12 handles across a 17-hour window.</li><li>BBC, Sky and their reposts supplied 93 records; duplicate stories were merged and only UK-domestic themes were retained in the firehose.</li><li>DutchNewsNL's duplicate rent posts were merged; Gergely's peer-network continuation was grouped by topic.</li><li>For You yielded 70 non-promoted records, but most were duplicates from the Following feed or outlet news; six substantive non-news suggestions were retained.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2095904082560946650</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
