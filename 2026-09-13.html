@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-09-13</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">September 13, 2026 — manual selection</p>
+  <p class="hero-stats">39 selected source posts · 16 source handles · 35 Following + 4 For You selected source posts; latest Following down to the preceding evening, plus older algorithmic suggestions. Not a complete missed-day recovery.</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-omarsar0">@omarsar0</a><a href="#h-ErikVoorhees">@ErikVoorhees</a><a href="#h-dair_ai">@dair_ai</a><a href="#h-DutchNewsNL">@DutchNewsNL</a><a href="#h-simonw">@simonw</a><a href="#h-steipete">@steipete</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 ·  <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Build a harness to own reliability, not merely wrap a model. @omarsar0 argues that AI engineers should understand harness construction so they can adapt tools, data and domain knowledge, diagnose failures themselves and avoid depending entirely on one provider. Better results on verifiable general tasks do not establish reliability in a specialised domain.</p><div class="source-links"><a href="https://academy.dair.ai/papers/collections/harness-engineering" target="_blank" rel="noopener">Harness-engineering reading collection</a></div>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete build-versus-buy criterion: who can inspect, evaluate and repair the full intelligence stack?</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2099208894866178204" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 ·  <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Recurrent Looped Transformer (RLT) proposes carrying state through every prompt and response token. A causal encoder supplies global KV memory; the recurrent decoder combines each token with the previous final hidden state and a sliding activation cache. The same transition is intended for pretraining, supervised tuning, sampling and RL replay, which rebuilds state under current weights. This is an unmeasured design proposal: reasoning gains, hardware speedups and RL scaling have not been demonstrated.</p><div class="source-links"><a href="https://github.com/yifanzhang-pro/recurrent-looped-tranformer" target="_blank" rel="noopener">RLT design repository</a></div>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> The interesting idea is persistent recurrent computation with fixed per-token work, not an established benchmark win.</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2099184337195565335" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">dair_ai</div>
+      <div class="post-handle">@dair_ai ·  </div>
+    </div>
+  </header>
+  <p class="summary">DAIR.AI describes terms.txt: machine-access conditions specified by path and purpose, including pricing. The paper combines those terms with Web Bot Auth signatures, signed intent, delegation tokens, HTTP 402 negotiation and signed receipts, with enforcement at the origin server. It distinguishes technical enforcement from auditing and obligations that still depend on contracts.</p><div class="source-links"><a href="https://arxiv.org/abs/2609.11152" target="_blank" rel="noopener">terms.txt paper</a></div>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Agent-readable terms are only one layer; identity, authorisation, payment negotiation and evidence must connect to the server enforcing access.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2098864248197976465" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">steipete</div>
+      <div class="post-handle">@steipete ·  </div>
+    </div>
+  </header>
+  <p class="summary">Peter Steinberger reports roughly 80% faster worktree creation in the next release or development channel through filesystem folder clones, with lower disk use, and links the Rust-based fs-safe library. He also reports improved team-scale performance and settings-based updates that no longer need a coding agent. These are author reports, not independent benchmarks or verification of an installation. In the same discussion, @manastuerenberg criticises past update breakage and the value of the project’s PR volume; Steinberger says the update path has been improved.</p><div class="source-links"><a href="https://fs-safe.io" target="_blank" rel="noopener">fs-safe directory copying and cloning</a> · <a href="https://x.com/steipete/status/2099201162922938418" target="_blank" rel="noopener">Related source @steipete</a> · <a href="https://x.com/steipete/status/2099198656398467339" target="_blank" rel="noopener">Related source @steipete</a> · <a href="https://x.com/steipete/status/2099195896508617141" target="_blank" rel="noopener">Related source @steipete</a> · <a href="https://x.com/manastuerenberg/status/2099197930909430004" target="_blank" rel="noopener">Related source @manastuerenberg</a></div>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Read the performance and update claims together with the reliability criticism, rather than treating release promises as a completed local test.</div>
+  <a class="view-link" href="https://x.com/steipete/status/2099197266636783989" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz ·  </div>
+    </div>
+  </header>
+  <p class="summary">Gergely Orosz reports growing frustration with Claude Fable routing ordinary requests to Opus on safety grounds. His example was reading replies to a thread and grouping them; he says his work does not involve the cybersecurity or biology categories cited by the model. He regards the behaviour as performative and says he increasingly prefers competing models. This combines his complaint and follow-up clarifications into one reported experience.</p><div class="source-links"><a href="https://x.com/GergelyOrosz/status/2099141778221752393" target="_blank" rel="noopener">Related source @GergelyOrosz</a> · <a href="https://x.com/GergelyOrosz/status/2099146490941767840" target="_blank" rel="noopener">Related source @GergelyOrosz</a></div>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> The product issue is whether safety routing is intelligible and proportionate to the task, not proof that all safety controls are unnecessary.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2099141454241112402" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">signulll</div>
+      <div class="post-handle">@signulll ·  <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">signulll criticises people handing authentication codes to unfamiliar services despite warnings from their banks and email providers, using a joke about authentication becoming weaker rather than stronger. Steinberger reposted the warning.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A trust-boundary reminder: a service requesting a verification code still needs to be authenticated by the person supplying it.</div>
+  <a class="view-link" href="https://x.com/signulll/status/2098850197396681045" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-omarsar0"><h2><a href="https://x.com/omarsar0" target="_blank" rel="noopener">@omarsar0</a> <span class="count">3 selected source posts · 1 featured</span></h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">O</div>
+    <div class="post-meta">
+      <div class="post-name">omarsar0</div>
+      <div class="post-handle">@omarsar0 ·  </div>
+    </div>
+  </header>
+  <p class="summary">@omarsar0 questions the growing pressure to dictate how people use and build AI, and now how quickly they may advance it. He asks whether such proposals demand too much control. This is his governance opinion; only the visible excerpt was available.</p>
+
+
+
+  <a class="view-link" href="https://x.com/omarsar0/status/2099133736310731250" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-ErikVoorhees"><h2><a href="https://x.com/ErikVoorhees" target="_blank" rel="noopener">@ErikVoorhees</a> <span class="count">2 selected source posts · 1 featured</span></h2><p class="handle-summary">Two related governance arguments, reposted by Richard Sutton.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">ErikVoorhees</div>
+      <div class="post-handle">@ErikVoorhees ·  <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Voorhees argues that frontiers are inherently unruly and resist central pacing or embedded evaluators. In a related post he rejects giving governments control of AI in the name of safety, invoking state violence as his reason for distrust. These are his political arguments, not an independently established comparison of harms.</p><div class="source-links"><a href="https://x.com/ErikVoorhees/status/2098949275530969465" target="_blank" rel="noopener">Related source @ErikVoorhees</a></div>
+
+
+
+  <a class="view-link" href="https://x.com/ErikVoorhees/status/2098973329939943527" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-dair_ai"><h2><a href="https://x.com/dair_ai" target="_blank" rel="noopener">@dair_ai</a> <span class="count">2 selected source posts · 1 featured</span></h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">dair_ai</div>
+      <div class="post-handle">@dair_ai ·  </div>
+    </div>
+  </header>
+  <p class="summary">The weekly research index points to STAIR, PARSER, FrogNano, Codebook Agent, Procedural Graphs, AI-Native Design Docs and Proactive Thought Partners. This is a discovery list; the underlying papers were not read for this digest.</p>
+
+
+
+  <a class="view-link" href="https://x.com/dair_ai/status/2099168415487287613" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">2 selected source posts · 2 featured</span></h2><p class="handle-summary">Dutch coverage is retained separately, in English; the UK-only filter applies to the combined general-news firehose.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL ·  </div>
+    </div>
+  </header>
+  <p class="summary">In a commentary, Robin Pascoe warns that dual-nationality reform could end up helping Dutch emigrants while leaving would-be Dutch citizens required to renounce their original nationality. She reports that VVD opposition, echoed by CDA, threatens the immigrant provisions and that D66 has not clearly committed to preserving them. Pascoe argues that such unequal treatment reflects suspicion of immigrants; this is an opinion column about a proposal, not enacted law.</p><div class="source-links"><a href="https://www.dutchnews.nl/2026/09/some-dutch-people-are-about-to-be-more-equal-than-others/" target="_blank" rel="noopener">Read the commentary</a></div>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2099089979091607835" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL ·  </div>
+    </div>
+  </header>
+  <p class="summary">DutchNews links an Inburgeringscursus investigation testing common inburgering-exam preparation advice against real exams. The collected post introduces the myth-checking exercise but does not establish which advice survived; those conclusions are not inferred here.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2099075823101788437" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-simonw"><h2><a href="https://x.com/simonw" target="_blank" rel="noopener">@simonw</a> <span class="count">1 selected source posts · 1 featured</span></h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">simonw</div>
+      <div class="post-handle">@simonw ·  </div>
+    </div>
+  </header>
+  <p class="summary">Simon Willison describes using ChatGPT Work and GPT-6 Astra in Max mode to generate circular running routes from an address using OpenStreetMap data. This is his demonstration of a geographic-data workflow, not a route independently checked by this digest.</p>
+
+
+
+  <a class="view-link" href="https://x.com/simonw/status/2098929534968238094" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-steipete"><h2><a href="https://x.com/steipete" target="_blank" rel="noopener">@steipete</a> <span class="count">5 selected source posts · 1 featured</span></h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">steipete</div>
+      <div class="post-handle">@steipete ·  </div>
+    </div>
+  </header>
+  <p class="summary">Steinberger says Codex fixed a non-working webcam on his Dell XPS running Linux after a reboot. He presents agents as a reason to try Linux again; the evidence here is a personal troubleshooting anecdote, not a guarantee that any hardware issue is prompt-fixable.</p>
+
+
+
+  <a class="view-link" href="https://x.com/steipete/status/2099172248213225791" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">1 selected source posts · 1 featured</span></h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman ·  </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман увидел гитару Курта Кобейна из тура, записи которого многократно смотрел в школьные годы, и вспомнил знакомые до каждого кадра видео. Личная ностальгическая заметка; подробности по изображению не добавлены.</p>
+
+
+
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2098950138806808936" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">3 · algorithmic feed</span></h2><p class="handle-summary">Four selected source posts become three stories after merging Karpathy’s reaction into Dario’s announcement. Algorithmic suggestions may be older than the Following selection.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DarioAmodei</div>
+      <div class="post-handle">@DarioAmodei ·  </div>
+    </div>
+  </header>
+  <p class="summary">Dario Amodei announces We Must Pace the Frontier, arguing that the AI industry should slow down. The step described in his post is Anthropic’s unilateral commitment to independent evaluators with permanent employee-level access to systems, tasked with checking safety adherence, reporting incidents and assessing alignment during training. Andrej Karpathy supports the proposal and hopes the industry can coordinate. The other parts of the announced plan are not specified in the source material read here.</p><div class="source-links"><a href="https://x.com/karpathy/status/2098811935114551617" target="_blank" rel="noopener">Related source @karpathy</a></div>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete oversight mechanism to compare with the objections to central control in the Following section; the post is an announcement, not proof of implementation.</div>
+  <a class="view-link" href="https://x.com/DarioAmodei/status/2098773920774074715" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">R</div>
+    <div class="post-meta">
+      <div class="post-name">RichardSSutton</div>
+      <div class="post-handle">@RichardSSutton ·  </div>
+    </div>
+  </header>
+  <p class="summary">Richard Sutton recommends the Math and AI declaration. Its authors argue that solving famous problems is a proxy for mathematics’ deeper goals: conceptual understanding, new methods, attribution and training future mathematicians. They warn that rushed AI-generated solutions and benchmark incentives can damage those goals, while recognising that AI could accelerate genuine understanding. The declaration calls on mathematicians, AI companies and society to address the mismatch.</p><div class="source-links"><a href="https://mathandai.org/" target="_blank" rel="noopener">Read the declaration</a></div>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> The distinction between producing an answer and developing understanding applies well beyond mathematics.</div>
+  <a class="view-link" href="https://x.com/RichardSSutton/status/2098656686814933447" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">N</div>
+    <div class="post-meta">
+      <div class="post-name">noahelhadedy</div>
+      <div class="post-handle">@noahelhadedy ·  </div>
+    </div>
+  </header>
+  <p class="summary">Noah Elhadedy shares a candidate resource list for DESIGN.md and interface inspiration: typeui.sh, designmd.me, designmd.supply, styles.refero.design, getdesign.md, collectui.com and designmd-store.com. These sites have not been independently reviewed; inclusion is discovery, not endorsement.</p>
+
+
+
+  <a class="view-link" href="https://x.com/noahelhadedy/status/2099015197302071364" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK-news</strong> — 14 selected source posts <span class="dim">(BBC and Sky combined; selected source posts, not all posts encountered; repeated stories merged)</span></summary>
+    <ul><li><a href="https://x.com/SkyNews/status/2099165620763857173" target="_blank" rel="noopener">Sky reports that Reform UK says its donations were legal while Rayner warns of possible retrospective action; Unite’s Sharon Graham argues that union donations to Labour are a different case.</a> · <a href="https://x.com/SkyNews/status/2099210708701626523" target="_blank" rel="noopener">@SkyNews source</a></li><li><a href="https://x.com/SkyNews/status/2099149741556695206" target="_blank" rel="noopener">UK AI policy: Unite’s Sharon Graham says worker protections lag behind AI disruption and asks where replacement jobs will come from; Rayner says the UK has robust systems for managing AI risks.</a> · <a href="https://x.com/SkyNews/status/2099046461312757891" target="_blank" rel="noopener">@SkyNews source</a></li><li><a href="https://x.com/BBCNews/status/2099152976984015347" target="_blank" rel="noopener">BBC reports Trump’s support for Northern Ireland joining Ireland; Sky covers the backlash to his intervention. One reunification story, not separate items.</a> · <a href="https://x.com/SkyNews/status/2099152765444399105" target="_blank" rel="noopener">@SkyNews source</a></li><li><a href="https://x.com/BBCNews/status/2099096389548462509" target="_blank" rel="noopener">Housing: Rayner tells the BBC there is only a slim chance of meeting the government’s new-homes target.</a></li><li><a href="https://x.com/BBCNews/status/2099036254432039338" target="_blank" rel="noopener">Student-loan terms are to be made clearer in England, the BBC reports.</a></li><li><a href="https://x.com/BBCNews/status/2099047797991326072" target="_blank" rel="noopener">London: the Everywoman statue is unveiled on Trafalgar Square’s Fourth Plinth.</a></li><li><a href="https://x.com/SkyNews/status/2099018551046590748" target="_blank" rel="noopener">UK airports: Sky tests Gatwick’s robotic parking and questions resilience in light of technical failures and cyber-attack risks; the post does not establish a failure of the new parking system.</a></li><li><a href="https://x.com/SkyNews/status/2099160490094067909" target="_blank" rel="noopener">BBC and Sky report another major fire at Dalton Mills in Keighley, the historic filming location used by Peaky Blinders and Downton Abbey.</a> · <a href="https://x.com/BBCNews/status/2099065810333364450" target="_blank" rel="noopener">@BBCNews source</a></li><li><a href="https://x.com/BBCNews/status/2099132587415306312" target="_blank" rel="noopener">The BBC reports that a US embassy suspect in a child-abuse-images investigation was flown out of the UK before a police interview.</a></li><li><a href="https://x.com/SkyNews/status/2099174526718271858" target="_blank" rel="noopener">UK policing: officers release images of men sought after an anti-migrant protest in Portsmouth.</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Bounded manual selection: 35 Following source posts and 4 For You candidates. Many additional posts, adverts and low-information items were examined but not retained; no total-read count is claimed.</li><li>Following was sampled down to the preceding evening, with older algorithmic suggestions. This does not establish complete September 9–13 gap recovery; the existing collection cursor was preserved.</li><li>Source notes are paraphrases rather than verbatim transcripts. Summaries are not presented as direct quotations. Full source posts were opened for harnesses, RLT, terms.txt, the authentication warning and Dario’s evaluator announcement.</li><li>The DutchNews commentary and Math and AI declaration were read in full. The paper roundup and DESIGN.md list remain discovery pointers, not reviewed recommendations.</li><li>Same-author threads and cross-outlet reports were merged. General news appears only in the combined UK firehose; DutchNews remains the explicit Netherlands exception. Substantive political and social views from individuals are retained and attributed.</li><li>Images and videos were not independently inspected. Unsupported video-only clickbait and empty reactions are excluded.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>unchanged — bounded selection, not gap recovery</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
