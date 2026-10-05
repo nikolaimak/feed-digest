@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-10-05</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">5 October 2026 — afternoon feed (partial coverage)</p>
+  <p class="hero-stats">59 posts · 8 handles · Partial observed Following sample: 5 Oct, 12:25–17:02 BST. Saved 29 Sep cursor not reached.</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-DutchNewsNL">@DutchNewsNL</a><a href="#h-fe_city_boy">@fe_city_boy</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/939313677647282181/vZjFWtAn_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-10-05 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">SelfSearch treats the agent harness—not just the model—as an optimisation target. Elvis reports that an agent rewriting its own instructions, tools and procedures reached 82.0% on Terminal-Bench 2.1 with DeepSeek V4 Flash, matching the Codex harness in the cited comparison; the search cost was $4.03 and used no task reward. These are reported research results, not an independently replicated performance guarantee.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HT4CFIRaoAAcme9?format=png&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> The interesting lever is harness design: the same underlying model can behave very differently depending on its tools and procedures.</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2107123966792052859" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1544357754025951232/9hRrwOaX_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz proposes a practical antidote to compulsive timeline checking: block social sites for a substantial stretch, then do focused work or read. In response to DHH’s experiment in optimism, his version is less about adopting a belief and more about changing what gets your attention.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete environment change is easier to test than a vague promise to use social media less.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2107132360953348524" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1884973285617582081/8tem6fvv_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Modern Software Engineering</div>
+      <div class="post-handle">@ModernSoftwareX · 2026-10-05 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Approval testing gives inherited code a behavioural baseline: capture the system’s existing output, then compare it after refactoring. Farley’s team links a free guide to using that approach when changing a legacy system feels unsafe.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HT21iNYXUAAqea9?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A useful starting point when the existing behaviour is observable but poorly documented; the linked resource is promotional, but the post explains the technique.</div>
+  <a class="view-link" href="https://x.com/ModernSoftwareX/status/2107069790703468694" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">8 posts · 8 featured</span></h2><p class="handle-summary">Dutch policy, benefits, transport and culture—kept separate from UK news.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">A UWV internal analysis found people with non-Dutch surnames receiving fines more frequently and more harshly, prompting a ministerial demand for an investigation. UWV apologises for racist remarks by staff but says the analysis cannot establish structural unequal treatment; an external study is still pending.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2107091145603850240/uMNH0SDd?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107091081724563954" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">The cabinet wants phone restrictions extended from classrooms to all primary and secondary school grounds from January. This is a proposal requiring agreement with schools, not a ban the government can impose directly; it sits alongside plans on family vlogs and children’s online safety.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2107118563987234816/dQBX7O2q?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107118500770664579" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">Dutch student debt has fallen for the first time, to €28 billion, after the return of basic grants reduced new borrowing. That does not mean the old debt burden has disappeared: former-student debtor numbers and very large balances are still rising.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107124036861931984" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">The Groningen–Leer train has returned after the long closure caused by a ship striking the railway bridge. The restored cross-border journey takes around 90 minutes, reopening a practical route into northern Germany.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2107092984860663808/_s6KX0Da?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107092921367298220" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Nine Dutch restaurants enter the Michelin-starred ranks in the new guide. The linked article notes that two newcomers go straight to two stars, including Azurite in Delft.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107117294933393558" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Molly Quell challenges the idea that Dutch friendship is uniquely inaccessible: making friends as an adult is difficult even for Dutch people moving cities. Established social circles, scarce time and the extra effort of crossing language and cultural boundaries all compound the problem.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107097948806946961" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">A Sudanese-Dutch lawyer has been appointed justice minister for the Rapid Support Forces’ rival administration in Sudan. DutchNews highlights the Dutch nationality connection to the paramilitary group seeking power.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2107002154326097920/QkcE72ds?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107139139397128224" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">Polymarket’s Dutch legal challenge: the platform is trying to overturn the gambling ban by arguing that its products are financial instruments rather than bets. This is the distinct story in the newsletter; its benefits-discrimination and Michelin items are covered separately above.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2107119696130592874" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-fe_city_boy"><h2><a href="https://x.com/fe_city_boy" target="_blank" rel="noopener">@fe_city_boy</a> <span class="count">2 posts · 1 featured</span></h2><p class="handle-summary">Шутка об ошибке в собственной афише.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1941895394486525952/5Oo0TZBi_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Денис Чужой</div>
+      <div class="post-handle">@fe_city_boy · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">Денис Чужой нашёл себя в афише под именем «Давид» и обыграл ошибку, представившись этим именем. Ссылку на свои концерты он добавил в продолжении; оба сообщения объединены, а не выданы за две отдельные новости.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HT3mEuJW8AAtAZm?format=jpg&amp;name=small" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HT3mEuGW8AAKKhL?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/fe_city_boy/status/2107093181158547800" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">1 · algorithmic feed</span></h2><p class="handle-summary">Algorithmic sample: 67 candidates after ad review; 14-day shown-history check. Only one distinct non-news recommendation cleared the quality filter; repeated outlet coverage was not used to pad the section.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1520414315504934913/niApnPBA_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">علي فاضل | Ali Fadel </div>
+      <div class="post-handle">@alihfadel · 2026-10-05 </div>
+    </div>
+  </header>
+  <p class="summary">Ali Fadel describes V’s contributor community as welcoming and quick to act: after starting to contribute, he rapidly appeared among its active monthly contributors. It is a first-person community report, not evidence about the language’s production maturity.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HT37I6DWgAAVYmt?format=png&amp;name=small" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HT37on4XAAAJgzG?format=png&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A small discovery for anyone considering an approachable open-source language project.</div>
+  <a class="view-link" href="https://x.com/alihfadel/status/2107117006260519235" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK news — BBC + Sky</strong> — 45 posts <span class="dim">(15 UK stories; repeats merged, international-only items omitted)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=Conservative%20conference%3A%20Andrew%20Griffith%20proposes%20cutting%20packaging%20taxes%2C%20net-zero%20targets%20and%20housing%20regulation.%20BBC%20Verify%20finds%20that%20a%20claimed%20%C2%A350%2C000%20building-cost%20saving%20is%20not%20a%20guaranteed%20cut%20in%20buyer%20prices%3A%20infrastructure%20costs%20may%20shift%20to%20the%20public%20and%20weaker%20standards%20may%20increase%20future%20energy%20bills.%20Jeremy%20Clarkson%E2%80%99s%20pub%20appearance%20and%20the%20dispute%20over%20use%20of%20an%20Andy%20Burnham%20portrait%20are%20side%20stories%20from%20the%20same%20conference." target="_blank" rel="noopener">Conservative conference: Andrew Griffith proposes cutting packaging taxes, net-zero targets and housing regulation. BBC Verify finds that a claimed £50,000 building-cost saving is not a guaranteed cut in buyer prices: infrastructure costs may shift to the public and weaker standards may increase future energy bills. Jeremy Clarkson’s pub appearance and the dispute over use of an Andy Burnham portrait are side stories from the same conference.</a></li><li><a href="https://www.google.com/search?q=UK%20supermarkets%3A%20Sainsbury%E2%80%99s%20held%20merger%20discussions%20with%20Morrisons.%20Treat%20this%20as%20reported%20talks%2C%20not%20an%20agreed%20transaction." target="_blank" rel="noopener">UK supermarkets: Sainsbury’s held merger discussions with Morrisons. Treat this as reported talks, not an agreed transaction.</a></li><li><a href="https://www.google.com/search?q=Green%20Party%20dispute%20in%20Britain%3A%20the%20conference%E2%80%99s%20%E2%80%9CZionism%20is%20racism%E2%80%9D%20motion%20exposed%20internal%20divisions%3B%20the%20Jewish%20Greens%20chair%20discussed%20leaving%2C%20while%20Amnesty%20International%20UK%20chair%20Sandy%20Ruthven%20has%20left%20the%20party." target="_blank" rel="noopener">Green Party dispute in Britain: the conference’s “Zionism is racism” motion exposed internal divisions; the Jewish Greens chair discussed leaving, while Amnesty International UK chair Sandy Ruthven has left the party.</a></li><li><a href="https://www.google.com/search?q=Scotland%E2%80%99s%20data-centre%20debate%3A%20campaigners%20want%20public%20consultation%20before%20new%20hyperscale%20sites%20are%20approved%3B%20BBC%20explains%20why%20the%20developments%20have%20become%20a%20major%20Scottish%20issue." target="_blank" rel="noopener">Scotland’s data-centre debate: campaigners want public consultation before new hyperscale sites are approved; BBC explains why the developments have become a major Scottish issue.</a></li><li><a href="https://www.google.com/search?q=UK%20food%20resilience%3A%20experts%20warn%20that%20government%20preparedness%20for%20shocks%20and%20disruptions%20to%20food%20supplies%20is%20inadequate." target="_blank" rel="noopener">UK food resilience: experts warn that government preparedness for shocks and disruptions to food supplies is inadequate.</a></li><li><a href="https://www.google.com/search?q=RAF%20Fairford%2C%20UK%3A%20after%20US%20bombers%20were%20withdrawn%2C%20Downing%20Street%20said%20the%20base%20remained%20safe%20and%20Marco%20Rubio%20said%20the%20US%20retained%20confidence%20in%20base%20security." target="_blank" rel="noopener">RAF Fairford, UK: after US bombers were withdrawn, Downing Street said the base remained safe and Marco Rubio said the US retained confidence in base security.</a></li><li><a href="https://www.google.com/search?q=British%20identity%20debate%3A%20James%20Cleverly%20criticised%20former%20Conservative%20colleague%20Suella%20Braverman%20over%20her%20comments%20on%20%E2%80%9CEnglishness%E2%80%9D." target="_blank" rel="noopener">British identity debate: James Cleverly criticised former Conservative colleague Suella Braverman over her comments on “Englishness”.</a></li><li><a href="https://www.google.com/search?q=BBC%20leadership%3A%20Rachel%20Jupp%20has%20been%20appointed%20director%20of%20news%2C%20with%20BBC%20analysis%20describing%20the%20selection%20as%20a%20bold%20choice." target="_blank" rel="noopener">BBC leadership: Rachel Jupp has been appointed director of news, with BBC analysis describing the selection as a bold choice.</a></li><li><a href="https://www.google.com/search?q=Manchester%20governance%3A%20the%20city%E2%80%99s%20former%20leader%20defended%20deals%20with%20Manchester%20City%E2%80%99s%20owners." target="_blank" rel="noopener">Manchester governance: the city’s former leader defended deals with Manchester City’s owners.</a></li><li><a href="https://www.google.com/search?q=London%20court%20case%3A%20Dawood%20Safi%20was%20detained%20for%20the%20killing%20of%20dog%20walker%20Wayne%20Broadhurst%20in%20Uxbridge." target="_blank" rel="noopener">London court case: Dawood Safi was detained for the killing of dog walker Wayne Broadhurst in Uxbridge.</a></li><li><a href="https://www.google.com/search?q=London%20embassy%20attack%3A%20a%20man%20received%20a%20life%20sentence%20over%20a%20failed%20knife%20attack%20at%20the%20Israeli%20embassy." target="_blank" rel="noopener">London embassy attack: a man received a life sentence over a failed knife attack at the Israeli embassy.</a></li><li><a href="https://www.google.com/search?q=UK%20anti-migrant%20protest%3A%20twelve%20people%20were%20arrested%20after%20a%20demonstration%20in%20a%20seaside%20town." target="_blank" rel="noopener">UK anti-migrant protest: twelve people were arrested after a demonstration in a seaside town.</a></li><li><a href="https://www.google.com/search?q=UK-bound%20Channel%20crossings%3A%20two%20men%20died%20during%20an%20attempted%20small-boat%20crossing." target="_blank" rel="noopener">UK-bound Channel crossings: two men died during an attempted small-boat crossing.</a></li><li><a href="https://www.google.com/search?q=England%20goalkeeper%20Jordan%20Pickford%E2%80%99s%20careless-driving%20case%3A%20the%20court%20was%20told%20he%20almost%20caused%20a%20crash." target="_blank" rel="noopener">England goalkeeper Jordan Pickford’s careless-driving case: the court was told he almost caused a crash.</a></li><li><a href="https://www.google.com/search?q=Scottish%20science%20with%20a%20direct%20UK%20angle%3A%20University%20of%20Glasgow%20engineers%20and%20Japanese%20partners%20plan%20a%20satellite%20experiment%20on%20whisky%20maturation%20and%20ethanol%20extraction%20in%20orbit." target="_blank" rel="noopener">Scottish science with a direct UK angle: University of Glasgow engineers and Japanese partners plan a satellite experiment on whisky maturation and ethanol extraction in orbit.</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Following coverage is partial. The automated preflight was obscured by an X Premium offer; after dismissing it and verifying the account, a bounded manual fallback collected this sample. The saved cursor was not reached and remains unchanged.</li><li>Related posts are grouped by topic. BBC and Sky appear only in the combined UK-only news section; DutchNews stays in its own English-language section.</li><li>For You originally retained seven Boosted posts despite its built-in ad filter; these were removed before editorial selection. The remaining sample was dominated by the same followed news accounts.</li><li>Long posts and selected linked articles were opened for context. SelfSearch figures are attributed research claims. The Dutch schools restriction is a proposal, not an enacted nationwide order.</li><li>The Russian comedian’s post was kept for its visual joke, not as a concert reminder. The first image was inspected; no unseen content from the second image is summarised.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2104960633955401844</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
