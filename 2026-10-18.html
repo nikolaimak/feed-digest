@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-10-18</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">18 October 2026 — Following + For You</p>
+  <p class="hero-stats">95 posts · 9 handles · 17 Oct 16:58–18 Oct 17:00 BST · complete audited Following interval</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-omarsar0">@omarsar0</a><a href="#h-GergelyOrosz">@GergelyOrosz</a><a href="#h-DutchNewsNL">@DutchNewsNL</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1643277398522187778/31dedbLo_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-10-17 </div>
+    </div>
+  </header>
+  <p class="summary">JevAgentHarness routes routine choices to a smaller decision model only above a confidence threshold fitted to the agent's own trajectories; otherwise the main LLM decides. DAIR reports a 14.2% cost reduction with unchanged outcomes across 500 tasks, whereas a fixed 0.5 threshold lost 21.5 points. A distilled 4B model trained on states reached after the agent's own mistakes also outperformed its teacher on unfamiliar tasks in the reported evaluation.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HU2KnkVaIAAZeTn?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> The useful idea is calibrated delegation with an explicit fallback—not simply replacing a large model with a smaller one.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2111496216567742892" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1643277398522187778/31dedbLo_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DAIR.AI</div>
+      <div class="post-handle">@dair_ai · 2026-10-17 </div>
+    </div>
+  </header>
+  <p class="summary">Tencent's Hy-Memory-30B-A3B specialises in deciding what an agent stores and how new evidence updates it. Protocol distillation is followed by RL that rewards later answerability while penalising excessive storage; DAIR reports a 55.49% macro average versus 54.62% for Opus 5 on fixed 20% benchmark subsamples across four harnesses.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HU2k8gKbsAA1bon?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Memory writing can be evaluated as its own task: preserve what will answer future questions, rather than maximise the volume saved.</div>
+  <a class="view-link" href="https://x.com/dair_ai/status/2111525163447746719" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/939313677647282181/vZjFWtAn_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-10-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Elvis summarises Tencent's terminal-agent training work, which alternates fine-tuning on rewritten, verifier-passing trajectories with PPO. Its reward audit found that failed runs still collected 50.09% of a dense progress reward, including 48 failures that passed every executed check but missed the final test; separating strict success from partial credit reduced that reward share to 28.72%.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HU2CrEUbAAAvNWE?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A sequence of successful intermediate checks is not proof of a completed task. Keep the final success criterion distinct from progress rewards.</div>
+  <a class="view-link" href="https://x.com/omarsar0/status/2111487480281416004" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1130694826331000840/cYt0Cxbg_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Will Larson</div>
+      <div class="post-handle">@Lethain · 2026-10-17 </div>
+    </div>
+  </header>
+  <p class="summary">Will Larson clarifies the trust boundary behind his small-change review fast track: removing a label can opt a PR out, but adding the label cannot grant eligibility. A GitHub check set by the CI/CD runner enforces the decision, and its implementation lives in another repository so the PR being reviewed cannot modify it.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Keep the mechanism that grants an exception outside the change requesting that exception.</div>
+  <a class="view-link" href="https://x.com/Lethain/status/2111493259180810477" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-omarsar0"><h2><a href="https://x.com/omarsar0" target="_blank" rel="noopener">@omarsar0</a> <span class="count">2 posts · 1 featured</span></h2><p class="handle-summary">Rewarding a diverse set of research ideas, not just a strong individual answer.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/939313677647282181/vZjFWtAn_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">elvis</div>
+      <div class="post-handle">@omarsar0 · 2026-10-17 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Salesforce and collaborators train an 8B reasoning model to propose several research ideas in one generation from source papers. The reward evaluates the whole set, weighting each idea's quality by its distance from earlier ideas; Elvis reports that it beats larger models on the paper's combined quality-and-diversity measure. These are results from the authors' benchmark, not an independent replication.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HU3V680bYAAOZBQ?format=png&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/omarsar0/status/2111579013072433395" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-GergelyOrosz"><h2><a href="https://x.com/GergelyOrosz" target="_blank" rel="noopener">@GergelyOrosz</a> <span class="count">9 posts · 2 featured</span></h2><p class="handle-summary">Industry-wide workflow upheaval and a debate over AI valuations.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1544357754025951232/9hRrwOaX_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-10-17 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz sees developers and engineering leaders across the industry changing tools and long-standing processes simultaneously, without settled best practices. His frontend-developer anecdote captures both exhaustion with constant change and renewed excitement that has drawn some retirees back; Nan Yu adds that frontend JavaScript frameworks once occupied the attention now claimed by AI.</p>
+
+
+
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2111497989386555820" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/673095429748350976/ei5eeouV_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-10-18 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz argues that Anthropic's unusually rapid revenue growth makes historical valuation comparisons difficult, clarifying that his comparison is with individual software companies rather than their combined revenues. He invokes past misjudgements about Amazon and other technology businesses, then acknowledges the counterpoint: Amazon's shares did collapse and took a decade to recover. The thread is an argument about uncertainty, not evidence that today's AI valuations must be justified.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HUvSHm1bAAES6pF?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2111820031717986475" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">The US midterms viewed from the American community in the Netherlands.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-10-18 </div>
+    </div>
+  </header>
+  <p class="summary">DutchNews looks at Americans living in the Netherlands as they prepare to vote in the US midterm elections, bringing an expatriate perspective to the campaign.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2111788236515184820" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Separately collected algorithmic suggestions. Previously shown IDs excluded for 14 days; Following duplicates, outlet recommendations and residual boosted posts excluded from these picks.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1276770212927410176/qTgTIejk_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">freeCodeCamp.org</div>
+      <div class="post-handle">@freeCodeCamp · 2026-10-18 </div>
+    </div>
+  </header>
+  <p class="summary">freeCodeCamp shares Vasuki's guide to building an agent-reliability test harness: verify authoritative state, inject failures, test tool use and guardrails, and gate releases on measured outcomes. Its premise is that a convincing final answer does not establish that the underlying workflow succeeded.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HU6VyWvWsAEgOVw?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A practical testing resource that connects directly to today's discussion of misleading progress rewards.</div>
+  <a class="view-link" href="https://x.com/freeCodeCamp/status/2111789970029473837" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2072891774419533824/EUVIfZLS_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Rhys</div>
+      <div class="post-handle">@RhysSullivan · 2026-10-18 </div>
+    </div>
+  </header>
+  <p class="summary">Rhys Sullivan proposes a secret-input primitive for agent applications: let an agent operate on a value without seeing it, then expire it when the session ends. This is a product-design request, not a claim that such an implementation already exists.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> It separates permission to use a secret from permission to disclose it.</div>
+  <a class="view-link" href="https://x.com/RhysSullivan/status/2111627004714090940" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1717417613775757312/Uk1zNOj4_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DeepSeek</div>
+      <div class="post-handle">@deepseek_ai · 2026-10-17 </div>
+    </div>
+  </header>
+  <p class="summary">DeepSeek announces V4.1-Flash-1017 for its website, app and API, claiming stronger benchmarks, faster task completion and shorter outputs than the previous version. It recommends DeepSeek Harness v0.2.1-rc.1 or later and names Tencent CodeBuddy and WorkBuddy among the optimised integrations.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HU0b65KbsAAypqr?format=jpg&amp;name=small" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HU0b7UfbwAAGXNH?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete model-and-harness update to evaluate; the performance claims come from the vendor.</div>
+  <a class="view-link" href="https://x.com/deepseek_ai/status/2111375640717033777" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1906618607368273920/09C2Z22U_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DailyPapers</div>
+      <div class="post-handle">@HuggingPapers · 2026-10-18 </div>
+    </div>
+  </header>
+  <p class="summary">GroundAnything uses a 4B diffusion model to generate object-grounding predictions in parallel rather than one token at a time. DailyPapers reports a 4.51× speedup and leading results across 30 benchmarks, without enough detail in the captured post to independently assess those comparisons.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/ext_tw_video_thumb/2111793807830233088/pu/img/genzwxCxJJTLxZGD.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Parallel output generation offers a different route to faster visual grounding.</div>
+  <a class="view-link" href="https://x.com/HuggingPapers/status/2111793923433676910" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1362075053081456642/BRXx0I54_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Michael Rosen  NICE 爷爷</div>
+      <div class="post-handle">@MichaelRosenYes · 2026-10-17 </div>
+    </div>
+  </header>
+  <p class="summary">Michael Rosen describes how making Word of Mouth continually teaches him through reading, writing, speaking and listening: reading the book, reviewing earlier interviews, planning questions and then listening to the guest's answers. He presents the process as an example of interdependence.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Learning is a connected practice, not a choice between reading and conversation.</div>
+  <a class="view-link" href="https://x.com/MichaelRosenYes/status/2111515313275621750" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1988912285327265792/tVjrSbXe_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">GOV.UK</div>
+      <div class="post-handle">@GOVUK · 2026-10-18 </div>
+    </div>
+  </header>
+  <p class="summary">GOV.UK reminds readers that the UK clocks go back by one hour at 2am on 25 October.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A useful calendar reminder before the move from British Summer Time to GMT.</div>
+  <a class="view-link" href="https://x.com/GOVUK/status/2111774315142103545" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1904894438390063104/igA3V6TT_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Aleksey Smolenchuk</div>
+      <div class="post-handle">@lxe · 2026-10-17 </div>
+    </div>
+  </header>
+  <p class="summary">Aleksey Smolenchuk jokes that a swarm of agents spent hours and hundreds of millions of tokens reverse-engineering Linux, then links to kernel.org as the supposedly recovered source. The joke targets expensive agent-work narratives that overlook an already-public answer.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A useful absurdity check before celebrating effort as an accomplishment.</div>
+  <a class="view-link" href="https://x.com/lxe/status/2111540628366701013" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK news — BBC and Sky</strong> — 76 posts <span class="dim">(All outlet posts reviewed; UK-only stories merged across accounts)</span></summary>
+    <ul><li><a href="https://www.google.com/search?q=NHS%20privacy%3A%20further%20staff%20have%20been%20dismissed%20for%20accessing%20Nottingham%20attack%20victims'%20records%3B%20Yvette%20Cooper%20also%20says%20confirmed%20breaches%20involving%20the%20Yorkshire%20Wildlife%20Park%20victim%20should%20lead%20to%20sackings." target="_blank" rel="noopener">NHS privacy: further staff have been dismissed for accessing Nottingham attack victims' records; Yvette Cooper also says confirmed breaches involving the Yorkshire Wildlife Park victim should lead to sackings.</a></li><li><a href="https://www.google.com/search?q=Nottingham%2C%20England%3A%20a%20police%20officer%20was%20injured%20in%20the%20city%20centre%3B%20police%20are%20searching%20for%20a%20man%20and%20a%20woman%20who%20fled%20the%20scene." target="_blank" rel="noopener">Nottingham, England: a police officer was injured in the city centre; police are searching for a man and a woman who fled the scene.</a></li><li><a href="https://www.google.com/search?q=Scottish%20independence%3A%20John%20Swinney%20tells%20the%20SNP%20conference%20that%20the%20stars%20are%20aligning%2C%20while%20contrasting%20Scotland%20with%20Manchester%20in%20his%20disagreement%20with%20Burnham." target="_blank" rel="noopener">Scottish independence: John Swinney tells the SNP conference that the stars are aligning, while contrasting Scotland with Manchester in his disagreement with Burnham.</a></li><li><a href="https://www.google.com/search?q=UK%20Green%20Party%3A%20Zack%20Polanski%20says%20he%20will%20not%20overturn%20the%20party's%20motion%20describing%20Zionism%20as%20racism." target="_blank" rel="noopener">UK Green Party: Zack Polanski says he will not overturn the party's motion describing Zionism as racism.</a></li><li><a href="https://www.google.com/search?q=NHS%20winter%20pressures%3A%20Yvette%20Cooper%20warns%20of%20a%20more%20challenging%20winter%20after%20a%20summer%20of%20heatwaves." target="_blank" rel="noopener">NHS winter pressures: Yvette Cooper warns of a more challenging winter after a summer of heatwaves.</a></li><li><a href="https://www.google.com/search?q=UK%20security%3A%20a%20former%20national%20security%20adviser%20warns%20that%20Britain%20must%20strengthen%20protection%20against%20Russian%20hybrid%20attacks." target="_blank" rel="noopener">UK security: a former national security adviser warns that Britain must strengthen protection against Russian hybrid attacks.</a></li><li><a href="https://www.google.com/search?q=British%20military%20logistics%3A%20UK%20forces%20will%20join%20French%20and%20German%20troops%20in%20Poland%20for%20drills%20simulating%20the%20movement%20of%20personnel%20and%20supplies." target="_blank" rel="noopener">British military logistics: UK forces will join French and German troops in Poland for drills simulating the movement of personnel and supplies.</a></li><li><a href="https://www.google.com/search?q=UK%20travel%20advice%3A%20the%20government%20advises%20against%20all%20but%20essential%20travel%20to%20Saudi%20Arabia%20amid%20Houthi%20strikes." target="_blank" rel="noopener">UK travel advice: the government advises against all but essential travel to Saudi Arabia amid Houthi strikes.</a></li><li><a href="https://www.google.com/search?q=UK%20water%20bills%3A%20an%20industry%20chief%20warns%20of%20a%20%C2%A340%20increase%20if%20the%20sector%20is%20downgraded%3B%20this%20is%20a%20conditional%20warning%2C%20not%20an%20announced%20rise." target="_blank" rel="noopener">UK water bills: an industry chief warns of a £40 increase if the sector is downgraded; this is a conditional warning, not an announced rise.</a></li><li><a href="https://www.google.com/search?q=UK%20housebuilding%3A%20troubled%20developer%20Vistry%20is%20bringing%20in%20a%20former%20Crown%20Estate%20boss%2C%20Sky%20reports." target="_blank" rel="noopener">UK housebuilding: troubled developer Vistry is bringing in a former Crown Estate boss, Sky reports.</a></li><li><a href="https://www.google.com/search?q=BBC%20governance%3A%20the%20broadcaster%20has%20paused%20its%20civil-service%20secondment%20scheme." target="_blank" rel="noopener">BBC governance: the broadcaster has paused its civil-service secondment scheme.</a></li><li><a href="https://www.google.com/search?q=BBC%20programming%3A%20DIY%20SOS%20is%20to%20be%20rested%20next%20year%20to%20save%20money." target="_blank" rel="noopener">BBC programming: DIY SOS is to be rested next year to save money.</a></li><li><a href="https://www.google.com/search?q=Scotland%20aircraft%20crash%3A%20an%2080-year-old%20man%20who%20died%20in%20the%20light-aircraft%20crash%20near%20Loch%20Lomond%20has%20been%20named%3B%20the%20crash%20killed%20two%20people." target="_blank" rel="noopener">Scotland aircraft crash: an 80-year-old man who died in the light-aircraft crash near Loch Lomond has been named; the crash killed two people.</a></li><li><a href="https://www.google.com/search?q=UK%20deportation%3A%20the%20Home%20Office%20says%20the%20man%20jailed%20for%20Starmer-linked%20arson%20attacks%20has%20been%20deported." target="_blank" rel="noopener">UK deportation: the Home Office says the man jailed for Starmer-linked arson attacks has been deported.</a></li><li><a href="https://www.google.com/search?q=Bournemouth%2C%20England%3A%20a%20recovery%20driver%20has%20been%20sentenced%20after%20a%20runaway-car%20crush." target="_blank" rel="noopener">Bournemouth, England: a recovery driver has been sentenced after a runaway-car crush.</a></li><li><a href="https://www.google.com/search?q=UK%20courts%3A%20the%20Russell%20Brand%20trial%20heard%20another%20alleged%20victim%20describe%20an%20attempt%20to%20pull%20her%20into%20a%20toilet%3B%20the%20account%20is%20testimony%2C%20not%20a%20finding%20of%20guilt." target="_blank" rel="noopener">UK courts: the Russell Brand trial heard another alleged victim describe an attempt to pull her into a toilet; the account is testimony, not a finding of guilt.</a></li><li><a href="https://www.google.com/search?q=Premier%20League%3A%20Calvert-Lewin%20scores%20as%20Leeds%20deny%20Manchester%20United%20victory." target="_blank" rel="noopener">Premier League: Calvert-Lewin scores as Leeds deny Manchester United victory.</a></li><li><a href="https://www.google.com/search?q=Chelsea%2C%20England%3A%20goalkeeper%20Emiliano%20Martinez%20gives%20an%20update%20after%20surgery%20following%20a%20collision%20with%20an%20Everton%20defender%3B%20the%20BBC%20reports%20a%20return%20in%20a%20few%20weeks." target="_blank" rel="noopener">Chelsea, England: goalkeeper Emiliano Martinez gives an update after surgery following a collision with an Everton defender; the BBC reports a return in a few weeks.</a></li><li><a href="https://www.google.com/search?q=British%20boxing%3A%20Daniel%20Dubois%20retains%20his%20WBO%20title%20against%20Fabio%20Wardley%2C%20with%20Sky%20reporting%20a%20second-round%20victory." target="_blank" rel="noopener">British boxing: Daniel Dubois retains his WBO title against Fabio Wardley, with Sky reporting a second-round victory.</a></li><li><a href="https://www.google.com/search?q=British%20animation%3A%20Martin%20Freeman%20is%20to%20give%20Aardman's%20Gromit%20a%20voice%2C%20according%20to%20the%20BBC." target="_blank" rel="noopener">British animation: Martin Freeman is to give Aardman's Gromit a voice, according to the BBC.</a></li><li><a href="https://www.google.com/search?q=British%20music%3A%20Harry%20Styles%20debuts%20a%20song%20in%20memory%20of%20Liam%20Payne." target="_blank" rel="noopener">British music: Harry Styles debuts a song in memory of Liam Payne.</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Following reached the exact saved cursor across 47 audited overlapping snapshots. The frozen interval contains 95 posts from 9 handles; these totals describe the source corpus, not the number of editorial cards.</li><li>Same-topic threads are merged under their earliest captured source. The CI/CD spelling correction is folded into Larson’s explanation; the Nan Yu quote-post is grouped with Orosz’s workflow discussion.</li><li>BBC and Sky coverage appears only in one UK-only firehose, with repeated stories merged. DutchNews remains a separate section and is not subject to the UK-only filter.</li><li>Long technical posts were opened individually. Research figures and vendor claims are attributed, not independently reproduced; the Linux reverse-engineering item is explicitly satire.</li><li>Undescribed videos, expired live schedules, subscription appeals and international-only outlet stories were omitted. No political or social opinion was excluded merely for its viewpoint; the captured substantive text is English, so its summaries are English.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2111845453302047104</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
