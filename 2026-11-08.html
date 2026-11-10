@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-11-08</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">8 November 2026 — frozen daily feed</p>
+  <p class="hero-stats">134 posts · 14 handles · 7 Nov 16:59:35 → 8 Nov 17:00:37 GMT · verified cross-run union seam</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+
+  <a href="#h-GergelyOrosz">@GergelyOrosz</a><a href="#h-Plinz">@Plinz</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-atticus_flinch">@atticus_flinch</a><a href="#h-signulll">@signulll</a><a href="#h-bb_fresh">@bb_fresh</a><a href="#h-DutchNewsNL">@DutchNewsNL</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-07 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz argues that most companies need to decide what to fix before building a ‘software factory’. His example is a replacement for Substack search: he says he asked Codex to build on turbopuffer, explored Jev categorisation and made a few adjustments. He distinguishes a three-hour project from less than thirty minutes of his own active development work, and praises Jev's pricing. In the retained prior-capture post, he says Elastic was TechPays.com's most expensive infrastructure component and argues that vendors such as tpuf and Jev make vector search cheaper and faster. His fully reviewed follow-up says an engineer could build the improved search within two days once its requirements were settled, and calls the software factory a distraction from that work. These are his experience and estimates, not verified tariffs, benchmarks or delivery guarantees.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Identify a neglected user problem before investing in machinery for producing more software.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2119112954121736313" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-08 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Orosz reports that an agent asked to block members of an X list also blocked unrelated accounts. He initially calls it Codex; a nearby follow-up reads ‘Sorry 6.1 Sol medium’. His conclusion is to stop delegating that account action to an LLM. This is a reported targeting failure, with the correction preserved rather than silently assigning it to the originally named model.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> An agent claiming completion is not enough: verify the exact targets and resulting changes before trusting a bulk action.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2119365395534758281" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">R</div>
+    <div class="post-meta">
+      <div class="post-name">RichardSSutton</div>
+      <div class="post-handle">@RichardSSutton · 2026-11-07 </div>
+    </div>
+  </header>
+  <p class="summary">Richard Sutton argues that brute-force computation is not enough for intelligence and that new methods are still needed. His keynote announcement points to a concrete research direction: the Tashan/Openmind Robot Kindergarten and robots learning online through trial and error from their own experience. The full abstract calls for anti-fragile robots, tactile skin, onboard computation and continual real-time learning, contrasting that approach with learning from human-demonstration datasets. Sutton says the work has only just begun and needs engineering resources and scientific breakthroughs: this is a research ambition, not a demonstrated robot-performance result.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Separate scaling existing systems from discovering learning methods that improve through interaction.</div>
+  <a class="view-link" href="https://x.com/RichardSSutton/status/2119142310894334262" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">awesomekling</div>
+      <div class="post-handle">@awesomekling · 2026-11-07 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Andreas Kling and Peter Steinberger criticise restrictions around Asahi Linux. Kling responds to a quoted report of a move from MIT to GPLv2-or-later by asking what permissive licensing was meant to permit; Steinberger argues that making downstream projects harder to build conflicts with Asahi's original opening-up mission, and also criticises its rejection of AI. These are their positions in a licensing debate, not an independently checked account of the project's full policy.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Distinguish a licence's permissions from maintainers' expectations about downstream use.</div>
+  <a class="view-link" href="https://x.com/awesomekling/status/2119208381424586783" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">K</div>
+    <div class="post-meta">
+      <div class="post-name">karpathy</div>
+      <div class="post-handle">@karpathy · 2026-11-07 </div>
+    </div>
+  </header>
+  <p class="summary">Karpathy turns Tristan's curated YouTube channels into TristanTube, a collection he describes as 47,000 videos with a TV mode. He says Claude Code built it in one pass in three minutes. The project extends his earlier HackerTube experiment: start with human recommendations, then build a viewing interface around them instead of accepting the platform's default feed.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A trusted set of sources can be more useful than another opaque recommendation system.</div>
+  <a class="view-link" href="https://x.com/karpathy/status/2119114537442189652" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-GergelyOrosz"><h2><a href="https://x.com/GergelyOrosz" target="_blank" rel="noopener">@GergelyOrosz</a> <span class="count">12 posts · 2 featured</span></h2><p class="handle-summary">Data portability and the recruiting value of a known team; product-building and agent reliability lead the highlights.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-08 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz says his Substack export is taking more than twenty hours. He wants the data to ingest his own posts into the search tool he has built, making the complaint a practical data-portability bottleneck rather than just dissatisfaction with search quality.</p>
+
+
+
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2119359440847597765" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">G</div>
+    <div class="post-meta">
+      <div class="post-name">GergelyOrosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-07 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz defends a startup's sparse hiring announcement by pointing to its team's reputation. He quotes Armin Ronacher saying the volume of applications has been overwhelming, then links his earlier conversation with Ronacher and Pi's creator as an introduction to the people involved. The argument is that visible prior work can attract applicants before an elaborate job advert does.</p>
+
+
+
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2119186936439128207" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-Plinz"><h2><a href="https://x.com/Plinz" target="_blank" rel="noopener">@Plinz</a> <span class="count">6 posts · 3 featured</span></h2><p class="handle-summary">AI optimism, a reaction to a Holmes film, and informal audience polls.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">Plinz</div>
+      <div class="post-handle">@Plinz · 2026-11-07 </div>
+    </div>
+  </header>
+  <p class="summary">Joscha Bach argues against pausing AI in healthcare, saying it could reduce the high cost of US care while improving quality. The post makes a policy argument; it provides no clinical study or cost estimate.</p>
+
+
+
+  <a class="view-link" href="https://x.com/Plinz/status/2119155822299377731" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">Plinz</div>
+      <div class="post-handle">@Plinz · 2026-11-08 </div>
+    </div>
+  </header>
+  <p class="summary">After watching a film about Elizabeth Holmes, Bach says it reinforced his earlier view of her. In follow-ups he portrays Holmes as less able to distinguish an invention from a claim, while treating Billy Evans as more knowing and self-described as ‘practical’. These are Bach's speculative character judgements, not findings about either person's mental state or responsibility.</p>
+
+
+
+  <a class="view-link" href="https://x.com/Plinz/status/2119245087934980505" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">P</div>
+    <div class="post-meta">
+      <div class="post-name">Plinz</div>
+      <div class="post-handle">@Plinz · 2026-11-08 </div>
+    </div>
+  </header>
+  <p class="summary">Bach asks followers about Covid's origins and whether their views have shifted between zoonotic and lab-leak explanations. The retained snapshots contain the poll options and final vote shares. They describe the participating audience, not evidence that settles the origin of the pandemic.</p>
+
+
+
+  <a class="view-link" href="https://x.com/Plinz/status/2119234566720532924" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">2 posts · 1 featured</span></h2><p class="handle-summary">Авторские оценки политических последствий американских выборов.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">E</div>
+    <div class="post-meta">
+      <div class="post-name">EvgenyFeldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-11-08 </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман описывает выборы как разгром республиканцев, но подчёркивает: среди проигравших есть и демократы, а круг победителей шире молодых сенаторов. Отдельно он иронически связывает критику администрации Трампа со стороны Рона Джонсона с будущими выборами и успехами демократов в соседних штатах. Поводом служит цитируемое сообщение со ссылкой на Washington Post; мотивы Джонсона — интерпретация Фельдмана, не установленный факт.</p>
+
+
+
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2119442583847850423" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-atticus_flinch"><h2><a href="https://x.com/atticus_flinch" target="_blank" rel="noopener">@atticus_flinch</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Резкая авторская реакция на сообщения о действиях российских силовиков; публикацией поделился Фельдман.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">A</div>
+    <div class="post-meta">
+      <div class="post-name">atticus_flinch</div>
+      <div class="post-handle">@atticus_flinch · 2026-11-07 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Автор реагирует на сообщения о задержаниях и избиении молодёжи на Китай-городе и резко осуждает российские силовые структуры. В сохранённом посте нет самостоятельных доказательств описанных событий; это политическая реакция на прочитанные новости, которую Фельдман перепубликовал.</p>
+
+
+
+  <a class="view-link" href="https://x.com/atticus_flinch/status/2119150849951691186" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-signulll"><h2><a href="https://x.com/signulll" target="_blank" rel="noopener">@signulll</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">A city-building analogy for data-centre investment, reposted by Steinberger.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">S</div>
+    <div class="post-meta">
+      <div class="post-name">signulll</div>
+      <div class="post-handle">@signulll · 2026-11-07 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Drawing on SimCity, signüll imagines data centres as an attractive investment for a city: substantial capital, possible tax revenue and potentially cleaner operations depending on the energy supply. In the full post, he adds minimal traffic and tolerable appearance, contrasts data centres with polluting heavy industry and says he would build as many as possible. He concludes that opposition must be about something other than the data centres themselves. That is his inference, not a verified account of opponents' motives or a fiscal and environmental assessment.</p>
+
+
+
+  <a class="view-link" href="https://x.com/signulll/status/2119141647975846209" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-bb_fresh"><h2><a href="https://x.com/bb_fresh" target="_blank" rel="noopener">@bb_fresh</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Software-factory terminology, punctured with a design-pattern joke; reposted by Steinberger.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">B</div>
+    <div class="post-meta">
+      <div class="post-name">bb_fresh</div>
+      <div class="post-handle">@bb_fresh · 2026-11-07 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Ben Burke satirises the ‘software factory’ discussion by demanding an abstract factory provider that instantiates concrete factories without coupling clients to implementations. The escalation is the joke: familiar abstraction language can make a simple idea sound like an architectural obligation.</p>
+
+
+
+  <a class="view-link" href="https://x.com/bb_fresh/status/2119122844512616516" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">2 posts · 2 featured</span></h2><p class="handle-summary">Dutch tenant rights and an Amsterdam demonstration; no UK-only filter applied.</p>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-08 </div>
+    </div>
+  </header>
+  <p class="summary">DutchNews highlights possible refunds for tenants whose contracts contain unfair rent-increase clauses. The retained preview links that possibility to recent legal rulings; it does not establish that every renter qualifies.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2119415123014025368" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <div class="avatar placeholder">D</div>
+    <div class="post-meta">
+      <div class="post-name">DutchNewsNL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-08 </div>
+    </div>
+  </header>
+  <p class="summary">DutchNews reports another Red Line demonstration in Amsterdam demanding tougher Dutch government action over Israel's war in Gaza. Its linked preview attributes an attendance estimate of at least 200,000 to the organisers, rather than presenting it as an independently verified crowd count.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2119401905826771102" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK_news</strong> — 103 posts <span class="dim">(BBC and Sky combined; direct UK developments and impacts; repeated stories merged)</span></summary>
+    <ul><li><a href="https://x.com/SkyNews/status/2119139059142422808" target="_blank" rel="noopener">England fog and road safety: Sky reports fog warnings and fears of travel delays, alongside a multi-vehicle crash that closed the M20 in Kent. Its later headline reports two people seriously injured in a 30-vehicle collision near Maidstone. These are the warnings and crash reports retained for this edition, not live travel advice.</a></li><li><a href="https://x.com/SkyNews/status/2119328552336187408" target="_blank" rel="noopener">UK Remembrance: BBC and Sky report King Charles leading the Cenotaph service, a two-minute silence, wreath-laying by royals and political leaders, and around 10,000 veterans marching past. The BBC also reports the Royal Family joining veterans and families at the Festival of Remembrance. The build-up and ceremony updates are combined here rather than repeated as live invitations.</a></li><li><a href="https://x.com/SkyNews/status/2119314538633756776" target="_blank" rel="noopener">UK remembrance beyond the World Wars: Claire Horton of the Commonwealth War Graves Commission and Clare Waterworth of the Royal British Legion stress the service and sacrifice of later generations. Sky also shares an army coordinator's family reflection, a veteran's letters from Iraq and Bosnia, and the history of the Unknown Warrior at Westminster Abbey.</a></li><li><a href="https://x.com/BBCNews/status/2119166052533739879" target="_blank" rel="noopener">UK veterans: the BBC reports Andy Burnham saying veterans should not have to sleep rough at Christmas. The captured headline states his position, not a delivered housing programme.</a></li><li><a href="https://x.com/BBCNews/status/2119122445873397894" target="_blank" rel="noopener">UK–EU politics: Lisa Nandy says the Brexit deal is not working for people while arguing against rerunning the Brexit debate. Sky reports her criticism of Kevin Hollinrake's remarks on resuming Erasmus; the BBC reports her rejecting accusations of politicising Remembrance Sunday. A separate BBC analysis warns that Burnham's effort to move closer to the EU faces obstacles.</a></li><li><a href="https://x.com/SkyNews/status/2119354608887746935" target="_blank" rel="noopener">UK defence: Nandy reiterates a commitment to raise defence spending to 3.5 percent by 2035, warns of hard choices and rejects the Conservatives' proposed welfare cuts as an easy answer. Sir Rich Knighton acknowledges smaller British armed forces but says they remain ready. He interprets polling support for higher spending as recognition of a changed strategic context; Sky's Mark Urban stresses the cost of rebuilding defences.</a></li><li><a href="https://x.com/SkyNews/status/2119364684222451898" target="_blank" rel="noopener">UK–US relations: Sir Rich Knighton calls the military relationship as close as he has known it. Former US diplomat Philip Reeker says polling that portrays the US as a threat to world peace is a reason to reflect on the relationship. Sky places these contrasting assessments alongside the same survey, whose methodology is not included in the posts.</a></li><li><a href="https://x.com/SkyNews/status/2119118539311227285" target="_blank" rel="noopener">British casualty in Krakow: Sky reports, citing Polish officials, that a British man was among six people killed in the shooting and that another was wounded. It reports Burnham expressing UK solidarity with Poland and later quotes Poland's interior minister saying two injured police officers were out of comas. Earlier BBC and Sky accounts are merged into this British-impact update; evolving early casualty totals and graphic footage are not repeated.</a></li><li><a href="https://x.com/SkyNews/status/2119344702881513866" target="_blank" rel="noopener">UK media accountability: Sky reports Lisa Nandy saying behaviour like Russell Brand's is probably still happening and questioning what has changed. Its separate investigation retrospective says Brand was convicted of rape and sexual assault and was due to be sentenced on Monday. Nandy's concern is attributed as her judgement, not a finding about unnamed people.</a></li><li><a href="https://x.com/SkyNews/status/2119401013195002102" target="_blank" rel="noopener">UK retail: Sky reports a prospective Poundland buyer urging Gordon Brothers to release funding to secure a sale. The headline describes pressure to complete a deal, not a completed sale.</a></li><li><a href="https://x.com/BBCNews/status/2119371998488916225" target="_blank" rel="noopener">Swansea, Wales: the BBC profiles a mother trying to raise £2.95m for treatment for her young son's dementia. The captured preview establishes the fundraising goal, not an independent assessment of the treatment's effectiveness.</a></li><li><a href="https://x.com/SkyNews/status/2119157029373607975" target="_blank" rel="noopener">Gloucester, England: Sky reports two teenagers arrested after a boy was injured in a sword chase. The report concerns arrests, not convictions.</a></li><li><a href="https://x.com/SkyNews/status/2119150685195305255" target="_blank" rel="noopener">Northern Ireland: Sky reports a man appearing in court charged with the murder of missing woman Carrie Mullane. The charge is not a finding of guilt.</a></li><li><a href="https://x.com/BBCNews/status/2119343672672112707" target="_blank" rel="noopener">UK music: the BBC reports 1Xtra launching its first UK rap chart, framed by participants as a fairer playing field for the genre.</a></li><li><a href="https://x.com/BBCNews/status/2119370307018407955" target="_blank" rel="noopener">London football: the BBC profiles Cray Wanderers ahead of the club's first FA Cup first-round appearance against Stockport County. The retained preview supplies the milestone, rather than merely a live-score invitation.</a></li><li><a href="https://x.com/BBCNews/status/2119114497654731204" target="_blank" rel="noopener">Premier League results: the BBC reports Arsenal beating Hull City 1–0, Nottingham Forest beating Manchester City 3–1 with two goals from Liam Delap, and Fulham drawing 1–1 with Newcastle. Follow-up Arsenal analysis and Forest player ratings are grouped with the results without reconstructing the unvisited articles.</a></li><li><a href="https://x.com/BBCNews/status/2119114497403031817" target="_blank" rel="noopener">Wales rugby: the BBC reports a 28–21 bonus-point win over Japan in the Nations Championship. The earlier live update about Japan's response is absorbed into the final result.</a></li><li><a href="https://x.com/BBCNews/status/2119150761242239383" target="_blank" rel="noopener">English FA Cup: the BBC revisits the difficulty of commentating on Altrincham–Notts County in thick fog, quoting a commentator calling it the worst conditions of his career. The earlier extra-time ticker is grouped with that account, without inventing a final score.</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>The production gate verified a union of 133 current-traversal originals and 1 prior-capture carry, giving 134 individually accounted originals.</li><li>Union of the current Following traversal and verified prior-capture carry within the frozen interval; not an exact saved-cursor traversal and not a claim of completeness for all historical X posts.</li><li>Every retained original was read and individually accounted for. Related posts are grouped by subject; outlet reports share one UK-only section. DutchNewsNL remains separate without a UK filter.</li><li>Summaries use captured posts, retained link previews and the reviewed full public post text for Sutton, signulll and Orosz. Linked articles, videos and images were not inspected. Other truncated sources contribute only complete visible statements. Opinions and reported claims remain attributed.</li><li>For You omitted: no fresh algorithmic collection was made for this frozen recovery; no older suggestions were reused.</li><li>TristanTube appeared in the preceding edition as an optional algorithmic suggestion. It is retained here because its original belongs to this frozen Following interval, not because the old algorithmic feed was reused.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>Exact saved cursor not observed; verified cross-run union seam</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
