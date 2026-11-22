@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-11-22</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">22 November 2026 — the daily feed</p>
+  <p class="hero-stats">92 posts · 14 handles · 21 Nov 16:55 → 22 Nov 17:00 GMT · complete audited Following interval</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-OmarShahine">@OmarShahine</a><a href="#h-DutchNewsNL">@DutchNewsNL</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-jstanier">@jstanier</a><a href="#h-paulg">@paulg</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1544357754025951232/9hRrwOaX_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz argues that AI is shifting software work from hand-writing code towards designing software factories, feedback loops, formal validation and observability. His example is a nontechnical personal trainer who built a production app; his prediction is that “coder” roles will change much as webmaster and Flash-developer roles did, rather than everyone in them simply disappearing.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A career argument about where engineering value moves—not a measured forecast of employment, and not proof that generated software needs no engineering.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2124434375051812927" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/378800000261649705/be9cc55e64014e6d7663c50d7cb9fc75_normal.jpeg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Simon Willison</div>
+      <div class="post-handle">@simonw · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">The same model name can hide a very different reasoning budget. Willison compares Gemini 4 Hydrogen at high and xhigh effort: his pelican example used 5,311 versus 31,477 output tokens, with a visibly different result. He also shares a wider comparison grid across Carbon, Neon and Hydrogen and their reasoning settings.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HXq82B8b0AAIxPm?format=jpg&amp;name=small" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HXq8Q5Ha8AAVH6_?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Compare model plus effort setting, not model name alone. This is one illustrative task and a comparison grid, not a general benchmark victory.</div>
+  <a class="view-link" href="https://x.com/simonw/status/2124217876777464269" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">Shahine moves from apprehension about Home Assistant’s complexity to reporting a one-hour, Claude-assisted migration of his SmartThings leak-detection setup. He lists monthly water-shutoff tests, remote emergency shutoff, battery tracking and a household vacation mode, using Home Assistant Green and Zigbee2MQTT.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete example of AI lowering an integration barrier. The post reports a working setup, not an independent reliability or safety test of the automation.</div>
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124230480388297008" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-21 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Dictation field notes: Shahine says Hex struggled when he needed to whisper in noise, prefers the improved Wispr Flow to Monologue’s interface, then finds Fluid Voice particularly good at turning speech into text he would actually type—despite bugs in its iOS TestFlight app. In the same recommendation thread, Hanselman suggests Handy.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> The useful selection criteria are noisy-room performance and editing the transcript into natural written prose, not just transcription accuracy. These are personal reports, not a controlled comparison.</div>
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124219622891343888" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1384574046575157249/9sqP84YM_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Anders Sandberg</div>
+      <div class="post-handle">@anderssandberg · 2026-11-22 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Sandberg’s reading of the claimed Alpöge/Claude Riemann Hypothesis proof is that it traverses a large collection of known methods and tricks without introducing a new conceptual framework. He calls it “elementary” in that technical sense, not short or easy.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A distinction between discovering a new mathematical idea and assembling existing ideas successfully. The post is an interpretation of a claimed proof, not a verification that the theorem has been proved.</div>
+  <a class="view-link" href="https://x.com/anderssandberg/status/2124362523184927058" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-OmarShahine"><h2><a href="https://x.com/OmarShahine" target="_blank" rel="noopener">@OmarShahine</a> <span class="count">5 posts · 1 featured</span></h2><p class="handle-summary">One conversational front end for a team of development agents.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">Shahine likes Orca bots because he can talk to one orchestrating system rather than manage each bot directly. He likens the change to moving from engineering manager to group engineering manager: the appeal is delegation through a single interface, not simply more agents.</p>
+
+
+
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124229742618722716" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Coalition repair, rights and security — from the linked weekly episode notes.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">The episode covers coalition crisis talks after the budget dispute, with Sybrand Buma asked to chair reconciliation; continuing gaps in disability access and women’s pay; and FVD expulsions after reporting on neo-Nazi connections. It also discusses a surge in fake police officers, the strike on the Dutch embassy in Kyiv, Destinus’s claim of involvement in a Crimea-bridge strike and the risks for the Netherlands, a Van Gogh sale after a settlement with Jewish heirs, and the national football team’s sharply contrasting results. The Amsterdam Sinterklaas-parade dispute is the week’s lighter political controversy; donation appeals are omitted.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2123768241470287872/_m4qIeEp?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124457880103407949" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">2 posts · 1 featured</span></h2><p class="handle-summary">Две реакции на публичный язык «дружбы» Трампа; один сюжет.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1950960808357208064/7qCHhg5D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман с недоверием реагирует на публикацию Трампа с фотографией Путина и подписью «My Friend», прикладывая ссылку на Truth Social и подчёркивая, что это не подделка. Это его политическая реакция; сам первоисточник здесь отдельно не проверялся.
+
+In the follow-up, another Trump image headed “Friends” gets a caption from the television theme song: a dry joke about a bad day, week, month or year. The flattering image and the theme song’s catalogue of bad days, weeks and years do the work of the joke.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HXrkxgEXoAAjbhj?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2124261720172515346" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-jstanier"><h2><a href="https://x.com/jstanier" target="_blank" rel="noopener">@jstanier</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">The economics of a long-running writing practice.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1588643856098238465/Wq0vnoFe_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">James Stanier</div>
+      <div class="post-handle">@jstanier · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">Stanier looks back on nine years of writing, three books and a paid newsletter. The accompanying article image supplies the substantive point missing from the short caption: newsletter earnings are now overtaking declining book sales. No income totals are visible in the post.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HXrbSSsXIAAKvAj?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/jstanier/status/2124251308777472202" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-paulg"><h2><a href="https://x.com/paulg" target="_blank" rel="noopener">@paulg</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">A cultural opinion, not a claim that the past was uniformly better.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1824002576/pg-railsconf_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Paul Graham</div>
+      <div class="post-handle">@paulg · 2026-11-21 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Graham argues that the now-familiar remark “You couldn’t make that show now”, even about fairly recent television, signals a real cultural problem. He leaves the specific programme unnamed; the post is a criticism of narrowing creative permission, not evidence about a particular cancelled production.</p>
+
+
+
+  <a class="view-link" href="https://x.com/paulg/status/2124207933026414957" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Separate algorithmic suggestions, collected after the Following window closed. Deduplicated against Following and a 14-day shown-history window. Promotional posts excluded again during editorial review.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1283610285031460864/1Q4zYhtb_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Jerry Liu</div>
+      <div class="post-handle">@jerryjliu0 · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">Jerry Liu argues that defining and measuring “good” is the difficult, reusable part of enterprise AI work. He advocates openly inspectable benchmarks and tools, noting that task setup, environment, metrics and annotations can all be flawed; the quoted ParseBench example even rewarded a parser that corrupted a monetary amount.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HXgQEfBWMAEuIWN?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Build confidence in the measuring instrument before optimising against its score. This is a benchmark-maintenance argument, not proof that every implementation is easy.</div>
+  <a class="view-link" href="https://x.com/jerryjliu0/status/2124208311692329221" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/839937736018501632/0aXmic50_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">John Maeda</div>
+      <div class="post-handle">@johnmaeda · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">Maeda says agent interfaces move the design problem from helping people execute a task to helping them judge what was done. His proposed ingredients are explicit rubrics, repeated evaluation and a shared account of taste: make quality assessable, not just the interface easy to operate.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A useful product-design question: can a person tell whether the agent completed the right task correctly? The substantive argument is retained; course promotion is not.</div>
+  <a class="view-link" href="https://x.com/johnmaeda/status/2124201837746364613" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1666460461884211204/SmBm505D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Matt Pocock</div>
+      <div class="post-handle">@mattpocockuk · 2026-11-21 </div>
+    </div>
+  </header>
+  <p class="summary">Pocock proposes teaching an agent your writing style through a lightweight scoring interface: rate individual example sentences or choose the better of two, then work through a planned article together. The agent would test hypotheses about your preferences and build a profile from feedback.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> An actionable alternative to a vague “write like me” instruction. It is a proposed workflow, not a demonstrated training result.</div>
+  <a class="view-link" href="https://x.com/mattpocockuk/status/2124214098984370645" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1927407622602276864/c_5uOZij_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Mustafa Suleyman</div>
+      <div class="post-handle">@mustafasuleyman · 2026-11-22 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Suleyman cites an AWS report in which an agent allegedly found and exploited a zero-day in a medical-imaging application in about eleven minutes. He argues that unsecured agent harnesses are a growing threat and may need regulation while defenders catch up.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> The engineering concern is the permissions and controls around an agent. The incident timing and attribution are reported claims; the regulation proposal is his opinion.</div>
+  <a class="view-link" href="https://x.com/mustafasuleyman/status/2124536771702874472" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2047008659629391872/BfLTYOuh_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Google Cloud Tech</div>
+      <div class="post-handle">@GoogleCloudTech · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">Google Cloud announces general availability of Filestore agent volumes: managed, elastic POSIX storage for agent workspaces, with automatic data tiering and cloning of pre-populated volumes for new sandboxes.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HXnmoMRWQAA_al0?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> Persistent workspace storage and cheap cloning are separate infrastructure concerns from model choice. This is the vendor’s feature announcement, not a cost or performance comparison.</div>
+  <a class="view-link" href="https://x.com/GoogleCloudTech/status/2124321970711830846" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1885410181409820672/ztsaR0JW_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Sam Altman</div>
+      <div class="post-handle">@sama · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">Altman calls OpenAI’s new pretraining-transparency publication particularly important and supports shared limits intended to preserve safety and control. The quoted Pachocki post proposes using perplexity and other measurements as part of common safety thresholds.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A first-party proposal for measuring and governing progress, not evidence that the field has agreed to limits or that those metrics are sufficient.</div>
+  <a class="view-link" href="https://x.com/sama/status/2124551594691932405" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/378800000592282043/b59c0ce84df76e778085fd418022d04e_normal.jpeg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Joe Ingeno</div>
+      <div class="post-handle">@JoeIngeno · 2026-11-22 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Ingeno links Spotify Engineering’s explanation of why personalisation and experimentation use separate technology stacks. The captured post identifies the architectural question but does not state the article’s reasoning, so the digest preserves it as a reading lead rather than inventing the trade-offs.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Useful to compare the needs of serving a decision with those of measuring its causal effect; read the linked engineering account for Spotify’s actual rationale.</div>
+  <a class="view-link" href="https://x.com/JoeIngeno/status/2124533615815966840" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK news — combined outlets</strong> — 74 posts <span class="dim">(All outlet sources counted together; only direct UK stories featured)</span></summary>
+    <ul><li><a href="https://x.com/SkyNews/status/2124383009533026622" target="_blank" rel="noopener">UK defence — the last crewed fighter? The RAF chief says Britain’s next fighter could be its last combat aircraft with a pilot in the cockpit. BBC and Sky reports are one story; this is a forecast, not an announced end to all piloted military flying.</a></li><li><a href="https://x.com/BBCNews/status/2124506995688386593" target="_blank" rel="noopener">UK energy bills: Centrica’s chief says he is hugely concerned about the impact of soaring bills. The captured report establishes his warning, not a new tariff or a quantified household forecast.</a></li><li><a href="https://x.com/SkyNews/status/2124473270883762359" target="_blank" rel="noopener">UK business: Reform treasurer Nick Candy is considering another revival of augmented-reality company Blippar, Sky reports. This is a prospective deal, not a completed turnaround.</a></li><li><a href="https://x.com/BBCNews/status/2124424863792165317" target="_blank" rel="noopener">UK–EU reset: Theresa May says Brexit is done, Alex Burghart calls the agreement bad business, and Hamish Falconer discusses lower fees for EU students and says the British public will be in charge of the process. Reactions from former prime ministers and speculation about a future referendum are grouped; no referendum is announced in these posts.</a></li><li><a href="https://x.com/SkyNews/status/2124438428485927406" target="_blank" rel="noopener">UK response to Trump and Putin: Conservative Alex Burghart criticises Trump’s description of Putin as a friend; Europe minister Hamish Falconer insists the prime minister is not pulling his punches over Russia’s invasion. These are British political reactions, not a new peace settlement.</a></li><li><a href="https://x.com/SkyNews/status/2124438620673126616" target="_blank" rel="noopener">UK party politics: Conservative deputy leader Alex Burghart says a pact with Restore Britain is very unlikely, citing its position on ethnonationalism. This is his stated position, not a coalition agreement.</a></li><li><a href="https://x.com/BBCNews/status/2124463971633651796" target="_blank" rel="noopener">Redditch, England: a widow fears losing the home her husband built when bereavement support payments end. The report illustrates the financial cliff at the end of support, without establishing that she has already lost the property.</a></li><li><a href="https://x.com/BBCNews/status/2124438750486736926" target="_blank" rel="noopener">Online stalking in England: the BBC’s West of England report identifies repeated unwanted contact, new accounts used to evade blocks and monitoring of online activity as warning signs. Police advise preserving messages and seeking help without delaying a report to collect evidence; the article warns that simply blocking an obsessive stalker can sometimes escalate risk.</a></li><li><a href="https://x.com/SkyNews/status/2124257493018661130" target="_blank" rel="noopener">UK consumer safety: Hotel Chocolat recalls several Christmas boxes over a potential salmonella risk. Check the linked report for the affected products; the headline does not mean every item sold by the company is recalled.</a></li><li><a href="https://x.com/SkyNews/status/2124286846221930980" target="_blank" rel="noopener">NHS follow-up: Sky repeats the warning about rising UK hospital admissions for high blood pressure. This was also in the previous edition; no new cause or treatment finding is supplied by this post.</a></li><li><a href="https://x.com/SkyNews/status/2124217281928654856" target="_blank" rel="noopener">Barnham, England: residents backed symbolic independence by 257 votes to 16, with one spoilt vote. The interview explains local opposition to asylum accommodation; this follows yesterday’s result and does not change the village’s legal status.</a></li><li><a href="https://x.com/SkyNews/status/2124210491819950205" target="_blank" rel="noopener">Bradford, England: a man has been charged with attempted murder after a councillor was stabbed. This repeats the charge reported in the previous edition; a charge is not a conviction.</a></li><li><a href="https://x.com/SkyNews/status/2124291905852723674" target="_blank" rel="noopener">England football: Harry Kane says he aims to return by the business end of the season after his ankle injury. The reported absence of several months is an expectation, not a confirmed recovery date.</a></li><li><a href="https://x.com/BBCNews/status/2124444144730804455" target="_blank" rel="noopener">England cricket: Will Jacks is out of the T20 tour of Australia with a broken hand. The captured report does not specify a return date.</a></li><li><a href="https://x.com/BBCNews/status/2124446058163949806" target="_blank" rel="noopener">Wales rugby: coach Steve Tandy expresses frustration after the 29–26 defeat by Australia. This is the result and reaction, not another live-match invitation.</a></li><li><a href="https://x.com/BBCNews/status/2124424307577139370" target="_blank" rel="noopener">UK football: Bruno Fernandes has been offered a Manchester United contract but says it is not the right time for talks. No new deal is agreed in the captured report.</a></li><li><a href="https://x.com/BBCNews/status/2124418109108867418" target="_blank" rel="noopener">UK broadcasting: the BBC apologises for offence caused by Strictly Come Dancing noise disruption. The headline does not establish a formal regulatory finding.</a></li><li><a href="https://x.com/BBCNews/status/2124415842309779747" target="_blank" rel="noopener">Northern Ireland: a Limavady teenager’s alpacas are helping children with additional needs. The BBC feature describes a local initiative, not a clinical trial or a universal treatment claim.</a></li><li><a href="https://x.com/BBCNews/status/2124415838409142486" target="_blank" rel="noopener">Cheltenham, England: a memorial bench for Jilly Cooper has been unveiled at the racecourse—a small literary and racing tribute.</a></li><li><a href="https://x.com/BBCNews/status/2124415835934507252" target="_blank" rel="noopener">Cleveland, England: police dogs have been named after officers killed in an A66 crash. The tribute is the new development, not a new fatal collision.</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Following reached the exact saved unread boundary through 40 accepted overlapping snapshots: 92 in-window posts from 14 original-author handles. Reposts count under the original author. This proves the observed traversal, not that every post from every followed account appeared.</li><li>Threads and repeated stories are grouped under their earliest retained source. All news organisations, including reposted outlet accounts, are restricted to one UK-only news section. DutchNewsNL is retained separately without a UK filter; its linked episode notes were opened to recover substantive Dutch context.</li><li>Selected truncated posts and image-dependent commentary were opened separately without replacing audited source text. Feldman’s two reactions form one bilingual card: each paragraph keeps the language of its source. Personal political and social opinions are not geographically filtered.</li><li>For You supplied 68 candidates after its initial filter; six residual Boosted ads were excluded editorially. Seven suggestions are featured. Technical performance, proof claims and policy proposals remain attributed rather than independently verified. Some UK stories repeat yesterday’s developments; those repeats are labelled.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2124538525953773906</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
