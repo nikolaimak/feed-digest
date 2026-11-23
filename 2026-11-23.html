@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<title>Twitter Digest — 2026-11-23</title>
+<style>
+  :root {
+    --bg: #fff;
+    --card: #f7f9f9;
+    --card-hover: #ebeef0;
+    --border: #cfd9de;
+    --text: #0f1419;
+    --dim: #536471;
+    --link: #1d9bf0;
+    --accent: #ff6b35;
+    --quote: #f5f5f5;
+    --highlight: #fff8e7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15202b;
+      --card: #1e2732;
+      --card-hover: #2a3441;
+      --border: #38444d;
+      --text: #f7f9f9;
+      --dim: #8899a6;
+      --link: #1d9bf0;
+      --accent: #ff8c5a;
+      --quote: #22303c;
+      --highlight: #2a2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15202b;
+    --card: #1e2732;
+    --card-hover: #2a3441;
+    --border: #38444d;
+    --text: #f7f9f9;
+    --dim: #8899a6;
+    --link: #1d9bf0;
+    --accent: #ff8c5a;
+    --quote: #22303c;
+    --highlight: #2a2418;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 14px 64px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 6px; line-height: 1.2; }
+  h2 { font-size: 1.35rem; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; }
+  h2 .count { color: var(--dim); font-weight: 400; font-size: 0.85rem; }
+  p { margin: 8px 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:active, a:hover { text-decoration: underline; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.85rem; padding: 2px 6px; background: var(--card); border-radius: 4px; }
+  .dim { color: var(--dim); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--accent), #ff4500);
+    color: white;
+    padding: 22px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .hero h1 { color: white; margin-bottom: 8px; }
+  .hero-sub { font-size: 1.05rem; opacity: 0.95; margin: 4px 0; font-weight: 500; }
+  .hero-stats { font-size: 0.9rem; opacity: 0.85; margin-top: 8px; }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 28px;
+    padding: 10px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .toc a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .toc a:hover { background: var(--card-hover); text-decoration: none; }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+  }
+  section#highlights .post {
+    background: var(--highlight);
+    border-color: var(--accent);
+  }
+  .post-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .avatar.placeholder {
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-name { font-weight: 700; font-size: 1rem; }
+  .post-handle { color: var(--dim); font-size: 0.85rem; }
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(29, 155, 240, 0.15);
+    color: var(--link);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .tag.rt { background: rgba(0, 186, 124, 0.15); color: #00ba7c; }
+  .tag.q { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+  .summary {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin: 12px 0 8px;
+  }
+  .quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dim);
+    background: var(--quote);
+    font-style: italic;
+    color: var(--dim);
+    font-size: 0.95rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .media-wrap {
+    margin: 12px -4px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .media {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .why {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 0.92rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .why-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .view-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 0;
+    min-height: 36px;
+    line-height: 24px;
+  }
+
+  .handle-summary {
+    color: var(--dim);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .firehose-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    padding: 14px 18px;
+  }
+  .firehose-section summary {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 0;
+    list-style: none;
+    user-select: none;
+  }
+  .firehose-section summary::before { content: "▶"; display: inline-block; transition: transform 0.15s; margin-right: 8px; color: var(--dim); font-size: 0.7rem; }
+  .firehose-section[open] summary::before { transform: rotate(90deg); }
+  .firehose-section ul { margin: 12px 0 0; padding-left: 24px; }
+  .firehose-section li { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
+
+  #notes ul { padding-left: 24px; }
+  #notes li { margin: 8px 0; font-size: 0.95rem; color: var(--dim); }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.85rem; text-align: center; }
+  .missing { color: red; padding: 8px; }
+
+  @media (min-width: 600px) {
+    html { font-size: 16.5px; }
+    .media-wrap { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>📨 Twitter Feed Digest</h1>
+  <p class="hero-sub">23 November 2026 — the daily feed</p>
+  <p class="hero-stats">133 posts · 13 handles · 22 Nov 16:20 → 23 Nov 17:00 GMT · complete audited Following interval</p>
+</header><nav class="toc">
+  <a href="#highlights">🔥 Must-read</a>
+  <a href="#foryou">🧠 For You</a>
+  <a href="#h-OmarShahine">@OmarShahine</a><a href="#h-btraut">@btraut</a><a href="#h-abreslav">@abreslav</a><a href="#h-GergelyOrosz">@GergelyOrosz</a><a href="#h-PodcastPodlodka">@PodcastPodlodka</a><a href="#h-EvgenyFeldman">@EvgenyFeldman</a><a href="#h-DutchNewsNL">@DutchNewsNL</a>
+  <a href="#firehose">📊 Firehose</a>
+  <a href="#notes">📌 Notes</a>
+</nav><section id="highlights"><h2>🔥 Must-read</h2>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1130694826331000840/cYt0Cxbg_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Will Larson</div>
+      <div class="post-handle">@Lethain · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">Larson’s route to more than 100 production PRs a week was a sequence of bottleneck fixes: modern CI/CD, accurate context, structured issues, cloud agents, and—crucially—verification evidence that makes a PR approvable. His latest unlock was a daily triage tool that reconciles open work, recovers stalled agents and surfaces human decisions; he explicitly says PR count asks questions rather than measuring value.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HXwOjdMbIAEX5D0?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> The linked account distinguishes deployment from release and keeps human approval for sensitive configuration changes. Faster code generation did not remove the need for review, reliable context or judgement.</div>
+  <a class="view-link" href="https://x.com/Lethain/status/2124590238031094043" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1544357754025951232/9hRrwOaX_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz has made his Forward Deployed Engineer guide free and argues that AI-native FDE roles remain hard to fill despite high pay. His updated article adds an important correction to the original description: many current jobs are closer to a solutions-architect/product-engineer hybrid integrating AI into customer workflows, with much less contribution back to the core platform than the early examples suggested.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Useful career due diligence: inspect the actual balance of customer delivery, product engineering and sales support rather than trusting the job title. The updated caveat matters more than the headline hiring boom.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2124842826563461464" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Shahine connected three Orca bots on separate machines through a shared Slack team so they could communicate with one another. He reports setting it up in under ten minutes and sees agent-to-agent coordination as the next step beyond talking separately to each assistant.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HX0b7fvbEAAodds?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A concrete coordination pattern: persistent agent identities and a shared communication space. The setup time is his report, not evidence that reliability, access controls or failure recovery are solved.</div>
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124885484484894908" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1950960808357208064/7qCHhg5D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман связывает качество публичной дискуссии не только с лидерами мнений и устройством платформ, но и с поведением аудитории: спор и скандал приносят внимание, а отказ от них может стоить подписок и продаж. Он добавляет неприятную симметрию: сам тоже часто не замечает полезную работу журналистов и активистов, которую делают тихо, без конфликта.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Содержательная мысль о цене сдержанности: внимание распределяется не по полезности работы, и ответственность не сводится к одним алгоритмам. Три связанных сообщения объединены.</div>
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2124591744390160833" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1544357754025951232/9hRrwOaX_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">A free Windows calculator Orosz last updated twelve years ago still attracts thousands of monthly downloads—and a company has offered him $10,000 for it. In the follow-up he recognises the value of the installed base and the supply-chain concern raised by a reader, while crediting Windows backwards compatibility for keeping the app alive.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Two different assets are hiding in an old application: durable software and a trusted distribution channel. An acquisition offer alone does not establish malicious intent.</div>
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2124821979815452938" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-OmarShahine"><h2><a href="https://x.com/OmarShahine" target="_blank" rel="noopener">@OmarShahine</a> <span class="count">5 posts · 4 featured</span></h2><p class="handle-summary">Delegation, shopping agents and useful hardware/software picks.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-22 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Shahine says Microsoft Autopilot will add Goals alongside Routines: his example is keeping one-to-ones scheduled within a specified monthly range and reporting back each Friday. A related public example from Josh Cook shows the complementary boundary: an agent prepared to share a presentation, but asked for approval before doing so. The scheduling goal is forthcoming, not a feature demonstrated as already available.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HXvqNVeWkAA_C-2?format=jpg&amp;name=360x360" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HXvqNUrWYAAlpOV?format=jpg&amp;name=360x360" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HXvqNUIXYAAx9QG?format=jpg&amp;name=360x360" alt="" loading="lazy"><img class="media" src="https://pbs.twimg.com/media/HXvqNUjWQAAgrQb?format=jpg&amp;name=360x360" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124597302367342892" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Shahine tells Amazon that Walmart will win his Muse shopping business. It is a small but clear consumer argument: willingness to work with a customer’s agent can influence which retailer gets the purchase.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HX0jSMZaUAAierx?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124893514609926538" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Shahine recommends Desky, a Safari extension that switches sites into desktop mode when an iPhone Duo is opened. The useful idea is matching the website layout to the device’s expanded screen rather than repeatedly changing the browser setting by hand.</p>
+
+
+
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124735677954916426" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1451880742/OmarShahineSquare_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Omar Shahine</div>
+      <div class="post-handle">@OmarShahine · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Shahine recommends Anker’s 160W, three-port Prime charger for a power-hungry MacBook. This is a personal product recommendation with a deal link, not an independently tested power-sharing or charging-speed comparison; no price is quoted.</p>
+
+
+
+  <a class="view-link" href="https://x.com/OmarShahine/status/2124724458787385680" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-btraut"><h2><a href="https://x.com/btraut" target="_blank" rel="noopener">@btraut</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Permission fatigue as a usability criticism.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1373479046852403200/7_Qto0Rk_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Brent Traut</div>
+      <div class="post-handle">@btraut · 2026-11-22 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">After setting up a new Mac, Traut says repeated permission requests for ordinary operations have made him consider moving development to Linux. His criticism cuts both ways: the prompts obstruct power users, while the less technical users he has watched do not understand them. Calling it “security theatre” is his judgement, not a finding that the protections have no value.</p>
+
+
+
+  <a class="view-link" href="https://x.com/btraut/status/2124639748656611347" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-abreslav"><h2><a href="https://x.com/abreslav" target="_blank" rel="noopener">@abreslav</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Formal proof, human understanding and the mathematical community.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1608173714222321665/tc_hRrvf_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Andrey Breslav</div>
+      <div class="post-handle">@abreslav · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Breslav argues that machine-produced proofs need not change what mathematics is: formal proofs were already enumerable in principle; AI could make finding them practical. Taking the claimed Riemann proof and its Lean code as his premise, he distinguishes a proof’s existence from human understanding and expresses more concern for the academic community than for mathematics itself. This digest has not verified that claimed proof.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HX0Qpw3XYAARDF9?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/abreslav/status/2124873032489377869" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-GergelyOrosz"><h2><a href="https://x.com/GergelyOrosz" target="_blank" rel="noopener">@GergelyOrosz</a> <span class="count">5 posts · 1 featured</span></h2><p class="handle-summary">A personal reaction to Nvidia’s leadership reversal.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1544357754025951232/9hRrwOaX_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Gergely Orosz</div>
+      <div class="post-handle">@GergelyOrosz · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Orosz reacts with disbelief to Nvidia’s announcement that Jensen Huang is returning as CEO, emphasising that he checked the official company site rather than trusting a screenshot. His point is the extraordinary sequence of reversals; the post does not establish why the board changed course.</p>
+
+
+
+  <a class="view-link" href="https://x.com/GergelyOrosz/status/2124868288295448885" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-PodcastPodlodka"><h2><a href="https://x.com/PodcastPodlodka" target="_blank" rel="noopener">@PodcastPodlodka</a> <span class="count">1 posts · 1 featured</span></h2><p class="handle-summary">Агенты в существующих системах, а не только в новых проектах.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1862079591877169152/BTwjzPuh_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Podlodka Podcast</div>
+      <div class="post-handle">@PodcastPodlodka · 2026-11-23 <span class="tag rt">🔁 Repost</span></div>
+    </div>
+  </header>
+  <p class="summary">Выпуск с Sergiy Teplyakov посвящён внедрению агентов в сложную существующую кодовую базу: как менять цикл разработки и не терять контроль над результатом. Это полезная ссылка на разговор о MSBuild и Azure Core, но конкретные практики из выпуска в самом сообщении не перечислены.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HX0XHe4XsAA-IUK?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/PodcastPodlodka/status/2124880078991429720" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-EvgenyFeldman"><h2><a href="https://x.com/EvgenyFeldman" target="_blank" rel="noopener">@EvgenyFeldman</a> <span class="count">7 posts · 2 featured</span></h2><p class="handle-summary">Политические наблюдения; анонсы и личная перепалка убраны.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1950960808357208064/7qCHhg5D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Фельдман считает, что за три недели после выборов Вашингтон уже существенно изменился: Трамп, по его оценке, не утратил формальную власть, но оказался политически одинок. Это авторская интерпретация, сопровождавшая анонс эфира; сам анонс здесь опущен.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HX0RsITWAAAW2F8?format=jpg&amp;name=small" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2124874189996003358" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1950960808357208064/7qCHhg5D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Feldman</div>
+      <div class="post-handle">@EvgenyFeldman · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Feldman singles out the plan to include creators and influencers in the Democratic presidential-primary debate process. The quoted party announcement proposes twelve debates starting in June 2027 and says participating candidates must denounce dark-money spending in the primary; it is a framework for future debates, not a report of debates already held.</p>
+
+
+
+  <a class="view-link" href="https://x.com/EvgenyFeldman/status/2124859570002763862" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="h-DutchNewsNL"><h2><a href="https://x.com/DutchNewsNL" target="_blank" rel="noopener">@DutchNewsNL</a> <span class="count">16 posts · 15 featured</span></h2><p class="handle-summary">Dutch affairs, practical guides and Amsterdam culture — all distinct topics retained.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Regional public-transport strikes have begun. DutchNews links a service-by-service guide to affected routes; check it before travelling, because the captured headline does not specify which services will run.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2124791508721090560/j9nxcFaI?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124791445081014517" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Dutch households are turning down their gas use as global unrest pushes prices higher. The report concerns consumer behaviour and pressure on bills; the captured post gives no quantified saving or tariff forecast.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124855604422255098" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">The Netherlands is sending a delegation to India over an abducted girl from Amsterdam. The diplomatic intervention is the reported development; the headline does not say she has been returned.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124886478320783763" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">A baby survived a fall from a third-storey window in Amsterdam. The retained report gives no explanation for the fall, so none is inferred.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124900128729264615" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Prosecutors are seeking thirty years in prison plus treatment for the Erasmus shooter. This is the prosecution’s request, not the court’s sentence.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2124159613293428736/C00w78_g?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124867202775957880" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">The Party for the Animals marks twenty years in parliament campaigning against factory farming. The anniversary is a lens on its long-running political agenda, not a newly enacted farming ban.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2124873315621675008/NUo17zbB?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124873309024039420" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Jetten and Burnham pledge continued support for Ukraine. DutchNews frames it as a joint Dutch–British commitment; the captured post does not announce a new aid amount.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2124818437671170049/I9WwrTxU?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124818429681053925" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">A Dutch influencer has been freed from US immigration detention after eleven days. This is a Dutch consular and personal story, retained despite taking place outside the Netherlands.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2124804488930242561/hpQGcC4T?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124804480449335580" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">A Dutch man who spent forty-two years in a US prison for murder has died. The captured report does not establish a change in the legal status of his conviction.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124838150220460189" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Non-native US turtle species are spreading in the Netherlands. DutchNews presents this as an invasive-species issue; the headline alone does not establish the scale of ecological damage.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124836158081274098" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Ajax move into second place in the Eredivisie behind PSV while Feyenoord’s poor run continues. The football update is retained as Dutch context, separately from UK outlet coverage.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124788044163100822" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">The Dutch forecast is sunny but cold, with nights below freezing. It is a near-term forecast, not an assurance of conditions at a particular address.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2124777393357250560/rkaqRXJh?format=jpg&amp;name=240x240" alt="" loading="lazy"></div>
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124777329054384287" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">The linked education guide decodes the Dutch pathways: VMBO leads towards vocational training, HAVO towards universities of applied sciences, and VWO towards research universities. It also distinguishes HBO from WO, explains the primary-school transition test and teacher recommendation, and separates DUO’s education-finance role from DUWO’s student housing.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124896512131887219" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">In the linked employment guide, a language-school founder argues that “native Dutch” often signals professional fluency rather than birthplace: apply if the other requirements fit, state your actual level and demonstrate progress. Her practical tips include a Dutch paragraph in an application and practising listening and clarification in meetings. This is commercial provider advice, not a guarantee of employer flexibility or a universal required language level.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124856185111118235" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1213480365526061057/H4dt2ukQ_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">DutchNews.NL</div>
+      <div class="post-handle">@DutchNewsNL · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">An Amsterdam feature visits Stoom Goes Deeper aboard Kapitein Anna at the NDSM wharf: live clarinet, guided breathing and a sauna overlooking the IJ. Swimwear is required, and the writer’s main appeal is an evening away from the phone; the article is an experience report, not evidence for therapeutic claims.</p>
+
+
+
+  <a class="view-link" href="https://x.com/DutchNewsNL/status/2124815262243226033" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="foryou"><h2>🧠 For You picks <span class="count">7 · algorithmic feed</span></h2><p class="handle-summary">Separate algorithmic suggestions collected after the Following window closed. Deduplicated against Following and a 14-day shown-history window; residual Boosted ads excluded.</p>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1666460461884211204/SmBm505D_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Matt Pocock</div>
+      <div class="post-handle">@mattpocockuk · 2026-11-23 <span class="tag q">💬 Quote</span></div>
+    </div>
+  </header>
+  <p class="summary">Pocock treats Vercel Board as a useful architectural idea: a shared message space for humans and agents, with distinct identities, optional Slack visibility and connections between local and remote execution. He proposes using unread messages as work queues, repeating messages as schedules, and commands for deterministic workflows; several are his suggestions, not capabilities he says Vercel already ships.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/card_img/2123234777285484544/5-i3JQjW?format=png&amp;name=small" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A deeper companion to Shahine’s bot Slack team. It separates the coordination model from the vendor implementation—and makes room for deterministic operations alongside open-ended agents.</div>
+  <a class="view-link" href="https://x.com/mattpocockuk/status/2124797717834543167" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2051404708766507008/ATxxTJXO_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">GitHub</div>
+      <div class="post-handle">@github · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">GitHub says Copilot Fusion can route a prompt to one model or combine several models, choosing according to quality, speed and cost. The product pitch is automatic routing rather than making users select a model for each task.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> The routing layer is becoming part of the developer product. The announcement does not provide an independently measured quality gain or a price comparison.</div>
+  <a class="view-link" href="https://x.com/github/status/2124603184186380598" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1837605403359633411/Stj4eLIH_bigger.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">elie</div>
+      <div class="post-handle">@eliebakouch · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Elie Bakouch attempts to place open models on OpenAI’s base log-perplexity chart by using MAI-1 and MAI-2 as anchors: MAI reports both OpenAI-style log perplexity and bits per byte on its own codebase. This is a proposed cross-model calibration, not proof that the resulting scales are interchangeable.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> A practical measurement question behind frontier-model comparisons: what common anchors allow results from different evaluation setups to share an axis?</div>
+  <a class="view-link" href="https://x.com/eliebakouch/status/2124668409564528947" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1408091182832422914/PYWmZWXH_normal.png" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Windows Developer</div>
+      <div class="post-handle">@windowsdev · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Windows Developer points to Windows ML as a common framework for running local models across CPUs, GPUs and NPUs in a varied Windows PC fleet. The linked session concerns moving from a pilot to production deployment rather than choosing a single showcase device.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Hardware heterogeneity and deployment are separate problems from whether a model runs locally once. This is first-party guidance, not a hardware-performance benchmark.</div>
+  <a class="view-link" href="https://x.com/windowsdev/status/2124915741321286089" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/2042402069320290304/A8C1lP07_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">Artificial Analysis</div>
+      <div class="post-handle">@ArtificialAnlys · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Artificial Analysis reports Phonic 1.1 at High setting taking first place on its Speech to Speech Index with 89.1, ahead of Phonic 1’s 87.1. The claim is specific to that index and model configuration.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> Worth tracking for voice interfaces, while keeping the benchmark’s scope distinct from latency, reliability and quality in a particular application.</div>
+  <a class="view-link" href="https://x.com/ArtificialAnlys/status/2124918494110298127" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1811083656145833984/XHSQJKzn_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">CNCF</div>
+      <div class="post-handle">@CloudNativeFdn · 2026-11-22 </div>
+    </div>
+  </header>
+  <p class="summary">CNCF and Linux Foundation Education plan two AI-focused Kubernetes credentials for 2027: Kubernetes AI Associate and Certified Kubernetes Inference Engineer. The announcement ties the roadmap to growth in AI workloads on Kubernetes.</p>
+
+
+  <div class="why"><span class="why-label">Why it matters:</span> An early signal of how platform-engineering skills are being formalised. These are announced credentials, not exams confirmed available today.</div>
+  <a class="view-link" href="https://x.com/CloudNativeFdn/status/2124605919560368478" target="_blank" rel="noopener">View on X →</a>
+</article>
+<article class="post">
+  <header class="post-head">
+    <img class="avatar" src="https://pbs.twimg.com/profile_images/1546569468473745411/e-ZDBesX_normal.jpg" alt="" loading="lazy">
+    <div class="post-meta">
+      <div class="post-name">The Linux Foundation</div>
+      <div class="post-handle">@linuxfoundation · 2026-11-23 </div>
+    </div>
+  </header>
+  <p class="summary">Linux Foundation Research says 72% of surveyed commercial open-source companies view AI as a net positive, 65% use multiple revenue models, and 47% name enterprise-sales capability as their leading scaling challenge. The post links the State of Commercial Open Source 2026 report.</p>
+
+  <div class="media-wrap"><img class="media" src="https://pbs.twimg.com/media/HX0VLYbXMAAssCa.jpg" alt="" loading="lazy"></div>
+  <div class="why"><span class="why-label">Why it matters:</span> A business counterweight to the model discussion: distribution and enterprise sales remain constraints. These are reported survey results, not a causal explanation of company success.</div>
+  <a class="view-link" href="https://x.com/linuxfoundation/status/2124877887304053141" target="_blank" rel="noopener">View on X →</a>
+</article></section><section id="firehose"><h2>📊 High-volume firehose</h2><details class="firehose-section">
+    <summary><strong>@UK news — combined outlets</strong> — 95 posts <span class="dim">(All outlet posts counted together; direct UK stories grouped by event)</span></summary>
+    <ul><li><a href="https://x.com/BBCNews/status/2124828058335023166" target="_blank" rel="noopener">UK pensions and outsourcing: Capita’s shares plunge and its chief executive steps down amid civil-service pension failures. BBC and Sky’s reports are one story; the later Sky post places the shares at a thirty-five-year low.</a></li><li><a href="https://x.com/BBCNews/status/2124554559473299642" target="_blank" rel="noopener">UK–EU deal: Burnham defends agreements on food and agriculture exports, emissions trading and youth mobility, with EU student fees also in play. Badenoch and the Conservatives oppose the deal, Sunak warns against reopening Brexit, and the CBI argues that less trade friction would aid growth. The many speeches and reactions are grouped; conflicting political claims are not treated as settled effects of the agreement.</a></li><li><a href="https://x.com/SkyNews/status/2124740894641307746" target="_blank" rel="noopener">Manchester arena incident: an unknown substance prompted evacuation of the Don Toliver concert at Co-op Live; early reports said one person was taken to hospital, and the later ambulance-service update said more than eighty were assessed. His London O2 show was postponed. Eyewitness accounts, emergency responses and follow-ups are combined; the substance is not identified in these posts.</a></li><li><a href="https://x.com/BBCNews/status/2124753692981154227" target="_blank" rel="noopener">UK retail: Poundland’s rescue remains unsettled, with Martin Property Group making a last-minute proposal. The BBC explainer and Sky’s deal update are grouped; a rescue is not reported as completed.</a></li><li><a href="https://x.com/BBCNews/status/2124815039055999364" target="_blank" rel="noopener">UK markets: Compass Group plans to move its stock-market listing to the US, another loss for the London market. A listing move is not the same thing as closing all UK operations.</a></li><li><a href="https://x.com/SkyNews/status/2124883303832388050" target="_blank" rel="noopener">UK retail business: M&amp;S is shifting European stores towards franchising. The strategic move concerns a major British retailer; the captured report does not specify effects on UK store jobs.</a></li><li><a href="https://x.com/BBCNews/status/2124757427639738638" target="_blank" rel="noopener">UK weather: snow and frost are forecast as cold-health alerts cover parts of the country. BBC and Sky’s forecasts are grouped; the reports do not establish that snow will fall everywhere.</a></li><li><a href="https://x.com/SkyNews/status/2124757673245642815" target="_blank" rel="noopener">NHS screening: the Edith trial will test whether AI can help detect breast cancer earlier and support mammogram readers. The opened report describes a three-year study across thirty sites, with clinical decisions retained by NHS staff. This is an evaluation, not proof of improved outcomes or a replacement for clinicians.</a></li><li><a href="https://x.com/SkyNews/status/2124757680443031794" target="_blank" rel="noopener">UK energy: Sizewell C in Suffolk is projected to cost nearly £40bn and supply around 5% of UK electricity, with possible operation from 2039. Sky contrasts the project’s scale with MPs’ criticism of its value; these are projections, not completed capacity or final costs.</a></li><li><a href="https://x.com/SkyNews/status/2124555590814847107" target="_blank" rel="noopener">UK climate policy after COP31: environmental groups urge Burnham to reject the Rosebank offshore oilfield, while a campaigner criticises Britain’s historical responsibility and present response. The post also carries a Community Note disputing part of the emissions framing; neither the campaign claim nor the note is independently verified here. Generic international summit coverage is omitted.</a></li><li><a href="https://x.com/BBCNews/status/2124872789861466548" target="_blank" rel="noopener">Wales politics: Welsh Greens back a plan to separate from the English party. The report describes support for a proposal, not proof that the organisational separation is already complete.</a></li><li><a href="https://x.com/RidgeandFrost/status/2124771734184235137" target="_blank" rel="noopener">UK public administration: Louise Haigh says public control should be judged by outcomes for users rather than ideology, and signals that some quangos may be abolished. No list of affected bodies is supplied in the captured posts.</a></li><li><a href="https://x.com/RidgeandFrost/status/2124786390860759321" target="_blank" rel="noopener">England youth justice: children’s commissioner Rachel de Souza calls education in young offender institutions shocking and says contracts should be torn up. This is a demand for reform, not an announced contract termination.</a></li><li><a href="https://x.com/RidgeandFrost/status/2124806837790765414" target="_blank" rel="noopener">UK cyber resilience: the shadow foreign secretary urges the public to update systems and software amid cyberattacks. This is basic prevention advice, not a report that patching eliminates every risk.</a></li><li><a href="https://x.com/BBCNews/status/2124809874034843822" target="_blank" rel="noopener">Scotland’s data centres: the BBC examines a contested infrastructure debate. The captured post identifies the subject but not the article’s arguments; it is retained as a reading lead rather than an invented account of the trade-offs.</a></li><li><a href="https://x.com/BBCNews/status/2124752764685144189" target="_blank" rel="noopener">England housing: a BBC feature uses the case of six grazing horses to explore the housing crisis. The headline is a reading lead; it does not by itself establish the planning dispute or its outcome.</a></li><li><a href="https://x.com/SkyNews/status/2124860212624433435" target="_blank" rel="noopener">UK courts: Anthony Russell is on trial over Ian Huntley’s death in HMP Frankland. Prosecutors allege a planned, cold-blooded murder; Russell denies the charges. The allegation and denial are retained together.</a></li><li><a href="https://x.com/SkyNews/status/2124865502379958444" target="_blank" rel="noopener">UK courts and cybercrime: Sky reports sentencing over the GTA VI leak, while the BBC reports Arion Kurtaj’s release on licence with a judicial warning. These are grouped as one case; the brief captured headlines do not supply the full terms of the court’s decision.</a></li><li><a href="https://x.com/BBCNews/status/2124881871326552068" target="_blank" rel="noopener">Stockport, England: two men admit sexual offences against a woman who was drugged and raped by her husband. The report concerns their admissions, not a finding about every person involved in the wider case.</a></li><li><a href="https://x.com/BBCNews/status/2124899909828514234" target="_blank" rel="noopener">Blaina, Wales: the jury in a murder trial hears allegations that a teenage girl was stabbed by a fourteen-year-old boy. These are court proceedings, not a reported verdict.</a></li><li><a href="https://x.com/BBCNews/status/2124892006136651886" target="_blank" rel="noopener">Huntingdon, England: the jury has retired in the train-stabbing attempted-murder trial. No verdict is reported in the captured post.</a></li><li><a href="https://x.com/SkyNews/status/2124589160916730082" target="_blank" rel="noopener">Brighton, England: a man has been charged with rape on the beach. A charge is not a conviction.</a></li><li><a href="https://x.com/SkyNews/status/2124593193278730404" target="_blank" rel="noopener">Dundee, Scotland: a twenty-one-year-old man has died after being found seriously injured in a hospital car park. The retained article image identifies Dundee; the post does not establish how the injuries occurred.</a></li><li><a href="https://x.com/BBCNews/status/2124749770832965719" target="_blank" rel="noopener">UK sport: FIFA is expected to confirm the UK as host of the 2035 Women’s World Cup. The captured wording is prospective rather than a completed confirmation.</a></li><li><a href="https://x.com/BBCNews/status/2124549474240336291" target="_blank" rel="noopener">Arsenal, England: a home draw with West Ham extends the winless home run; David Raya will miss the Dortmund game, although Mikel Arteta says the shoulder injury is not serious. Match result and squad update are grouped.</a></li><li><a href="https://x.com/BBCNews/status/2124811646119923745" target="_blank" rel="noopener">UK sport and public life: Tyson Fury discusses a schizophrenia diagnosis in a new Netflix documentary, according to the BBC. This is his public disclosure, not a diagnosis inferred by the digest.</a></li></ul>
+  </details></section><section id="notes"><h2>📌 Notes & anomalies</h2><ul><li>Following reached the exact saved unread boundary through 65 accepted overlapping snapshots: 133 in-window posts from 13 original-author handles. Reposts count under the original author. This proves the observed traversal, not that every post from every followed account appeared.</li><li>Threads and repeated stories are grouped under their earliest retained source. All outlet posts, including Sky’s reposts of Ridge &amp; Frost, appear only in the combined UK-news section. DutchNewsNL retains all distinct Dutch topics without a UK filter; its newsletter repeats are omitted.</li><li>Long posts and selected linked articles were opened for context without replacing audited source text. The Dutch employment guide is commercial language-school advice with substantive tips; course sales and donation appeals are omitted. Personal political and social opinions are not geographically filtered.</li><li>For You supplied 70 candidates after its initial filter; five residual Boosted advertisements and an in-player betting promotion were excluded during review. Seven fresh suggestions are featured. Model rankings, productivity reports and the claimed Riemann proof remain attributed, not independently established.</li></ul></section><footer><p>Generated by Arnold · cursor: <code>2124910963048460565</code></p></footer>
+<button id="theme-toggle" aria-label="Toggle dark mode" style="position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.3rem;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)">🌙</button>
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  var root=document.documentElement;
+  var stored=localStorage.getItem('digest-theme');
+  if(stored){root.setAttribute('data-theme',stored);}
+  function update(){var t=root.getAttribute('data-theme');btn.textContent=t==='dark'?'☀️':'🌙';}
+  update();
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('digest-theme',next);
+    update();
+  });
+})()
+</script>
+</body>
+</html>
